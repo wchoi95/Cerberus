@@ -29,14 +29,14 @@ class IndexComponent extends Component {
   }
 
   createUser() {
-    $.post("38.88.74.71:80/user", {name: this.state.name},
+    $.post("http://localhos:8080/user", {name: this.state.name},
       function(data) {
         this.setState({createdUser: data});
       }.bind(this));
   }
 
   getUser() {
-    $.get("38.88.74.71:80/user/".concat(this.state.id), {id: this.state.id},
+    $.get("http://localhost:8080/user/".concat(this.state.id), {id: this.state.id},
       function(data) {
         this.setState({getName: data.name});
       }.bind(this));
