@@ -29,7 +29,7 @@ class IndexComponent extends Component {
   }
 
   createUser() {
-    $.post("http://localhos:8080/user", {name: this.state.name},
+    $.post("http://localhost:8080/user", {name: this.state.name},
       function(data) {
         this.setState({createdUser: data});
       }.bind(this));
