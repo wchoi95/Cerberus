@@ -1,15 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Blank App</title>
-        <style styling.css></style>
-    </head>
-    <body>
-    </body>
-</html> -->
-
 <!doctype html>
 <html lang="en">
 
@@ -22,28 +10,41 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <title>Hello, world!</title>
+    <title>Cerberus</title>
     <style>
         .page-header {
             border-bottom-style: inset;
             border-bottom-width: 2px;
+            padding-top: 5px;
         }
 
         .jumbotron {
             margin-top: 5px;
             background: rgb(107, 107, 107);
+            border-left-style: solid;
+            border-left-color: grey;
+            border-left-width: 10px;
             color: white;
         }
 
         .btn {
-            height:60px;
+            height: 60px;
+        }
+
+        #profileJumbotron {
+            background: rgb(189, 199, 252);
+            border-left-color: rgb(31, 56, 196);
+            border-left-width: 10px;
+            border-left-style: solid;
+            padding: 20px;
+            color: black;
         }
     </style>
 </head>
@@ -51,30 +52,47 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h1>G20 Security</h1>
+            <h1><center>Cerberus</center></h1>
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                </li>
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-              </div>
-        <div class="jumbotron">
-            <p1>This application lets you control your security system remotely from your mobile device. Use the interface below
-                to unlock/lock your door or view a snapshot through your security camera.</p1>
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="jumbotron">
+                    <p1>This application lets you control your security system remotely from your mobile device. Use the interface
+                        below to unlock/lock your door or view a snapshot through your security camera.</p1>
+                </div>
+                <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
+                <button type="button" id="snapshot" class="btn btn-primary btn-block">snapshot</button>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="jumbotron" id="profileJumbotron">
+                    <p1>Username:
+                        <br> Name:
+                        <br> Email:
+                    </p1>
+                </div>
+                <button type="button" id="logout" class="btn btn-primary btn-block">logout</button>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="jumbotron">
+                    <p1>Please use the form below to contact us about any issue you might be having.</p1>
+                </div>
+                <textarea class="form-control" rows="4" placeholder="Type your message here"></textarea> <br>
+                <button type="button" id="send-email" class="btn btn-primary btn-block">send</button>
+
+            </div>
         </div>
-        <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
-        <button type="button" id="snapshot" class="btn btn-primary btn-block">snapshot</button>
+
 
 
     </div>
