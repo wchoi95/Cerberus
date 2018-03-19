@@ -12,8 +12,9 @@ public class UserList {
         this.counter = 0;
     }
 
-    public void addUser (String name) {
-        userList.add(new User(counter++, name));
+    public int addUser (String name) {
+        userList.add(new User(counter, name));
+        return counter++;
     }
 
     public User getUser (int id) {

@@ -7,11 +7,15 @@ class IndexComponent extends Component {
   constructor() {
     super();
     this.state = {
-      greeting: '',
-      name: ''
+      createdUser: '',
+      name: '',
+      id: '',
+      getName: ''
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGetChange = this.handleGetChange.bind(this);
+    this.handleGetSubmit = this.handleGetSubmit.bind(this);
+    this.handleCreateChange = this.handleCreateChange.bind(this);
+    this.handleCreateSubmit = this.handleCreateSubmit.bind(this);
   }
 
   getGreetingFromServer() {
@@ -24,23 +28,52 @@ class IndexComponent extends Component {
     }.bind(this));
   }
 
-  handleChange(event) {
+  createUser() {
+    $.post("http://localhost:8080/user", {name: this.state.name},
+      function(data) {
+        this.setState({createdUser: data});
+      }.bind(this));
+  }
+
+  getUser() {
+    $.get("http://localhost:8080/user/".concat(this.state.id), {id: this.state.id},
+      function(data) {
+        this.setState({getName: data.name});
+      }.bind(this));
+  }
+
+  handleCreateChange(event) {
     this.setState({name: event.target.value});
   }
 
-  handleSubmit(event) {
-    this.getGreetingFromServer();
+  handleGetChange(event) {
+    this.setState({id: event.target.value});
+  }
+
+  handleCreateSubmit(event) {
+    this.createUser();
+    event.preventDefault();
+  }
+
+  handleGetSubmit(event) {
+    this.getUser();
     event.preventDefault();
   }
 
   render () {
     return (
       <div className="index-page">
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        <form onSubmit={this.handleCreateSubmit}>
+          <input type="text" value={this.state.value} onChange={this.handleCreateChange} />
           <input type="submit" value="Submit" />
         </form>
-        <p>{this.state.greeting}</p>
+        <p>{this.state.createdUser}</p>
+
+        <form onSubmit={this.handleGetSubmit}>
+          <input type="text" value={this.state.value} onChange={this.handleGetChange} />
+          <input type="submit" value="Submit" />
+        </form>
+        <p>{this.state.getName}</p>
       </div>
     );
   }

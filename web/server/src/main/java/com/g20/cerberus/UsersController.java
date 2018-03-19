@@ -17,14 +17,15 @@ public class UsersController {
     private UserList userList = new UserList();
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/user/{id}")
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public User getUser(@RequestParam(required=true) int id) {
         return userList.getUser(id);
     }
 
-    @RequestMapping(value = "/user/")
-    public void createUser(@RequestParam(required=true) String name) {
-      userList.addUser(name);
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public int createUser(@RequestParam(required=true) String name) {
+      return userList.addUser(name);
     }
 
 }
