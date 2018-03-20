@@ -10,7 +10,8 @@ class IndexComponent extends Component {
       createdUser: '',
       name: '',
       id: '',
-      getName: ''
+      getName: '',
+      image: ''
     };
     this.handleGetChange = this.handleGetChange.bind(this);
     this.handleGetSubmit = this.handleGetSubmit.bind(this);
@@ -29,16 +30,23 @@ class IndexComponent extends Component {
   }
 
   createUser() {
-    $.post("http://38.88.74.71:80/user", {name: this.state.name},
+    $.post("http://localhost:8080/user", {name: this.state.name},
       function(data) {
         this.setState({createdUser: data});
       }.bind(this));
   }
 
   getUser() {
-    $.get("http://38.88.74.71:80/user/".concat(this.state.id), {id: this.state.id},
+    $.get("http://localhost:8080/user/".concat(this.state.id), {id: this.state.id},
       function(data) {
         this.setState({getName: data.name});
+      }.bind(this));
+  }
+
+  getImage() {
+    $.get("http://localhost:8080/image",
+      function(data) {
+        this.setState({image: "data:image/jpg;base64, ".concat(data)});
       }.bind(this));
   }
 
@@ -60,6 +68,17 @@ class IndexComponent extends Component {
     event.preventDefault();
   }
 
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.getImage(),
+      1
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
   render () {
     return (
       <div className="index-page">
@@ -74,6 +93,8 @@ class IndexComponent extends Component {
           <input type="submit" value="Submit" />
         </form>
         <p>{this.state.getName}</p>
+
+        <img src={this.state.image} alt="not loaded"/>
       </div>
     );
   }

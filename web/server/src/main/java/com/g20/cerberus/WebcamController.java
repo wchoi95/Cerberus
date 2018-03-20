@@ -10,22 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
+import java.awt.image.BufferedImage;
 
 @RestController
-public class UsersController {
+public class WebcamController {
 
-    private UserList userList = new UserList();
-
-    @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public User getUser(@RequestParam(required=true) int id) {
-        return userList.getUser(id);
-    }
+    WebcamStream webcam = new WebcamStream();
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public int createUser(@RequestParam(required=true) String name) {
-      return userList.addUser(name);
+    @RequestMapping(value = "/image")
+    public String getImage() {
+      return webcam.captureImage();
     }
 
 }
