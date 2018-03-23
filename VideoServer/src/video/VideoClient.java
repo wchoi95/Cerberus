@@ -33,42 +33,41 @@ public class VideoClient {
 
 	public VideoClient(String hostname, int port) throws IOException {
 		socket = new Socket(hostname, port);
-		
+
 		out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 		// new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 	}
 
 	public void sendRequest() throws IOException {
 		bimg = webcam.getImage();
-		 
+
 		//out.close();
 	}
 
-	
+
 	public void close() throws IOException {
         socket.close();
     }
 	/**
 	 * Use a FibonacciServer to find the first N Fibonacci numbers.
-	 * 
+	 *
 	 * @throws InterruptedException
 	 * @throws IOException
 	 * @throws UnknownHostException
 	 */
 	public static void main(String[] args) throws InterruptedException, UnknownHostException, IOException {
-		String serverName = "38.88.74.71";
-		int port = 9001;
-		/*webcam = Webcam.getWebcams().get(0);
+		String serverName = "localhost";
+		int port = 9004;
+		webcam = Webcam.getWebcams().get(0);
 		webcam.setViewSize(new Dimension(320, 240));
 		webcam.open();
 		/*
 		 * Robot bot; bot = new Robot(); bimg = bot.createScreenCapture(new Rectangle(0,
 		 * 0, 200, 100));
 		 */
-		/*
 		int count = 0;
 		while (count < 200) {
-			VideoClient client = new VideoClient(serverName, port); 
+			VideoClient client = new VideoClient(serverName, port);
 			client.sendRequest();
 			ImageIO.write(client.bimg,"JPG",client.socket.getOutputStream());
 			try {
@@ -87,9 +86,9 @@ public class VideoClient {
 			}
 			count++;
 			client.close();
-		}*/
+		}
 		Socket sina = new Socket(serverName, port);
-		
+
 
 	}
 }

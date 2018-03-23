@@ -9,22 +9,60 @@ import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class WebcamStream {
+public class WebcamStream implements Runnable {
 
-  private Webcam webcam;
+  private ServerSocket serverSocket;
+  private BufferedImage bimg;
+  private Thread videoThread;
 
-  public WebcamStream() {
-    webcam = Webcam.getWebcams().get(0);
-		webcam.setViewSize(new Dimension(320, 240));
-		webcam.open();
+  public WebcamStream(int port) {
+    bimg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+
+    try {
+      serverSocket = new ServerSocket(port);
+      System.out.println("Server is running");
+    	serverSocket.setSoTimeout(180000);
+    } catch (IOException e) {
+      System.out.println("failed");
+    }
+    videoThread = new Thread(this, "video");
+    videoThread.start();
+
   }
+
+  public void run() {
+    try {
+      serve();
+    } catch (IOException e) {
+    }
+  }
+
+  public void serve() throws IOException {
+		while (true) {
+			// block until a client connects
+			Socket socket = serverSocket.accept();
+			try {
+				handle(socket);
+			} catch (IOException ioe) {
+				ioe.printStackTrace(); // but don't terminate serve()
+			} finally {
+				socket.close();
+			}
+		}
+	}
+
+	public void handle(Socket server) throws IOException {
+		bimg = ImageIO.read(ImageIO.createImageInputStream(server.getInputStream()));
+
+	}
 
   public String captureImage() {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    BufferedImage img = webcam.getImage();
     try {
-      ImageIO.write(img, "JPG", baos);
+      ImageIO.write(bimg, "JPG", baos);
     } catch(IOException e) {
 
     }
