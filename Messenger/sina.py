@@ -93,7 +93,7 @@ try:
                 for i in range(4):
                     if GPIO.input(ROW[i]) == 0:
                         #if letter is pressed
-                        if (NUM_MATRIX[i][j] == previousButton) & (NUM_MATRIX[i][j] > 0) & (NUM_MATRIX[i][j] < 10) & (time.time() - past < 3):
+                        if (NUM_MATRIX[i][j] == previousButton) & (NUM_MATRIX[i][j] > 0) & (NUM_MATRIX[i][j] < 10) & (time.time() - past < 1):
                             # replace the letter
                             if line1:
                                 line1.pop()
