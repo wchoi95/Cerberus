@@ -17,15 +17,9 @@ public class UsersController {
     private UserList userList = new UserList();
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public User getUser(@RequestParam(required=true) int id) {
-        return userList.getUser(id);
-    }
-
-    @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public int createUser(@RequestParam(required=true) String name) {
-      return userList.addUser(name);
+    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
+    public boolean createUser(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
+      return userList.addUser(username, password);
     }
 
 }

@@ -1,25 +1,19 @@
 package com.g20.cerberus;
 
 public class User {
+    private final String username;
+    private final String password;
 
-    private final int id;
-    private final String name;
-
-    public User () {
-        this.id = -1;
-        this.name = "";
+    public User (String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public User (int id, String name) {
-        this.id = id;
-        this.name = name;
+    public String getPassword () {
+        return password;
     }
 
-    public int getId () {
-        return id;
-    }
-
-    public String getName () {
-        return name;
+    public String getUsername () {
+        return username;
     }
 }
