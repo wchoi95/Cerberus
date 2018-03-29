@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -32,6 +32,7 @@
             border-left-color: grey;
             border-left-width: 10px;
             color: white;
+
         }
 
         .btn {
@@ -64,7 +65,7 @@
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Chat</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -74,24 +75,49 @@
                         below to unlock/lock your door or view a snapshot through your security camera.</p1>
                 </div>
                 <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
-                <button type="button" id="snapshot" class="btn btn-primary btn-block">snapshot</button>
+                <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
+                <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="snapshotModalTitle">Security Camera Snapshot</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="img-fluid" id="snapshot" style="height:auto; width:auto;"></img>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" id="refreshButton" class="btn btn-primary">Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="jumbotron" id="profileJumbotron">
-                    <h6 style="display:inline">Username: </h6><p1 id="username"></p1><br>
-                    <h6 style="display:inline">Name: </h6><p1 id="name"></p1><br>
-                    <h6 style="display:inline">Email: </h6><p1 id="email"></p1>
+                    <h6 style="display:inline">Username: </h6>
+                    <p1 id="username"></p1>
+                    <br>
+                    <h6 style="display:inline">Name: </h6>
+                    <p1 id="name"></p1>
+                    <br>
+                    <h6 style="display:inline">Email: </h6>
+                    <p1 id="email"></p1>
                     </p1>
                 </div>
                 <button type="button" id="logout" class="btn btn-primary btn-block">logout</button>
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="jumbotron">
-                    <p1>Please use the form below to contact us about any issue you might be having.</p1>
+                    <p1>Use the chat box below to message whoever may be at your door.</p1>
                 </div>
-                <textarea class="form-control" rows="4" placeholder="Type your message here"></textarea>
+                <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom:20px"></textarea>
+                <textarea id="messageBox" class="form-control" rows="4" placeholder="Type your message here"></textarea>
                 <br>
-                <button type="button" id="send-email" class="btn btn-primary btn-block">send</button>
+                <button type="button" id="sendMessageButton" class="btn btn-primary btn-block">send</button>
 
             </div>
         </div>
@@ -105,6 +131,7 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
     <script>
+        // This code toggles the lock button between locked and unlocked states.
         $(document).ready(function () {
             $('#lock').click(function () {
                 if ($("#lock").text() == "unlock") {
@@ -113,16 +140,101 @@
                 else $("#lock").text('unlock');
             })
 
-            $("#send-email").click(function () {
-                var input = document.getElementById("send-email").innerHTML;
-
+            $("#sendMessageButton").click(function () {
+                var message = $('#messageBox').val();
+                sendMessage(message);
+                $('#messageBox').val('');
             })
+
+            // Set user profile details
             var username = "bharder";
             var name = "Ben Harder";
             var email = "ben.harder2@gmail.com";
             $('#username').html(username);
             $('#name').html(name);
             $('#email').html(email);
+
+            $('#refreshButton').click(function () 
+            {
+                getImage();
+            });
+
+            $('#snapshotButton').click(function() 
+            {
+                getImage();
+            });
+
+            // Send a message to be displayed on LCD
+            function sendMessage(message) 
+            {
+                $.post("38.88.74.71:80/chat", message, function(){
+                }).fail(function() {
+                    console.log("send message failed");
+                });
+                $('#chatBox').html($('#chatBox').val() +'Me: ' + message + '\n');
+            }
+
+            function receiveMessage()
+            {
+                $.get("38.88.74.71:8080/chatget", function(data)
+                {
+                    displayMessage(data);
+                });
+            }
+
+            function displayMessage(data)
+            {
+                $('#chatBox').html($('#chatBox').val() +'Visitor: ' + message + '\n');
+            }
+
+            // Retrieve image from the server.
+            function getImage() 
+            {
+                $.ajax({
+                    url: "38.88.74.71:80/image",
+                    type: "GET",
+                    headers: {
+                        "Authorization": "Basic " + btoa("user:pw")
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    mimeType: "text/plain; charset=x-user-defined"
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#snapshot").attr('src', 'data:image/jpeg;base64,' + base64Encode(data));
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert("fail: " + errorThrown);
+                });
+            }
+
+
+            function base64Encode(str) {
+                var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+                var out = "", i = 0, len = str.length, c1, c2, c3;
+                while (i < len) {
+                    c1 = str.charCodeAt(i++) & 0xff;
+                    if (i == len) {
+                        out += CHARS.charAt(c1 >> 2);
+                        out += CHARS.charAt((c1 & 0x3) << 4);
+                        out += "==";
+                        break;
+                    }
+                    c2 = str.charCodeAt(i++);
+                    if (i == len) {
+                        out += CHARS.charAt(c1 >> 2);
+                        out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                        out += CHARS.charAt((c2 & 0xF) << 2);
+                        out += "=";
+                        break;
+                    }
+                    c3 = str.charCodeAt(i++);
+                    out += CHARS.charAt(c1 >> 2);
+                    out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                    out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+                    out += CHARS.charAt(c3 & 0x3F);
+                }
+                return out;
+            }
         });
     </script>
 </body>
