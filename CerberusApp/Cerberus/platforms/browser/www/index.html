@@ -52,7 +52,9 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h1><center>Cerberus</center></h1>
+            <h1>
+                <center>Cerberus</center>
+            </h1>
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -76,9 +78,9 @@
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="jumbotron" id="profileJumbotron">
-                    <p1>Username:
-                        <br> Name:
-                        <br> Email:
+                    <h6 style="display:inline">Username: </h6><p1 id="username"></p1><br>
+                    <h6 style="display:inline">Name: </h6><p1 id="name"></p1><br>
+                    <h6 style="display:inline">Email: </h6><p1 id="email"></p1>
                     </p1>
                 </div>
                 <button type="button" id="logout" class="btn btn-primary btn-block">logout</button>
@@ -87,7 +89,8 @@
                 <div class="jumbotron">
                     <p1>Please use the form below to contact us about any issue you might be having.</p1>
                 </div>
-                <textarea class="form-control" rows="4" placeholder="Type your message here"></textarea> <br>
+                <textarea class="form-control" rows="4" placeholder="Type your message here"></textarea>
+                <br>
                 <button type="button" id="send-email" class="btn btn-primary btn-block">send</button>
 
             </div>
@@ -109,6 +112,17 @@
                 }
                 else $("#lock").text('unlock');
             })
+
+            $("#send-email").click(function () {
+                var input = document.getElementById("send-email").innerHTML;
+
+            })
+            var username = "bharder";
+            var name = "Ben Harder";
+            var email = "ben.harder2@gmail.com";
+            $('#username').html(username);
+            $('#name').html(name);
+            $('#email').html(email);
         });
     </script>
 </body>
