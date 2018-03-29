@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import './Navbar.css';
 
+import LoginModal from './login-modal/LoginModal';
+import SignupModal from './signup-modal/SignupModal';
+
 class NavbarComponent extends Component {
   render () {
     return (
@@ -22,6 +25,12 @@ class NavbarComponent extends Component {
             </NavDropdown>
             <NavItem href="/contact">
               Contact Us
+            </NavItem>
+            <NavItem>
+              <LoginModal />
+            </NavItem>
+            <NavItem>
+              <SignupModal />
             </NavItem>
           </Nav>
         </Navbar.Collapse>

@@ -1,0 +1,35 @@
+
+.footer {
+    min-height: 200px;
+}
+
+#Navbar-footerFirstRow {
+
+  margin-top: 30px;
+  margin-bottom: 20px;
+  margin-right: 80px;
+  margin-left: 250px;
+  color:black;
+}
+
+#Navbar-footerPhone{
+  margin-left: 220px;
+
+}
+
+#Navbar-footerEmail {
+
+  margin-left: 80px;
+
+}
+
+#Navbar-footerOrder {
+
+  margin-left: 60px;
+
+}
+
+#phone {
+  height: 60px;
+  width: 70px;
+}

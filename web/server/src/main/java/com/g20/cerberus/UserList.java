@@ -5,18 +5,19 @@ import java.util.ArrayList;
 public class UserList {
 
     private ArrayList<User> userList;
-    private int counter;
 
     public UserList () {
         this.userList = new ArrayList<User>();
-        this.counter = 0;
     }
 
-    public void addUser (String name) {
-        userList.add(new User(counter++, name));
+    public boolean addUser (String username, String password) {
+        for (User u : userList) {
+          if (u.getUsername().equals(username))
+            return false;
+        }
+
+        userList.add(new User(username, password));
+        return true;
     }
 
-    public User getUser (int id) {
-        return userList.get(id);
-    }
 }
