@@ -22,4 +22,10 @@ public class UsersController {
       return userList.addUser(username, password);
     }
 
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
+      return userList.login(username, password);
+    }
+
 }

@@ -20,4 +20,21 @@ public class UserList {
         return true;
     }
 
+    public String login (String username, String password) {
+      for (User u : userList) {
+        if (u.getUsername().equals(username)) {
+          if (u.getPassword().equals(password)) {
+            return username;
+          } else {
+            return "ERR: INVALID PASS";
+          }
+        }
+      }
+
+      return "ERR: NO USER";
+
+
+
+    }
+
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './LoginModal.css'
 import Modal from 'react-modal';
+import $ from 'jquery';
 
 const modalStyles = {
   content : {
@@ -20,7 +21,8 @@ class LoginModal extends Component {
     this.state = {
       isOpen: false,
       username: '',
-      password: ''
+      password: '',
+      errorMessage: ''
     };
     this.openModal = this.openModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -31,7 +33,10 @@ class LoginModal extends Component {
 
   openModal = () => {
     this.setState({
-      isOpen: true
+      isOpen: true,
+      username: '',
+      password: '',
+      errorMessage: ''
     });
   };
 
@@ -41,8 +46,22 @@ class LoginModal extends Component {
     });
   };
 
+  attemptLogin() {
+    $.get("http://localhost:8080/login", {username: this.state.username, password: this.state.password},
+      function(data) {
+        console.log("reached");
+        if (data === "ERR: INVALID PASS") {
+          this.setState({errorMessage: 'Invalid Password!'});
+        } else if (data === "ERR: NO USER") {
+          this.setState({errorMessage: 'User does not exist!'})
+        } else {
+          console.log(data);
+        }
+      }.bind(this));
+  }
+
   handleSubmit(event) {
-    //this.attemptLogin();
+    this.attemptLogin();
     event.preventDefault();
   }
 
@@ -65,13 +84,12 @@ class LoginModal extends Component {
                style={modalStyles}>
           <span className="login-modal-close" onClick={this.hideModal}>X</span>
           <h1>Login</h1>
-          <form onSubmit={this.handleSubmit}>
-            <span>Username:</span><br />
-            <input type="text" value={this.state.value} onChange={this.handleUsernameChange} /><br />
-            <span>Password:</span><br />
-            <input type="text" value={this.state.value} onChange={this.handlePasswordChange} /><br />
-            <input type="submit" value="Submit" />
-          </form>
+          <span>Username:</span><br />
+          <input type="text" value={this.state.value} onChange={this.handleUsernameChange} /><br />
+          <span>Password:</span><br />
+          <input type="text" value={this.state.value} onChange={this.handlePasswordChange} /><br />
+          <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
+          <span>{this.state.errorMessage}</span>
         </Modal>
       </div>
     );
