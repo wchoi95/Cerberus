@@ -59,7 +59,12 @@ class SignupModal extends Component {
     $.post("http://localhost:8080/createuser", {username: this.state.username, password: this.state.password},
       function(data) {
         if (data) {
-          this.setState({successMessage: 'User Created Successfully'});
+          this.setState({
+            successMessage: 'User Created Successfully',
+            username: '',
+            password: '',
+            confirmPassword: ''
+          });
         } else {
           this.setState({successMessage: 'User already exists! Please choose another username'});
         }
@@ -126,13 +131,13 @@ class SignupModal extends Component {
           <h1>Sign Up</h1>
           <span>Username:</span><br />
           <span>{this.state.usernameErrorMessage}</span><br />
-          <input type="text" value={this.state.value} onChange={this.handleUsernameChange} /><br />
+          <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br />
           <span>Password:</span><br />
           <span>{this.state.passwordErrorMessage}</span><br />
-          <input type="text" value={this.state.value} onChange={this.handlePasswordChange} /><br />
+          <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br />
           <span>Confirm Password:</span><br />
           <span>{this.state.confirmErrorMessage}</span><br />
-          <input type="text" value={this.state.value} onChange={this.handleConfirmPasswordChange} /><br />
+          <input type="password" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} /><br />
           <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
           <span>{this.state.successMessage}</span>
         </Modal>

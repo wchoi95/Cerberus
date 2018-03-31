@@ -49,13 +49,14 @@ class LoginModal extends Component {
   attemptLogin() {
     $.get("http://localhost:8080/login", {username: this.state.username, password: this.state.password},
       function(data) {
-        console.log("reached");
         if (data === "ERR: INVALID PASS") {
           this.setState({errorMessage: 'Invalid Password!'});
         } else if (data === "ERR: NO USER") {
           this.setState({errorMessage: 'User does not exist!'})
         } else {
-          console.log(data);
+          localStorage.setItem('isLogged', 'true');
+          localStorage.setItem('loggedUser', data);
+          window.location.reload();
         }
       }.bind(this));
   }
@@ -85,9 +86,9 @@ class LoginModal extends Component {
           <span className="login-modal-close" onClick={this.hideModal}>X</span>
           <h1>Login</h1>
           <span>Username:</span><br />
-          <input type="text" value={this.state.value} onChange={this.handleUsernameChange} /><br />
+          <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br />
           <span>Password:</span><br />
-          <input type="text" value={this.state.value} onChange={this.handlePasswordChange} /><br />
+          <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br />
           <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
           <span>{this.state.errorMessage}</span>
         </Modal>
