@@ -1,26 +1,97 @@
 package com.g20.cerberus;
 
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.management.InvalidAttributeValueException;
 
 public class UserList {
 
-    private ArrayList<User> userList;
+	public ArrayList<User> userList;
+	private String databasePath;
 
-    public UserList () {
-        this.userList = new ArrayList<User>();
+	// Representation invariants: database file cannot hold invalid users.
+
+	/**
+	 * Create a user using a database that already exists in the directory. If the
+	 * database does not exist, it creates a new empty data. Throw a NoDBException
+	 * exception if unsuccessful.
+	 *
+	 * @param databasePath
+	 */
+	public UserList(String databasePath) {
+		this.userList = new ArrayList<User>();
+		this.databasePath = databasePath;
+		initUserList();
+	}
+
+	/**
+	 * Initialize the user list with the user database.
+	 */
+	private void initUserList() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(new File(databasePath)));
+      String line;
+      while ((line = br.readLine()) != null) {
+        String[] userPass = line.split(", ", 2);
+        User userToAdd = new User(userPass[0], userPass[1]);
+        userList.add(userToAdd);
+      }
+		} catch (IOException e) {
+      System.err.println("Error creating database");
+		}
+	}
+
+	/**
+	 * Add a user to user's list and save it in a database.
+	 *
+	 * @param username
+	 *            minimum of 1 character and maximum of 25 character
+	 * @param password
+	 *            minimum of 4 character and maximum of 16 character
+	 * @return true if user added, false if user already exists
+	 */
+	public boolean addUser(String username, String password) {
+		for (User u : userList) {
+			if (u.getUsername().equals(username))
+				return false;
+		}
+		User user = new User(username, password);
+		userList.add(user);
+    try {
+      BufferedWriter output = new BufferedWriter(new FileWriter(databasePath, true));
+  		output.append(username + ", " + password);
+      output.newLine();
+  		output.close();
+    } catch (IOException e) {
+      System.err.println("Error writing user to the file");
+      return false;
     }
+		return true;
+	}
 
-    public boolean addUser (String username, String password) {
-        for (User u : userList) {
-          if (u.getUsername().equals(username))
-            return false;
-        }
+	/**
+	 * @param username
+	 * @param password
+	 * @return true if the user is in the database and false if it is not
+	 */
+	public boolean isValidUser(String username, String password) {
+		for (User user : userList) {
+			if (user.getUsername().equals(username))
+				if (user.getPassword().equals(password))
+					return true;
+		}
+		return false;
+	}
 
-        userList.add(new User(username, password));
-        return true;
-    }
-
-    public String login (String username, String password) {
+  public String login (String username, String password) {
       for (User u : userList) {
         if (u.getUsername().equals(username)) {
           if (u.getPassword().equals(password)) {
@@ -32,9 +103,5 @@ public class UserList {
       }
 
       return "ERR: NO USER";
-
-
-
     }
-
 }

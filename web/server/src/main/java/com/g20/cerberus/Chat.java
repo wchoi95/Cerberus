@@ -20,7 +20,7 @@ public class Chat implements Runnable {
 
       try {
         serverSocket = new ServerSocket(port);
-        System.out.println("Server is running");
+        System.out.println("Chat server is running");
       } catch(IOException e) {
         e.printStackTrace();
       }
@@ -43,7 +43,6 @@ public class Chat implements Runnable {
   	 *             if the main server socket is broken
   	 */
   	public void serve() throws IOException {
-      System.out.println("reached");
   		while (true) {
   			// block until a client connects
   	        Socket socket = serverSocket.accept();
@@ -67,7 +66,7 @@ public class Chat implements Runnable {
   	 *             if connection encounters an error
   	 */
   	private void handle(Socket socket) throws IOException {
-  		System.out.println("client Connected");
+  		System.out.println("Chat client connected");
 
   		// get the socket's input stream, and wrap converters around it
   		// that convert it from a byte stream to a character stream,

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsersController {
 
-    private UserList userList = new UserList();
+    private UserList userList = new UserList("./users-database/usersDatabase.txt");
 
     @CrossOrigin(origins = "http://localhost:9001")
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)

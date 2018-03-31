@@ -1,19 +1,32 @@
 package com.g20.cerberus;
 
+import javax.management.InvalidAttributeValueException;
+
 public class User {
-    private final String username;
-    private final String password;
+	private String username;
+	private String password;
 
-    public User (String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+	/**
+	 * @param username
+	 * @param password
+	 */
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
 
-    public String getPassword () {
-        return password;
-    }
+	/**
+	 * @return Password of the user
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    public String getUsername () {
-        return username;
-    }
+	/**
+	 * @return Username of the user
+	 */
+	public String getUsername() {
+		return username;
+	}
+
 }

@@ -23,10 +23,10 @@ public class WebcamStream implements Runnable {
 
     try {
       serverSocket = new ServerSocket(port);
-      System.out.println("Server is running");
+      System.out.println("Webcam server is running");
     	serverSocket.setSoTimeout(180000);
     } catch (IOException e) {
-      System.out.println("failed");
+      System.out.println("Webcam server failed to run");
     }
     videoThread = new Thread(this, "video");
     videoThread.start();
@@ -55,8 +55,8 @@ public class WebcamStream implements Runnable {
 	}
 
 	public void handle(Socket server) throws IOException {
+    System.out.println("Webcam client connected");
 		bimg = ImageIO.read(ImageIO.createImageInputStream(server.getInputStream()));
-
 	}
 
   public String captureImage() {
