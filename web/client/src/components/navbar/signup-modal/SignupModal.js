@@ -56,7 +56,7 @@ class SignupModal extends Component {
   };
 
   attemptSignup() {
-    $.post("http://localhost:8080/createuser", {username: this.state.username, password: this.state.password},
+    $.post("http://38.88.74.71:80/createuser", {username: this.state.username, password: this.state.password},
       function(data) {
         if (data) {
           this.setState({

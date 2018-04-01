@@ -41,24 +41,12 @@ class SurveillanceComponent extends Component {
       }.bind(this));
   }
 
-  setSerialID() {
-    $.post("http://localhost:8080/setserialid", {username: localStorage.getItem('loggedUser'), serialID: parseInt(this.state.message)},
-      function(data) {
-        if (data) {
-          console.log("id set");
-        } else {
-          console.log("id not set");
-        }
-      });
-  }
-
   handleChange(event) {
     this.setState({message: event.target.value});
   }
 
   handleSubmit(event) {
-    //this.sendMessage();
-    this.setSerialID();
+    this.sendMessage();
     event.preventDefault();
   }
 

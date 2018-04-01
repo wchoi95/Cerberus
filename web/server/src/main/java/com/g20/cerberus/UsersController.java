@@ -30,7 +30,7 @@ public class UsersController {
     }
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    @RequestMapping(value = "/image/{username}", method = RequestMethod.GET)
     public String getImage(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
         if (u.getUsername().equals(username)) {
@@ -41,15 +41,29 @@ public class UsersController {
     }
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/setserialid", method = RequestMethod.POST)
-    public boolean setSerialID(@RequestParam(required=true) String username, @RequestParam(required=true) int serialID) {
+    @RequestMapping(value = "/changepassword/{username}", method = RequestMethod.POST)
+    public boolean changePassword(@RequestParam(required=true) String username, @RequestParam(required=true) String oldPassword, @RequestParam(required=true) String newPassword) {
+      return userList.changePassword(username, oldPassword, newPassword);
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/setserialid/{username}", method = RequestMethod.POST)
+    public int setSerialID(@RequestParam(required=true) String username, @RequestParam(required=true) int serialID) {
+      if (userList.changeSerialID(username, serialID)) {
+        return serialID;
+      } else {
+        return 0;
+      }
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/getserialid/{username}", method = RequestMethod.GET)
+    public int getSerialID(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
         if (u.getUsername().equals(username)) {
-          u.setSerialID(serialID);
-          return true;
+          return u.getSerialID();
         }
       }
-      return false;
-    }
+     }
 
 }

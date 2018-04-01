@@ -40,8 +40,8 @@ public class UserList {
 			BufferedReader br = new BufferedReader(new FileReader(new File(databasePath)));
       String line;
       while ((line = br.readLine()) != null) {
-        String[] userPass = line.split(", ", 2);
-        User userToAdd = new User(userPass[0], userPass[1]);
+        String[] userPass = line.split(", ", 3);
+        User userToAdd = new User(userPass[0], userPass[1], Integer.parseInt(userPass[2]));
         userList.add(userToAdd);
       }
 		} catch (IOException e) {
@@ -63,11 +63,11 @@ public class UserList {
 			if (u.getUsername().equals(username))
 				return false;
 		}
-		User user = new User(username, password);
+		User user = new User(username, password, 0);
 		userList.add(user);
     try {
       BufferedWriter output = new BufferedWriter(new FileWriter(databasePath, true));
-  		output.append(username + ", " + password);
+  		output.append(username + ", " + password + ", 0");
       output.newLine();
   		output.close();
     } catch (IOException e) {
@@ -92,20 +92,67 @@ public class UserList {
 	}
 
   public String login (String username, String password) {
-      for (User u : userList) {
-        if (u.getUsername().equals(username)) {
-          if (u.getPassword().equals(password)) {
-            return username;
-          } else {
-            return "ERR: INVALID PASS";
-          }
+    for (User u : userList) {
+      if (u.getUsername().equals(username)) {
+        if (u.getPassword().equals(password)) {
+          return username;
+        } else {
+          return "ERR: INVALID PASS";
         }
       }
-
-      return "ERR: NO USER";
     }
 
-		public ArrayList<User> getUserList() {
-			return userList;
-		}
+    return "ERR: NO USER";
+  }
+
+	public ArrayList<User> getUserList() {
+		return userList;
+	}
+
+	public boolean changePassword(String username, String oldPassword, String newPassword) {
+           for(User u: userList) {
+        	   if(u.getUsername().equals(username)) {
+        		   if( u.changePassword(oldPassword, newPassword)) {
+        		      updateFile();
+        		      return true;
+        		   }
+        		   //if changing password was unsuccessful 
+        		   return false;
+        	   }
+           }
+           //if user was not found
+           return false;
+	}
+
+	public boolean changeSerialID(String username, int serialID) {
+		for(User u: userList) {
+     	   if(u.getUsername().equals(username)) {
+     		   
+     		   u.setSerialID(serialID);
+     		   updateFile();
+     		   return true;
+     	   }
+        }
+        return false;
+	}
+    private void updateFile() {
+    	File databaseFile = new File(databasePath);
+    	FileWriter databaseWriter;
+		try {
+			databaseWriter = new FileWriter(databaseFile, false);
+			for(User u: userList) {
+	    		
+	    	   databaseWriter.write(u.getUsername() + ", " + u.getPassword() + ", " + u.getSerialID());	
+	    	}
+			databaseWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // true to append
+    	                                                     // false to overwrite.
+    	
+    	
+    	
+    	
+    }
 }
