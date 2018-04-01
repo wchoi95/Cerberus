@@ -41,9 +41,9 @@ public class UsersController {
     }
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/changePassword/{username}", method = RequestMethod.POST)
-    public int changePassword(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
-      return userList.changePassword(username, password);
+    @RequestMapping(value = "/changepassword/{username}", method = RequestMethod.POST)
+    public boolean changePassword(@RequestParam(required=true) String username, @RequestParam(required=true) String oldPassword, @RequestParam(required=true) String newPassword) {
+      return userList.changePassword(username, oldPassword, newPassword);
     }
 
     @CrossOrigin(origins = "http://localhost:9001")
@@ -55,5 +55,15 @@ public class UsersController {
         return 0;
       }
     }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/getserialid/{username}", method = RequestMethod.GET)
+    public int getSerialID(@RequestParam(required=true) String username) {
+      for (User u : userList.getUserList()) {
+        if (u.getUsername().equals(username)) {
+          return u.getSerialID();
+        }
+      }
+     }
 
 }

@@ -1,5 +1,5 @@
-wchoi95, pass123
-will, test
-anotheracc, hi
-test, ;lkj
-test23, test
+wchoi95, pass123, 0
+will, test, 0
+anotheracc, hi, 0
+test, ;lkj, 0
+test23, test, 0

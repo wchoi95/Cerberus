@@ -20,6 +20,7 @@ class NavbarComponent extends Component {
   logout() {
     localStorage.setItem('isLogged', 'false');
     localStorage.setItem('loggedUser', '');
+    localStorage.setItem('serialid', '');
     window.location.href = '/';
   }
 

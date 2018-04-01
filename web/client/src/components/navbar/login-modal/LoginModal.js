@@ -47,7 +47,7 @@ class LoginModal extends Component {
   };
 
   attemptLogin() {
-    $.get("http://38.88.74.71:80/login", {username: this.state.username, password: this.state.password},
+    $.get("http://localhost:8080/login", {username: this.state.username, password: this.state.password},
       function(data) {
         if (data === "ERR: INVALID PASS") {
           this.setState({errorMessage: 'Invalid Password!'});
@@ -56,9 +56,17 @@ class LoginModal extends Component {
         } else {
           localStorage.setItem('isLogged', 'true');
           localStorage.setItem('loggedUser', data);
-          window.location.reload();
+          this.setSerialIDLocalStorage();
         }
       }.bind(this));
+  }
+
+  setSerialIDLocalStorage() {
+    $.get("http://localhost:8080/getSerialID/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+      function(data) {
+        localStorage.setItem('serialID', data);
+        window.location.reload();
+      });
   }
 
   handleSubmit(event) {
