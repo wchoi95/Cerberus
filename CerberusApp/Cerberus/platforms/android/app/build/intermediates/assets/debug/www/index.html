@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <title>Cerberus</title>
+    <style>
+        .page-header {
+            border-bottom-style: inset;
+            border-bottom-width: 2px;
+            padding-top: 5px;
+        }
+
+        .jumbotron {
+            margin-top: 5px;
+            background: rgb(107, 107, 107);
+            border-left-style: solid;
+            border-left-color: grey;
+            border-left-width: 10px;
+            color: white;
+
+        }
+
+        .btn {
+            height: 60px;
+        }
+
+        #profileJumbotron {
+            background: rgb(189, 199, 252);
+            border-left-color: rgb(31, 56, 196);
+            border-left-width: 10px;
+            border-left-style: solid;
+            padding: 20px;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>
+                <center>Cerberus</center>
+                <div id="testDiv">
+
+                </div>
+            </h1>
+        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Chat</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="jumbotron">
+                    <p1>This application lets you control your security system remotely from your mobile device. Use the interface
+                        below to unlock/lock your door or view a snapshot through your security camera.</p1>
+                </div>
+                <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
+                <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
+                <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="snapshotModalTitle">Security Camera Snapshot</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="center" id="snapshot" style="height:auto; width:auto; margin-left: auto; margin-right: auto; display: block;"></img>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" id="refreshButton" class="btn btn-primary">Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="jumbotron" id="profileJumbotron">
+                    <h6 style="display:inline">Username: </h6>
+                    <p1 id="username"></p1>
+                    <br>
+                    <h6 style="display:inline">Name: </h6>
+                    <p1 id="name"></p1>
+                    <br>
+                    <h6 style="display:inline">Email: </h6>
+                    <p1 id="email"></p1>
+                    </p1>
+                </div>
+                <button type="button" id="logout" class="btn btn-primary btn-block">logout</button>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="jumbotron">
+                    <p1>Use the chat box below to message whoever may be at your door.</p1>
+                </div>
+                <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom:20px"></textarea>
+                <textarea id="messageBox" class="form-control" rows="4" placeholder="Type your message here"></textarea>
+                <br>
+                <button type="button" id="sendMessageButton" class="btn btn-primary btn-block">send</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script>
+        function Main() {
+            $.support.cors = true;
+            $.mobile.allowCrossDomainPages = true;
+        }
+
+        var logged = false;
+        var lastMessage = ''; // Used to prevent duplicate messages sending.
+
+        if (logged) {
+            document.getElementById("testDiv").innerHTML = "<h2>hello</h2>";
+        }
+
+        $(document).ready(function () {
+
+            $('#lock').click(function () {
+                if ($("#lock").text() == "unlock") {
+                    $("#lock").text('lock');
+                }
+                else $("#lock").text('unlock');
+            })
+
+            $("#sendMessageButton").click(function () {
+                var message = $('#messageBox').val();
+                sendMessage(message);
+                $('#messageBox').val('');
+            })
+
+            // Set user profile details
+            var username = "bharder";
+            var name = "Ben Harder";
+            var email = "ben.harder2@gmail.com";
+            $('#username').html(username);
+            $('#name').html(name);
+            $('#email').html(email);
+
+            $('#refreshButton').click(function () {
+                getImage();
+            });
+
+            $('#snapshotButton').click(function () {
+                getImage();
+            });
+
+            // Send a message to be displayed on LCD
+            function sendMessage(message) {
+                // $.post("http://38.88.74.71:80/chat", message, function () {
+                // }).fail(function () {
+                //     console.log("send message failed");
+                // });
+
+                $.ajax({
+                    url: "http://38.88.74.71:80/chat",
+                    type: "POST",
+                    data:  {message: message},
+                    dataType: "text",
+                });
+
+                $('#chatBox').html($('#chatBox').val() + 'Me: ' + message + '\n');
+            }
+
+            function receiveMessage() {
+                $.get("http://38.88.74.71:80/chatget", function (data) {
+                    displayMessage(data);
+                });
+
+                // $.ajax({
+                //     url: "http://38.88.74.71:80/chatget",
+                //     type: "GET",
+                //     headers: {
+                //         "Authorization": "Basic " + btoa("user:pw")
+                //     },
+                //     xhrFields: {
+                //         withCredentials: true
+                //     },
+                //     mimeType: "text/plain; charset=x-user-defined"
+                // }).done(function (data, textStatus, jqXHR) {
+                //     displayMessage(data);
+                // }).fail(function (jqXHR, textStatus, errorThrown) {
+                //     alert("fail: " + errorThrown);
+                // });
+            }
+            
+            function displayMessage(data) {
+                var IDIndex = data.indexOf(" ");
+
+                if (data != '' && lastMessage != data) {
+                    $('#chatBox').html($('#chatBox').val() + 'Visitor: ' + data.substr(IDIndex + 1) + '\n');
+                    lastMessage = data;
+                }
+            }
+
+            setInterval(function() {
+                receiveMessage();
+            }, 50);
+
+            // Retrieve image from the server.
+            function getImage() {
+                $.ajax({
+                    url: "http://38.88.74.71:80/image",
+                    type: "GET",
+                    headers: {
+                        "Authorization": "Basic " + btoa("user:pw")
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    mimeType: "text/plain; charset=x-user-defined"
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#snapshot").attr('src', 'data:image/jpeg;base64,' + (data));
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert("fail: " + errorThrown);
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

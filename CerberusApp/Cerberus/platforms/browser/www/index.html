@@ -55,74 +55,90 @@
         <div class="page-header">
             <h1>
                 <center>Cerberus</center>
+                <div id="testDiv">
+
+                </div>
             </h1>
         </div>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Chat</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="jumbotron">
-                    <p1>This application lets you control your security system remotely from your mobile device. Use the interface
-                        below to unlock/lock your door or view a snapshot through your security camera.</p1>
-                </div>
-                <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
-                <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
-                <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="snapshotModalTitle">Security Camera Snapshot</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <img class="img-fluid" id="snapshot" style="height:auto; width:auto;"></img>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" id="refreshButton" class="btn btn-primary">Refresh</button>
+        <div id="logInDiv">
+            <form class="form-signin">
+                <h2 class="form-signin-heading text-center">
+                    <i>Please sign in</i>
+                </h2>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" style="margin-bottom: 20px" required
+                    autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" style="margin-bottom: 20px" placeholder="Password" required>
+                <button id="signInButton" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+        <div id="loggedInContent">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Chat</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="jumbotron">
+                        <p1>This application lets you control your security system remotely from your mobile device. Use the
+                            interface below to unlock/lock your door or view a snapshot through your security camera.</p1>
+                    </div>
+                    <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
+                    <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
+                    <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="snapshotModalTitle">Security Camera Snapshot</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="center" id="snapshot" style="height:auto; width:auto; margin-left: auto; margin-right: auto; display: block;"></img>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" id="refreshButton" class="btn btn-primary">Refresh</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="jumbotron" id="profileJumbotron">
-                    <h6 style="display:inline">Username: </h6>
-                    <p1 id="username"></p1>
-                    <br>
-                    <h6 style="display:inline">Name: </h6>
-                    <p1 id="name"></p1>
-                    <br>
-                    <h6 style="display:inline">Email: </h6>
-                    <p1 id="email"></p1>
-                    </p1>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="jumbotron" id="profileJumbotron">
+                        <h6 style="display:inline">Username: </h6>
+                        <p1 id="username"></p1>
+                        <br>
+                        <h6 style="display:inline">Name: </h6>
+                        <p1 id="name"></p1>
+                        <br>
+                        <h6 style="display:inline">Email: </h6>
+                        <p1 id="email"></p1>
+                        </p1>
+                    </div>
+                    <button type="button" id="signOutButton" class="btn btn-primary btn-block">logout</button>
                 </div>
-                <button type="button" id="logout" class="btn btn-primary btn-block">logout</button>
-            </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <div class="jumbotron">
-                    <p1>Use the chat box below to message whoever may be at your door.</p1>
-                </div>
-                <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom:20px"></textarea>
-                <textarea id="messageBox" class="form-control" rows="4" placeholder="Type your message here"></textarea>
-                <br>
-                <button type="button" id="sendMessageButton" class="btn btn-primary btn-block">send</button>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="jumbotron">
+                        <p1>Use the chat box below to message whoever may be at your door.</p1>
+                    </div>
+                    <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom:20px"></textarea>
+                    <textarea id="messageBox" class="form-control" rows="4" placeholder="Type your message here"></textarea>
+                    <br>
+                    <button type="button" id="sendMessageButton" class="btn btn-primary btn-block">send</button>
 
+                </div>
             </div>
         </div>
-
-
 
     </div>
 
@@ -131,67 +147,155 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
     <script>
-        // This code toggles the lock button between locked and unlocked states.
+        function Main() {
+            $.support.cors = true;
+            $.mobile.allowCrossDomainPages = true;
+        }
+
+        var loggedIn = false;
+        var lastMessage = ''; // Used to prevent duplicate messages sending.
+
+
         $(document).ready(function () {
+            displayIfLogged();
+
+            // Toggle the lock, update lock state.
             $('#lock').click(function () {
+                setLockState(toggleLock());
+            });
+
+            // Changes lock button text and returns the lock state
+            // after a toggle.
+            function toggleLock() {
                 if ($("#lock").text() == "unlock") {
                     $("#lock").text('lock');
+                    return 0; // Current state is unlocked.
                 }
-                else $("#lock").text('unlock');
-            })
+                else {
+                    $("#lock").text('unlock');
+                    return 1; // Current state is locked.
+                }
+            }
 
+            // Posts to the server to set the lock state.
+            function setLockState(lockState) {
+                $.ajax({
+                    url: "http://38.88.74.71:80/lock",
+                    type: "POST",
+                    data: { message: lockState },
+                    dataType: "text",
+                });
+            }
+
+            // Queries the server for the current lock state.
+            function getLockState() {
+                $.get("http://38.88.74.71:80/lock", function (data) {
+                    return data;
+                });
+            }
+
+            // Updates the lock state. Setting the lock state using
+            // the button should be allowed to work dispite this.
+            function syncLock() {
+                var isLocked = getLockState();
+                if (isLocked == 1)
+                    $("lock").text('unlock');
+                else if (isLocked == 0)
+                    $("#lock").text('lock');
+            }
+
+            // Attempt to sign in on button click.
+            $("#signInButton").click(function () {
+                signIn();
+            });
+
+            // Sign out on button click.
+            $("#signOutButton").click(function () {
+                signOut();
+            });
+
+            // Sign in to the application.
+            function signIn() {
+                var emailAddress = $("#inputEmail").val();
+                var passWord = $("inputPassword").val();
+                $("#inputEmail").val('');
+                $("#inputPassword").val('');
+            
+                loggedIn = true;
+                displayIfLogged();
+            }
+
+            // Sign out of the application.
+            function signOut() {
+                loggedIn = false;
+                displayIfLogged();
+            }
+
+            // Check if logged in and display content accordingly.
+            function displayIfLogged() {
+                if (!loggedIn) {
+                    document.getElementById("loggedInContent").style.display = "none";
+                    document.getElementById("logInDiv").style.display = "block";
+                }
+                else {
+                    document.getElementById("loggedInContent").style.display = "block";
+                    document.getElementById("logInDiv").style.display = "none";
+                }
+            }
+
+
+            // Set user profile details. Place holders.
+            function setProfileDetails() {
+                var username = "bharder";
+                var name = "Ben Harder";
+                var email = "ben.harder2@gmail.com";
+                $('#username').html(username);
+                $('#name').html(name);
+                $('#email').html(email);
+            } setProfileDetails();
+
+
+            // Send the type messaged to the visitor as well as to the chat box.
             $("#sendMessageButton").click(function () {
                 var message = $('#messageBox').val();
                 sendMessage(message);
                 $('#messageBox').val('');
-            })
-
-            // Set user profile details
-            var username = "bharder";
-            var name = "Ben Harder";
-            var email = "ben.harder2@gmail.com";
-            $('#username').html(username);
-            $('#name').html(name);
-            $('#email').html(email);
-
-            $('#refreshButton').click(function () 
-            {
-                getImage();
             });
 
-            $('#snapshotButton').click(function() 
-            {
-                getImage();
-            });
-
-            // Send a message to be displayed on LCD
-            function sendMessage(message) 
-            {
-                $.post("38.88.74.71:80/chat", message, function(){
-                }).fail(function() {
-                    console.log("send message failed");
+            // Send a message to be displayed on LCD.
+            function sendMessage(message) {
+                $.ajax({
+                    url: "http://38.88.74.71:80/chat",
+                    type: "POST",
+                    data: { message: message },
+                    dataType: "text",
                 });
-                $('#chatBox').html($('#chatBox').val() +'Me: ' + message + '\n');
+
+                $('#chatBox').html($('#chatBox').val() + 'Me: ' + message + '\n');
             }
 
-            function receiveMessage()
-            {
-                $.get("38.88.74.71:8080/chatget", function(data)
-                {
+            // Attempt to receive a message from the visitor.
+            function receiveMessage() {
+                $.get("http://38.88.74.71:80/chatget", function (data) {
                     displayMessage(data);
                 });
             }
 
-            function displayMessage(data)
-            {
-                $('#chatBox').html($('#chatBox').val() +'Visitor: ' + message + '\n');
+            // Display a message in the chat box.
+            function displayMessage(data) {
+                var IDIndex = data.indexOf(" ");
+
+                // Only display a message if it isn't a recently sent duplicate.
+                if (data != '' && lastMessage != data) {
+                    $('#chatBox').html($('#chatBox').val() + 'Visitor: ' + data.substr(IDIndex + 1) + '\n');
+                    lastMessage = data;
+                }
             }
 
-            // Retrieve image from the server.
-            function getImage() 
-            {
+            // Retrieve image from the server and display it.
+            function getImage() {
                 $.ajax({
-                    url: "38.88.74.71:80/image",
+                    url: "http://38.88.74.71:80/image",
                     type: "GET",
                     headers: {
                         "Authorization": "Basic " + btoa("user:pw")
@@ -201,40 +305,28 @@
                     },
                     mimeType: "text/plain; charset=x-user-defined"
                 }).done(function (data, textStatus, jqXHR) {
-                    $("#snapshot").attr('src', 'data:image/jpeg;base64,' + base64Encode(data));
+                    $("#snapshot").attr('src', 'data:image/jpeg;base64,' + (data));
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alert("fail: " + errorThrown);
                 });
             }
 
+            // Refresh the image from the webcam.
+            $('#refreshButton').click(function () {
+                getImage();
+            });
 
-            function base64Encode(str) {
-                var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-                var out = "", i = 0, len = str.length, c1, c2, c3;
-                while (i < len) {
-                    c1 = str.charCodeAt(i++) & 0xff;
-                    if (i == len) {
-                        out += CHARS.charAt(c1 >> 2);
-                        out += CHARS.charAt((c1 & 0x3) << 4);
-                        out += "==";
-                        break;
-                    }
-                    c2 = str.charCodeAt(i++);
-                    if (i == len) {
-                        out += CHARS.charAt(c1 >> 2);
-                        out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
-                        out += CHARS.charAt((c2 & 0xF) << 2);
-                        out += "=";
-                        break;
-                    }
-                    c3 = str.charCodeAt(i++);
-                    out += CHARS.charAt(c1 >> 2);
-                    out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
-                    out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
-                    out += CHARS.charAt(c3 & 0x3F);
-                }
-                return out;
-            }
+            // Display the webcam image in the modal.
+            $('#snapshotButton').click(function () {
+                getImage();
+            });
+
+
+            setInterval(function () {
+                syncLock();
+                receiveMessage();
+            }, 50);
+
         });
     </script>
 </body>
