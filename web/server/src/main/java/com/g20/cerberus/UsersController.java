@@ -17,19 +17,19 @@ public class UsersController {
     private UserList userList = new UserList("./users-database/usersDatabase.txt");
     WebcamStream webcam = new WebcamStream(9004, userList);
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = "http://38.88.74.71:9001")
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)
     public boolean createUser(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
       return userList.addUser(username, password);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = "http://38.88.74.71:9001")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
       return userList.login(username, password);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = "http://38.88.74.71:9001")
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public String getImage(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
@@ -40,7 +40,7 @@ public class UsersController {
       return "";
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = "http://38.88.74.71:9001")
     @RequestMapping(value = "/setserialid", method = RequestMethod.POST)
     public boolean setSerialID(@RequestParam(required=true) String username, @RequestParam(required=true) int serialID) {
       for (User u : userList.getUserList()) {

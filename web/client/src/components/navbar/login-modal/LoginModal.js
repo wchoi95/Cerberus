@@ -47,7 +47,7 @@ class LoginModal extends Component {
   };
 
   attemptLogin() {
-    $.get("http://localhost:8080/login", {username: this.state.username, password: this.state.password},
+    $.get("http://38.88.74.71:80/login", {username: this.state.username, password: this.state.password},
       function(data) {
         if (data === "ERR: INVALID PASS") {
           this.setState({errorMessage: 'Invalid Password!'});

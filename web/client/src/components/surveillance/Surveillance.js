@@ -35,14 +35,14 @@ class SurveillanceComponent extends Component {
   }
 
   getImage() {
-    $.get("http://localhost:8080/image", {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/image", {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({image: "data:image/jpg;base64, ".concat(data)});
       }.bind(this));
   }
 
   setSerialID() {
-    $.post("http://localhost:8080/setserialid", {username: localStorage.getItem('loggedUser'), serialID: parseInt(this.state.message)},
+    $.post("http://38.88.74.71:80/setserialid", {username: localStorage.getItem('loggedUser'), serialID: parseInt(this.state.message)},
       function(data) {
         if (data) {
           console.log("id set");
