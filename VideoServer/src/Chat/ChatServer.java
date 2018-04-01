@@ -20,32 +20,29 @@ import java.util.Scanner;
 public class ChatServer implements Runnable {
 	/** Default port number where the server listens for connections. */
 	public static final int FIBONACCI_PORT = 9001;
-
+    
 	private ServerSocket serverSocket;
 	private Thread msgThread;
 	public Socket socket;
-
+	
 
 	private final static String newline = "\n";
-
+    
 	// Rep invariant: serverSocket != null
-
+    
 	/**
 	 * Make a FibonacciServer that listens for connections on port.
-	 *
+	 * 
 	 * @param port
 	 *            port number, requires 0 <= port <= 65535
 	 */
 	public ChatServer(int port) throws IOException {
 		msgThread = new Thread(this, "thread");
-
+		
 		/*before*/
 		serverSocket = new ServerSocket(port);
-
-		msgThread.start();
-		serve();
 	}
-
+    
 	public void run() {
         Scanner sc = new Scanner(System.in);
         PrintWriter out;
@@ -55,11 +52,11 @@ public class ChatServer implements Runnable {
 					socket.getOutputStream()));
 			String msg = sc.nextLine();
 		    while(!msg.equals("1")) {
-
+		 	  
 	          out.println(msg);
 	          out.flush();
 	          msg = sc.nextLine();
-
+	          
 		    }
 		    out.close();
 		} catch (IOException e) {
@@ -68,15 +65,15 @@ public class ChatServer implements Runnable {
 		}
 		catch(NullPointerException e) {}
 	    }
-
+       
     }
-
+    
     private static void createAndShowGUI() {
         //Create and set up the window.
-
+ 
         //Add contents to the window.
         try {
-        	ChatServer server = new ChatServer(ChatServer.FIBONACCI_PORT);
+        	ChatServer server = new ChatServer(9004);
 			server.msgThread.start();
 			System.out.println("what up");
             server.serve();
@@ -84,13 +81,13 @@ public class ChatServer implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+ 
         //Display the window.
-
+        
     }
 	/**
 	 * Run the server, listening for connections and handling them.
-	 *
+	 * 
 	 * @throws IOException
 	 *             if the main server socket is broken
 	 */
@@ -111,7 +108,7 @@ public class ChatServer implements Runnable {
 
 	/**
 	 * Handle one client connection. Returns when client disconnects.
-	 *
+	 * 
 	 * @param socket
 	 *            socket where client is connected
 	 * @throws IOException
@@ -131,17 +128,17 @@ public class ChatServer implements Runnable {
 		// that we have more convenient ways to write Java primitive
 		// types to it.
 
-
+	    
 
 		try {
 			// each request is a single line containing a number
 			for (String line = in.readLine(); line != null; line = in
 					.readLine()) {
 				System.out.println(line);
-
+				
 			}
 		} finally {
-
+			
 			in.close();
 		}
 	}

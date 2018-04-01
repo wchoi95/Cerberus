@@ -1,4 +1,6 @@
+import socket
 import sys
+from threading import Thread
 import RPi.GPIO as GPIO
 import time
 
@@ -35,7 +37,7 @@ lcd.lcd_string("".join(mylist),2)
 lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
 lcd.lcd_string("Model B",2)
 GPIO.output(lcd.LED_ON, False)
-
+server_address = ('localhost', 4000)
 
 GPIO.setmode(GPIO.BCM)
 
@@ -85,8 +87,32 @@ def getLetter (num  , pressCount):
     return LETTER_MATRIX[ord(num) - 49][pressCount]
 
 def sendToUser (line):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(server_address)
+    sock.sendall("".join(line).encode('utf-8'))
+    sock.close()
     del line[:]
-    
+
+def getReply(arg):
+    print('hello')
+    server_address = ('localhost', 4001)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind(server_address)
+    sock.listen(1)
+    while True:
+        connection, client_address = sock.accept()
+        try:
+            print('connected')
+            data = connection.recv(16)
+            displayOnLcd('User:', data.decode('utf-8'))
+                
+        finally:
+            print('closed it')
+            connection.close()
+            
+thread = Thread(target = getReply, args = (10,))
+thread.start()
+
 try:
     #define vaes
     line1 = ['V', 'i', 's', 'i', 't', 'o', 'r', ':']
