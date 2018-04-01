@@ -12,10 +12,10 @@ public class User {
 	 * @param username
 	 * @param password
 	 */
-	public User(String username, String password) {
+	public User(String username, String password, int serialID) {
 		this.username = username;
 		this.password = password;
-		this.serialID = 0;
+		this.serialID = serialID;
 	}
 
 	/**

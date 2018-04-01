@@ -40,8 +40,8 @@ public class UserList {
 			BufferedReader br = new BufferedReader(new FileReader(new File(databasePath)));
       String line;
       while ((line = br.readLine()) != null) {
-        String[] userPass = line.split(", ", 2);
-        User userToAdd = new User(userPass[0], userPass[1]);
+        String[] userPass = line.split(", ", 3);
+        User userToAdd = new User(userPass[0], userPass[1], Integer.parseInt(userPass[2]));
         userList.add(userToAdd);
       }
 		} catch (IOException e) {
@@ -63,11 +63,11 @@ public class UserList {
 			if (u.getUsername().equals(username))
 				return false;
 		}
-		User user = new User(username, password);
+		User user = new User(username, password, 0);
 		userList.add(user);
     try {
       BufferedWriter output = new BufferedWriter(new FileWriter(databasePath, true));
-  		output.append(username + ", " + password);
+  		output.append(username + ", " + password + ", 0");
       output.newLine();
   		output.close();
     } catch (IOException e) {
