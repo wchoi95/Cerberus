@@ -37,7 +37,7 @@ LCD_E  = 19
 LCD_D4 = 13 
 LCD_D5 = 6
 LCD_D6 = 5
-LCD_D7 = 11
+LCD_D7 = 22
 LED_ON = 15
 
 # Define some device constants
