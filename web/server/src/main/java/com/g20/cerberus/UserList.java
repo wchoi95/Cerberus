@@ -92,20 +92,29 @@ public class UserList {
 	}
 
   public String login (String username, String password) {
-      for (User u : userList) {
-        if (u.getUsername().equals(username)) {
-          if (u.getPassword().equals(password)) {
-            return username;
-          } else {
-            return "ERR: INVALID PASS";
-          }
+    for (User u : userList) {
+      if (u.getUsername().equals(username)) {
+        if (u.getPassword().equals(password)) {
+          return username;
+        } else {
+          return "ERR: INVALID PASS";
         }
       }
-
-      return "ERR: NO USER";
     }
 
-		public ArrayList<User> getUserList() {
-			return userList;
-		}
+    return "ERR: NO USER";
+  }
+
+	public ArrayList<User> getUserList() {
+		return userList;
+	}
+
+	public boolean changePassword(String username, String password) {
+
+	}
+
+	public boolean changeSerialID(String username, int serialID) {
+
+	}
+
 }
