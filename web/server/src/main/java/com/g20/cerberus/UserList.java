@@ -109,12 +109,50 @@ public class UserList {
 		return userList;
 	}
 
-	public boolean changePassword(String username, String password) {
-
+	public boolean changePassword(String username, String oldPassword, String newPassword) {
+           for(User u: userList) {
+        	   if(u.getUsername().equals(username)) {
+        		   if( u.changePassword(oldPassword, newPassword)) {
+        		      updateFile();
+        		      return true;
+        		   }
+        		   //if changing password was unsuccessful 
+        		   return false;
+        	   }
+           }
+           //if user was not found
+           return false;
 	}
 
 	public boolean changeSerialID(String username, int serialID) {
-
+		for(User u: userList) {
+     	   if(u.getUsername().equals(username)) {
+     		   
+     		   u.setSerialID(serialID);
+     		   updateFile();
+     		   return true;
+     	   }
+        }
+        return false;
 	}
-
+    private void updateFile() {
+    	File databaseFile = new File(databasePath);
+    	FileWriter databaseWriter;
+		try {
+			databaseWriter = new FileWriter(databaseFile, false);
+			for(User u: userList) {
+	    		
+	    	   databaseWriter.write(u.getUsername() + ", " + u.getPassword() + ", " + u.getSerialID());	
+	    	}
+			databaseWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // true to append
+    	                                                     // false to overwrite.
+    	
+    	
+    	
+    	
+    }
 }

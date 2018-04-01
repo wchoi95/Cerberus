@@ -31,7 +31,15 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
-
+    
+	public boolean changePassword(String oldPassword, String newPassword) {
+		if(!oldPassword.equals(this.password))
+			return false;
+		
+	    this.password = newPassword; 	
+	    return true;
+	}
+	
 	public void setSerialID(int serialID) {
 		this.serialID = serialID;
 	}
