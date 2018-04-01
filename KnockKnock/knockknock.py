@@ -21,38 +21,53 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-
-value = 0
+validPatterns = [[1,1,1,0.5,0.5]]
 gaps = [0, 0, 0, 0, 0]
-
-past = 0
+patternLength = 4
 
 def assignGap(gaps, past):
     index  = 0 
-    while  (index < 4) & ( not gaps[index] == 0):
+    while  (index < patternLength) & ( not gaps[index] == 0):
         index += 1;
     gaps[index] = time.time() - past
 
-def validateKnock(gaps):
-    print (gaps)
-    #if (gaps[0] > 1) & (gaps[0] < 2)  (gaps[1] > 1) & (gaps[1] > 2) &(gaps[2] > 1) &(gaps[2] > 2) &(gaps[3] > 0.5) &(gaps[3] > 1) &(gaps[4] > 0.5) &(gaps[4] > 1):
+def isValidPattern():
+    #print (gaps)
+    for pattern in validPatterns
+        for num in pattern
+            if 
 # Main program loop.
+def validateKnock():
+    past = 0
+    value = 0
+    while True:
+        if not gaps[patternLength] == 0:
+            break
+        # Detect a knock.
+        if mcp.read_adc(0) > 70:
+            #print('knock')
+            #print(value)
+            value += 1
+            time.sleep(0.1)
+            # Get gaps
+            if past == 0:
+                past = time.time()
+            else:
+                assignGap(gaps, past)
+                past = time.time()
+            #print (gaps)
+
 while True:
-    if not gaps[4] == 0:
-        print (validateKnock(gaps))
-    # Print the ADC values.
-    if mcp.read_adc(0) > 29:
-        # initialize past
-        if past == 0:
-            past = time.time()
-        # get the gaps
-        assignGap(gaps, past)
-        print (gaps)
-        past = time.time()
-        #gaps[0 + getProperGap(gaps)] = time.time() - past
-        print('knock')
-        print(value)
-        while mcp.read_adc(0) > 5:
-            #print('wait')
-            pass
-    # Pause for half a second.
+    gaps = [0, 0, 0, 0, 0]
+    print ('Please Knock')
+    validateKnock()
+    print('Validating...')
+    isValid = isValidPattern()
+    time.sleep(2)
+    if isValid:
+        print('Come on in')
+    else:
+        print('You fucked up')
+    print('')
+    print('')
+
