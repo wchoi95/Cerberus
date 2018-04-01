@@ -62,7 +62,8 @@ public class Application {
       int count = 0;
       while (true) {
         Application client = new Application(serverName, port);
-        client.sendRequest();
+        client.socket.getOutputStream().write(0);
+        client.socket.getOutputStream().write(1);
         ImageIO.write(client.bimg,"JPG",client.socket.getOutputStream());
         try {
           TimeUnit.MILLISECONDS.sleep(20);

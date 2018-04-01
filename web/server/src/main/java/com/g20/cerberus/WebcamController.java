@@ -15,12 +15,12 @@ import java.awt.image.BufferedImage;
 @RestController
 public class WebcamController {
 
-    WebcamStream webcam = new WebcamStream(9004);
-
-    @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/image", method = RequestMethod.GET)
-    public String getImage() {
-      return webcam.captureImage();
-    }
+    // WebcamStream webcam = new WebcamStream(9004);
+    //
+    // @CrossOrigin(origins = "http://localhost:9001")
+    // @RequestMapping(value = "/image", method = RequestMethod.GET)
+    // public String getImage() {
+    //   return webcam.captureImage();
+    // }
 
 }

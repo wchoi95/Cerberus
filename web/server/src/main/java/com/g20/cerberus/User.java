@@ -5,6 +5,8 @@ import javax.management.InvalidAttributeValueException;
 public class User {
 	private String username;
 	private String password;
+	private int serialID;
+	private String imageString;
 
 	/**
 	 * @param username
@@ -13,6 +15,7 @@ public class User {
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+		this.serialID = 0;
 	}
 
 	/**
@@ -29,4 +32,19 @@ public class User {
 		return username;
 	}
 
+	public void setSerialID(int serialID) {
+		this.serialID = serialID;
+	}
+
+	public int getSerialID() {
+		return serialID;
+	}
+
+	public void setImageString(String byteString) {
+		this.imageString = byteString;
+	}
+
+	public String getImageString() {
+		return imageString;
+	}
 }

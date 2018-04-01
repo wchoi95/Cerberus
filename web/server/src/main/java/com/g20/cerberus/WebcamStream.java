@@ -17,8 +17,10 @@ public class WebcamStream implements Runnable {
   private ServerSocket serverSocket;
   private BufferedImage bimg;
   private Thread videoThread;
+  private UserList userList;
 
-  public WebcamStream(int port) {
+  public WebcamStream(int port, UserList userList) {
+    this.userList = userList;
     bimg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 
     try {
@@ -55,11 +57,10 @@ public class WebcamStream implements Runnable {
 	}
 
 	public void handle(Socket server) throws IOException {
-    System.out.println("Webcam client connected");
-		bimg = ImageIO.read(ImageIO.createImageInputStream(server.getInputStream()));
-	}
+    int serialID = server.getInputStream().read();
+    serialID = serialID*16 + server.getInputStream().read();
 
-  public String captureImage() {
+		bimg = ImageIO.read(ImageIO.createImageInputStream(server.getInputStream()));
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       ImageIO.write(bimg, "JPG", baos);
@@ -67,6 +68,21 @@ public class WebcamStream implements Runnable {
 
     }
 
-    return Base64.getEncoder().encodeToString(baos.toByteArray());
-  }
+    for (User u : userList.getUserList()) {
+      if (u.getSerialID() == serialID) {
+        u.setImageString(Base64.getEncoder().encodeToString(baos.toByteArray()));
+      }
+    }
+	}
+
+  // public String captureImage() {
+  //   ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  //   try {
+  //     ImageIO.write(bimg, "JPG", baos);
+  //   } catch(IOException e) {
+  //
+  //   }
+  //
+  //   return Base64.getEncoder().encodeToString(baos.toByteArray());
+  // }
 }

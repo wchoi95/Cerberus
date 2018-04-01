@@ -104,4 +104,8 @@ public class UserList {
 
       return "ERR: NO USER";
     }
+
+		public ArrayList<User> getUserList() {
+			return userList;
+		}
 }
