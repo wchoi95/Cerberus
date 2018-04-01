@@ -35,21 +35,10 @@ class SurveillanceComponent extends Component {
   }
 
   getImage() {
-    $.get("http://38.88.74.71:80/image", {username: localStorage.getItem('loggedUser')},
+    $.get("http://localhost:8080/image", {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({image: "data:image/jpg;base64, ".concat(data)});
       }.bind(this));
-  }
-
-  setSerialID() {
-    $.post("http://38.88.74.71:80/setserialid", {username: localStorage.getItem('loggedUser'), serialID: parseInt(this.state.message)},
-      function(data) {
-        if (data) {
-          console.log("id set");
-        } else {
-          console.log("id not set");
-        }
-      });
   }
 
   handleChange(event) {
@@ -57,8 +46,7 @@ class SurveillanceComponent extends Component {
   }
 
   handleSubmit(event) {
-    //this.sendMessage();
-    this.setSerialID();
+    this.sendMessage();
     event.preventDefault();
   }
 

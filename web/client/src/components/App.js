@@ -12,6 +12,7 @@ import Surveillance from './surveillance/Surveillance';
 import AboutCerberus from './about-cerberus/AboutCerberus';
 import Team from './team/Team';
 import Contact from './contact/Contact';
+import Profile from './profile/Profile';
 
 class App extends Component {
   render() {
@@ -33,6 +34,9 @@ class App extends Component {
             )} />
           <Route exact path='/contact' render={(props) => (
               <Contact />
+            )} />
+          <Route exact path='/profile' render={(props) => (
+              <Profile />
             )} />
         </div>
       </Router>

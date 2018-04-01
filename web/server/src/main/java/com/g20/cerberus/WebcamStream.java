@@ -60,6 +60,8 @@ public class WebcamStream implements Runnable {
     int serialID = server.getInputStream().read();
     serialID = serialID*16 + server.getInputStream().read();
 
+    System.out.println(serialID);
+
 		bimg = ImageIO.read(ImageIO.createImageInputStream(server.getInputStream()));
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
