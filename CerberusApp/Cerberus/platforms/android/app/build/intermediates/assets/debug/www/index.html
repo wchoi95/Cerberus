@@ -112,6 +112,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                        <p class="text-center bg-warning" id="imageFetchResult"></p>
                                     <img class="center" id="snapshot" style="height:auto; width:auto; margin-left: auto; margin-right: auto; display: block;"></img>
                                 </div>
                                 <div class="modal-footer">
@@ -235,6 +236,7 @@
 
             }
 
+            // Attempt to login to the server.
             function attemptLogin(username, password) {
                 return $.get("http://38.88.74.71:80/login", { username: username, password: password },
                     function (data) {
@@ -272,20 +274,9 @@
                     attemptSignup(username, password);
                 }
             }
-
+            
+            // Attempt to sign up.
             function attemptSignup(username, password) {
-                // $.post("http://38.88.74.71:80/createuser", { username: username, password: password },
-                //     function (data) {
-
-                //         if (data) {
-                //             $("#signInResult").html("User created successfully.");
-                //         } else {
-                //             $("#signInResult").html("That username is taken. Use a different username.");
-                //         }
-                //     }).fail(function (jqXHR, textStatus, errorThrown) {
-                //         alert("fail: " + errorThrown);
-                //     });
-
                 $.ajax({
                     type: "GET",
                     url: "http://38.88.74.71:80/createusermobile",
@@ -296,8 +287,8 @@
                         $("#signInResult").html("User created successfully.");
                     },
                     error: function (e) {
-                        $("#signInResult").html("Register request to server failed. Code: " +  e.jqXHR);
-                        alert('Error: ' + e.message);
+                        $("#signInResult").html("Register request to server failed. Code: " + e.jqXHR);
+                        // alert('Error: ' + e.message);
                     }
                 });
             }
@@ -317,6 +308,7 @@
                 else {
                     document.getElementById("loggedInContent").style.display = "block";
                     document.getElementById("logInDiv").style.display = "none";
+                    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
                 }
             }
 
@@ -333,8 +325,8 @@
                 });
             }
 
-
-            $("#changeSerialIDButton").click(function() {
+            // Set serialID on button press.
+            $("#changeSerialIDButton").click(function () {
                 setSerialID(username);
             });
 
@@ -344,7 +336,7 @@
                     function (data) {
                         setProfileDetails(username);
                         $("#newSerialID").val("");
-                    }).fail( function() {
+                    }).fail(function () {
                         alert("Set serialID failed.");
                     });
             }
@@ -365,37 +357,53 @@
             // Send a message to be displayed on LCD.
             function sendMessage(message) {
                 $.ajax({
-                    url: "http://38.88.74.71:80/chatmobile",
+                    url: "http://38.88.74.71:80/chatmobile/".concat(username),
                     type: "GET",
-                    data: { message: message },
+                    data: { username: username, message: "You: ".concat(message) },
                     dataType: "text",
+                    error: function (data) {
+                        alert("Send message failed. Error: " + data.status);
+                    }
                 });
-
-                $('#chatBox').html($('#chatBox').val() + 'Me: ' + message + '\n');
+                
+                // Scroll to the bottom of the text box to view most recent message.
+                $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
             }
 
             // Attempt to receive a message from the visitor.
             function receiveMessage() {
-                $.get("http://38.88.74.71:80/chatget", function (data) {
-                    displayMessage(data);
+                $.ajax({
+                    url: "http://38.88.74.71:80/chatget/".concat(username),
+                    type: "GET",
+                    data: { username: username },
+                    success: function (data) {
+                        displayMessage(data);
+                    },
+                    error: function (data) {
+                        console.log("Get message failed. Error: " + data.status);
+                    }
                 });
             }
 
             // Display a message in the chat box.
             function displayMessage(data) {
-                var IDIndex = data.indexOf(" ");
-
-                // Only display a message if it isn't a recently sent duplicate.
-                if (data != '' && lastMessage != data) {
-                    $('#chatBox').html($('#chatBox').val() + 'Visitor: ' + data.substr(IDIndex + 1) + '\n');
-                    lastMessage = data;
+                // Messages are formatted as an array of strings.
+                // Most recent message is index 0.
+                $("#chatBox").val("");
+                for (var i = 9; i >= 0; i--) {
+                    if (data[i] != "")
+                        if (i == 9)
+                            $("#chatBox").val($("#chatBox").val() + data[i]);
+                        else if (data[i+1] == "")
+                            $("#chatBox").val($("#chatBox").val() + data[i]);
+                        else  $("#chatBox").val($("#chatBox").val() + "\n" + data[i]);
                 }
             }
 
             // Retrieve image from the server and display it.
             function getImage() {
                 $.ajax({
-                    url: "http://38.88.74.71:80/image",
+                    url: "http://38.88.74.71:80/image/".concat(username),
                     type: "GET",
                     headers: {
                         "Authorization": "Basic " + btoa("user:pw")
@@ -406,8 +414,10 @@
                     mimeType: "text/plain; charset=x-user-defined"
                 }).done(function (data, textStatus, jqXHR) {
                     $("#snapshot").attr('src', 'data:image/jpeg;base64,' + (data));
+                    $("#imageFetchResult").html("");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert("fail: " + errorThrown);
+                    $("#imageFetchResult").html("Failed to retrieve image. Error: " + errorThrown);
+                    // alert("fail: " + errorThrown);
                 });
             }
 
@@ -421,10 +431,12 @@
                 getImage();
             });
 
-
+            // Fetch new image and lock status.
             setInterval(function () {
-                // syncLock();
-                //receiveMessage();
+                if (loggedIn) {
+                    receiveMessage();
+                    // syncLock();
+                }
             }, 50);
 
         });
