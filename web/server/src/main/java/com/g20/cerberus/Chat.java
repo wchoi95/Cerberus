@@ -7,16 +7,14 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Chat implements Runnable {
-
+    private UserList userlist;
     private ServerSocket serverSocket;
-  	private Thread chatThread;
-  	public Socket socket;
-    private String messageToSend;
-    private boolean messageSent;
+    private Thread chatThread;
+    public Socket socket;
 
-    public Chat (int port) {
-      messageSent = true;
-      messageToSend = "";
+    
+    public Chat (int port, UserList userlist) {
+      this.userlist = userlist;
 
       try {
         serverSocket = new ServerSocket(port);
@@ -83,9 +81,12 @@ public class Chat implements Runnable {
   			// each request is a single line containing a number
   			for (String line = in.readLine(); line != null; line = in
   					.readLine()) {
-  				messageToSend = line;
-          messageSent = false;
-
+                for(User u: this.userlist.getUserList()) {
+                	if(u.getSerialID().equals(line.substring(0, 8))) {
+                		u.addNewMessage(line.substring(8));
+                	    break;	
+                	}
+                }
   			}
   		} finally {
 
@@ -93,14 +94,14 @@ public class Chat implements Runnable {
   		}
   	}
 
-    public String sendMessage() {
+    /*public String sendMessage() {
       if (!messageSent) {
         messageSent = true;
         return messageToSend;
       } else {
         return "";
       }
-    }
+    }*/
 
     public boolean receiveMessage (String message) {
       PrintWriter out;
