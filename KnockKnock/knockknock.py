@@ -55,17 +55,22 @@ def isValidPattern():
     for num in secretKnock:
         if not ((gaps[i] > getLowerBound(num)) & (gaps[i] < getUpperBound(num))):
             return False
+        print(i)
+        print(len(secretKnock))
+        
         i += 1
     return True
 
 def updateSecretKnock():
-    del secretKnock[:]
     global secretKnockLength
+    global secretKnock
+    secretKnock = []
     secretKnockLength = 0
     past = 0
+    startTime = time.time()
     while True:
-        # Time out 
-        if (time.time() - past > 6) & (not past == 0):
+        # Time out
+        if (time.time() - startTime > 3):
             break
         if mcp.read_adc(0) > 70:
             time.sleep(0.1)
@@ -75,11 +80,16 @@ def updateSecretKnock():
                 assignGap(secretKnock,past)
                 secretKnockLength += 1
                 past = time.time()
-                
-    if secretKnockLength < 1:
-        print('The knock has to be at least of length 1.')
+    
+    if (secretKnockLength < 1) & (secretKnockLength == 0):
+        print('You did not input a knock')
+        print('Secret knock is set to default knock')
+        secretKnockLength = 5
+        secretKnock = [1,1,1,0.5,0.5]
+        return True
+    elif (secretKnockLength == 1):
+        print('Secret knock has to be at least of length 2')
         print('Please try again...')
-        print(' ')
         return False
     return True
         
@@ -87,9 +97,10 @@ def updateSecretKnock():
 def validateKnock():
     past = 0
     value = 0
+    start = time.time()
     while True:
         # Time out
-        if (time.time() - past > 10) & (not past == 0):
+        if (time.time() - start > 4):
             break
         # Done Knocking
         if len(gaps) == secretKnockLength:
@@ -109,23 +120,4 @@ def validateKnock():
                 past = time.time()
             print (gaps)
 
-while True:
-    print('Please input your secret knock')
-    while not updateSecretKnock():
-        print('Please input your secret knock')
-        pass
-    isValid = 0
-    while not isValid:
-        gaps = []
-        print ('Please Knock')
-        validateKnock()
-        print('Validating...')
-        isValid = isValidPattern()
-        time.sleep(2)
-        if isValid:
-            print('Come on in')
-        else:
-            print('You fucked up')
-        print('')
-        print('')
 

@@ -5,18 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Chat implements Runnable {
-
+    private UserList userlist;
     private ServerSocket serverSocket;
-  	private Thread chatThread;
-  	public Socket socket;
-    private String messageToSend;
-    private boolean messageSent;
+    private Thread chatThread;
+    public Map<String, Socket> socketMap;
 
-    public Chat (int port) {
-      messageSent = true;
-      messageToSend = "";
+
+    public Chat (int port, UserList userlist) {
+      socketMap = new HashMap<String, Socket>();
+      this.userlist = userlist;
 
       try {
         serverSocket = new ServerSocket(port);
@@ -45,15 +46,27 @@ public class Chat implements Runnable {
   	public void serve() throws IOException {
   		while (true) {
   			// block until a client connects
-  	        Socket socket = serverSocket.accept();
-  	        this.socket = socket;
-  			try {
-  				handle(socket);
-  			} catch (IOException ioe) {
-  				ioe.printStackTrace(); // but don't terminate serve()
-  			} finally {
-  				socket.close();
-  			}
+  	    Socket socket = serverSocket.accept();
+        Thread handler = new Thread(new Runnable() {
+				public void run() {
+					try {
+						try {
+
+							handle(socket);
+						} finally {
+
+							socket.close();
+						}
+					} catch (IOException ioe) {
+						// this exception wouldn't terminate serve(),
+						// since we're now on a different thread, but
+						// we still need to handle it
+						ioe.printStackTrace();
+					}
+				}
+			});
+
+      handler.start();
   		}
   	}
 
@@ -78,35 +91,43 @@ public class Chat implements Runnable {
   		// socket output stream, and wrap a PrintWriter around that so
   		// that we have more convenient ways to write Java primitive
   		// types to it.
-
+      String id = "";
   		try {
   			// each request is a single line containing a number
   			for (String line = in.readLine(); line != null; line = in
   					.readLine()) {
-  				messageToSend = line;
-          messageSent = false;
-
+                System.out.println(line);
+                id = line.substring(0,8);
+                socketMap.put(id, socket);
+                System.out.println(id);
+                for(User u: this.userlist.getUserList()) {
+                	if(u.getSerialID().equals(id)) {
+                		u.addNewMessage("Visitor: " + line.substring(8));
+                	    break;
+                	}
+                }
   			}
   		} finally {
-
+        socketMap.remove(id);
   			in.close();
   		}
   	}
 
-    public String sendMessage() {
+    /*public String sendMessage() {
       if (!messageSent) {
         messageSent = true;
         return messageToSend;
       } else {
         return "";
       }
-    }
+    }*/
 
-    public boolean receiveMessage (String message) {
+    public boolean receiveMessage (String message, String serialID) {
       PrintWriter out;
+      Socket curSocket = socketMap.get(serialID);
       try {
         out = new PrintWriter(new OutputStreamWriter(
-            socket.getOutputStream()));
+            curSocket.getOutputStream()));
         out.println(message);
         out.flush();
       } catch (IOException e) {
