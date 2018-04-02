@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"mvn -f ./server spring-boot:run\" \"npm run client\"",
     "server": "nodemon -V --ignore 'client/*' server/app.js --exec babel-node --presets es2017",
     "client": "babel-node start-client.js --presets es2017",
     "build:client": "cd client && npm run build",

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UsersController {
+public class ApplicationController {
 
     private UserList userList = new UserList("./users-database/usersDatabase.txt");
     WebcamStream webcam = new WebcamStream(9004, userList);
@@ -90,6 +90,39 @@ public class UsersController {
       }
 
       return null;
+    }
+
+    @CrossOrigin(origins = "http://206.87.220.203:3000")
+    @RequestMapping(value = "/chatmobile/{username}", method = RequestMethod.GET)
+    public void getMessageMobile(@RequestParam(required=true) String username, @RequestParam(required=true) String message) {
+      for (User u : userList.getUserList()) {
+        if (u.getUsername().equals(username)) {
+          u.addNewMessage(message);
+          chatServer.receiveMessage(message.substring(5), u.getSerialID());
+        }
+      }
+    }
+
+    @CrossOrigin(origins = "http://206.87.220.203:3000")
+    @RequestMapping(value = "/changepasswordmobile/{username}", method = RequestMethod.GET)
+    public boolean changePasswordMobile(@RequestParam(required=true) String username, @RequestParam(required=true) String oldPassword, @RequestParam(required=true) String newPassword) {
+      return userList.changePassword(username, oldPassword, newPassword);
+    }
+
+    @CrossOrigin(origins = "http://206.87.220.203:3000")
+    @RequestMapping(value = "/setserialidmobile/{username}", method = RequestMethod.GET)
+    public String setSerialIDMobile(@RequestParam(required=true) String username, @RequestParam(required=true) String serialID) {
+      if (userList.changeSerialID(username, serialID)) {
+        return serialID;
+      } else {
+        return "";
+      }
+    }
+
+    @CrossOrigin(origins = "http://206.87.220.203:3000")
+    @RequestMapping(value = "/createusermobile", method = RequestMethod.GET)
+    public boolean createUserMobile(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
+      return userList.addUser(username, password);
     }
 
 }
