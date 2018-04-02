@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="connect-src *;" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -130,8 +131,8 @@
                         <p1 id="serialID"></p1>
                     </div>
                     <p class="text-center">Use the form below if you would like to change your serialID.</p>
-                    <input type="text" id="newSerialId" class="form-control">
-                    <button type="button" id="changeSerialIdButton" class="btn btn-info btn-block" style="margin-top: 20px">Change</button>
+                    <input type="text" id="newSerialID" class="form-control">
+                    <button type="button" id="changeSerialIDButton" class="btn btn-info btn-block" style="margin-top: 20px">Change</button>
                     <button type="button" id="signOutButton" class="btn btn-primary btn-block">Sign out</button>
                 </div>
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
@@ -165,7 +166,7 @@
 
 
         $(document).ready(function () {
-            displayIfLogged();
+            displayIfLogged(); // Inital page load with logged out state.
 
             // Toggle the lock, update lock state.
             $('#lock').click(function () {
@@ -185,11 +186,11 @@
                 }
             }
 
-            // Posts to the server to set the lock state.
+            // Gets to the server to set the lock state.
             function setLockState(lockState) {
                 $.ajax({
-                    url: "http://38.88.74.71:80/lock",
-                    type: "POST",
+                    url: "http://38.88.74.71:80/lockmobile",
+                    type: "GET",
                     data: { message: lockState },
                     dataType: "text",
                 });
@@ -248,6 +249,8 @@
                             $("#inputUsername").val('');
                             $("#inputPassword").val('');
                         }
+                    }).fail(function (data) {
+                        $("#signInResult").html("Sign in request to server failed. Code: " + data.jqXHR);
                     });
             }
 
@@ -271,16 +274,31 @@
             }
 
             function attemptSignup(username, password) {
-                $.post("http://38.88.74.71:80/createuser", { username: username, password: password },
-                    function (data) {
-                        
-                        if (data) {
-                            $("#signInResult").html("User created successfully.");
-                        } else {
-                            $("#signInResult").html("That username is taken. Use a different username.");
-                        }
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert("fail: " + errorThrown);
+                // $.post("http://38.88.74.71:80/createuser", { username: username, password: password },
+                //     function (data) {
+
+                //         if (data) {
+                //             $("#signInResult").html("User created successfully.");
+                //         } else {
+                //             $("#signInResult").html("That username is taken. Use a different username.");
+                //         }
+                //     }).fail(function (jqXHR, textStatus, errorThrown) {
+                //         alert("fail: " + errorThrown);
+                //     });
+
+                $.ajax({
+                    type: "GET",
+                    url: "http://38.88.74.71:80/createusermobile",
+                    data: { username: username, password: password },
+                    success: function (response) {
+                        console.log(response);
+                        alert((response));
+                        $("#signInResult").html("User created successfully.");
+                    },
+                    error: function (e) {
+                        $("#signInResult").html("Register request to server failed. Code: " +  e.jqXHR);
+                        alert('Error: ' + e.message);
+                    }
                 });
             }
 
@@ -315,12 +333,20 @@
                 });
             }
 
-            // 
+
+            $("#changeSerialIDButton").click(function() {
+                setSerialID(username);
+            });
+
+            // Set a new serialID for a user.
             function setSerialID(username) {
-                $.post("http://38.88.74.71:80/setserialid/".concat(username), { username: username, serialID:  $('#newSerialID').val()},
+                $.get("http://38.88.74.71:80/setserialidmobile/".concat(username), { username: username, serialID: $('#newSerialID').val() },
                     function (data) {
-                        //data
-                    }.bind(this));
+                        setProfileDetails(username);
+                        $("#newSerialID").val("");
+                    }).fail( function() {
+                        alert("Set serialID failed.");
+                    });
             }
 
             // Returns an ajax call to get a users serialID.
@@ -339,8 +365,8 @@
             // Send a message to be displayed on LCD.
             function sendMessage(message) {
                 $.ajax({
-                    url: "http://38.88.74.71:80/chat",
-                    type: "POST",
+                    url: "http://38.88.74.71:80/chatmobile",
+                    type: "GET",
                     data: { message: message },
                     dataType: "text",
                 });
