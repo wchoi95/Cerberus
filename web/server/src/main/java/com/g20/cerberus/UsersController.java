@@ -75,6 +75,7 @@ public class UsersController {
       for (User u : userList.getUserList()) {
         if (u.getUsername().equals(username)) {
           u.addNewMessage(message);
+          chatServer.receiveMessage(message.substring(5), u.getSerialID());
         }
       }
     }
@@ -84,9 +85,11 @@ public class UsersController {
     public String[] sendMessageArray(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
         if (u.getUsername().equals(username)) {
-          u.sendMessageArray();
+          return u.sendMessageArray();
         }
       }
+
+      return null;
     }
 
 }
