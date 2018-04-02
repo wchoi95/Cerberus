@@ -26,81 +26,81 @@ class TeamComponent extends Component {
           Feel free to learn more about each individual by clicking on the profile links below. </p>
         </div>
 
+        <div className = "row">
+          <div className="team-profiles-row container col-md-8 col-md-offset-2 col-sm-12">
 
-        <div className="team-profiles-row container col-md-8 col-md-offset-2 col-sm-12">
-
-          <div className="row">
-
-            <div className="col-md-4 col-sm-12">
-              <div className="thumbnail width-fix">
-                <img src="https://goo.gl/gk2FQ9" alt="..."/>
-                <div className="caption">
-                  <h3>Abbas</h3>
-                  <h2 className="team-position">Web Developer </h2>
-                  <p><a href="https://www.linkedin.com/in/abbas-kashanipour-0568a9b4/" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4 col-sm-12">
-              <div className="thumbnail width-fix">
-                <img src="https://goo.gl/nwg7X5" alt="..."/>
-                <div className="caption">
-                  <h3>Sina</h3>
-                  <h2 className="team-position">System Architect </h2>
-                  <p><a href="https://www.facebook.com/sina.saleh.16" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4 col-sm-12">
-              <div className="thumbnail width-fix">
-                <img src="https://goo.gl/3kSMJD" alt="..."/>
-                <div className="caption">
-                  <h3>William</h3>
-                  <h2 className="team-position">Senior Developer </h2>
-                  <p><a href="https://www.facebook.com/wchoiboi" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
-                </div>
-              </div>
-            </div>
-            </div>
             <div className="row">
-            <div className="col-md-4 col-sm-12">
-              <div className="thumbnail width-fix">
-                <img src="https://goo.gl/txMEia" alt="..."/>
-                <div className="caption">
-                  <h3>Osama</h3>
-                  <h2 className="team-position">Head of R&D </h2>
-                  <p><a href="https://www.facebook.com/Osama.K.Dawood" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+
+              <div className="col-md-4 col-sm-12">
+                <div className="thumbnail width-fix">
+                  <img src="https://goo.gl/gk2FQ9" alt="..."/>
+                  <div className="caption">
+                    <h3>Abbas</h3>
+                    <h2 className="team-position">Web Developer </h2>
+                    <p><a href="https://www.linkedin.com/in/abbas-kashanipour-0568a9b4/" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-md-4 col-sm-12">
-              <div className="thumbnail width-fix">
-                <img src="https://goo.gl/3FFGPh" alt="..."/>
-                <div className="caption">
-                  <h3>Ben</h3>
-                  <h2 className="team-position"> Application Developer </h2>
-                  <p><a href="https://www.facebook.com/ben.harder2" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+              <div className="col-md-4 col-sm-12">
+                <div className="thumbnail width-fix">
+                  <img src="https://goo.gl/nwg7X5" alt="..."/>
+                  <div className="caption">
+                    <h3>Sina</h3>
+                    <h2 className="team-position">System Architect </h2>
+                    <p><a href="https://www.facebook.com/sina.saleh.16" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-md-4 col-sm-12">
-              <div className="thumbnail width-fix">
-                <img src="https://goo.gl/2tza6m" alt="..."/>
-                <div className="caption">
-                  <h3>Randy</h3>
-                  <h2 className="team-position">Business Manager</h2>
-                  <p><a href="https://www.linkedin.com/in/randy-jama/" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+              <div className="col-md-4 col-sm-12">
+                <div className="thumbnail width-fix">
+                  <img src="https://goo.gl/3kSMJD" alt="..."/>
+                  <div className="caption">
+                    <h3>William</h3>
+                    <h2 className="team-position">Senior Developer </h2>
+                    <p><a href="https://www.facebook.com/wchoiboi" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                  </div>
                 </div>
               </div>
-            </div>
+              </div>
+              <div className="row">
+              <div className="col-md-4 col-sm-12">
+                <div className="thumbnail width-fix">
+                  <img src="https://goo.gl/txMEia" alt="..."/>
+                  <div className="caption">
+                    <h3>Osama</h3>
+                    <h2 className="team-position">Head of R&D </h2>
+                    <p><a href="https://www.facebook.com/Osama.K.Dawood" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                  </div>
+                </div>
+              </div>
 
+              <div className="col-md-4 col-sm-12">
+                <div className="thumbnail width-fix">
+                  <img src="https://goo.gl/3FFGPh" alt="..."/>
+                  <div className="caption">
+                    <h3>Ben</h3>
+                    <h2 className="team-position"> Application Developer </h2>
+                    <p><a href="https://www.facebook.com/ben.harder2" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-4 col-sm-12">
+                <div className="thumbnail width-fix">
+                  <img src="https://goo.gl/2tza6m" alt="..."/>
+                  <div className="caption">
+                    <h3>Randy</h3>
+                    <h2 className="team-position">Business Manager</h2>
+                    <p><a href="https://www.linkedin.com/in/randy-jama/" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-
       </div>
     );
   }
