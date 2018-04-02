@@ -65,12 +65,20 @@
                 <h2 class="form-signin-heading text-center">
                     <i>Please sign in</i>
                 </h2>
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" style="margin-bottom: 20px" required
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="username" id="inputUsername" class="form-control" placeholder="Username" style="margin-bottom: 20px" required
                     autofocus>
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" id="inputPassword" class="form-control" style="margin-bottom: 20px" placeholder="Password" required>
-                <button id="signInButton" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <p class="text-center bg-warning" id="signInResult"></p>
+
+                <div id="signInWrapper" class="wrapper text-center">
+                    <div class="btn-group" role="group" aria-label="signInButtonGroup">
+                        <button id="signInButton" class="btn btn-lg btn-primary" type="button">Sign in</button>
+                        <button id="registerButton" class="btn btn-lg btn-primary" type="button">Register</button>
+                    </div>
+                </div>
+
             </form>
         </div>
         <div id="loggedInContent">
@@ -118,14 +126,13 @@
                         <h6 style="display:inline">Username: </h6>
                         <p1 id="username"></p1>
                         <br>
-                        <h6 style="display:inline">Name: </h6>
-                        <p1 id="name"></p1>
-                        <br>
-                        <h6 style="display:inline">Email: </h6>
-                        <p1 id="email"></p1>
-                        </p1>
+                        <h6 style="display:inline">SerialID: </h6>
+                        <p1 id="serialID"></p1>
                     </div>
-                    <button type="button" id="signOutButton" class="btn btn-primary btn-block">logout</button>
+                    <p class="text-center">Use the form below if you would like to change your serialID.</p>
+                    <input type="text" id="newSerialId" class="form-control">
+                    <button type="button" id="changeSerialIdButton" class="btn btn-info btn-block" style="margin-top: 20px">Change</button>
+                    <button type="button" id="signOutButton" class="btn btn-primary btn-block">Sign out</button>
                 </div>
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                     <div class="jumbotron">
@@ -152,6 +159,7 @@
             $.mobile.allowCrossDomainPages = true;
         }
 
+        var username;
         var loggedIn = false;
         var lastMessage = ''; // Used to prevent duplicate messages sending.
 
@@ -216,13 +224,61 @@
 
             // Sign in to the application.
             function signIn() {
-                var emailAddress = $("#inputEmail").val();
-                var passWord = $("inputPassword").val();
-                $("#inputEmail").val('');
-                $("#inputPassword").val('');
-            
-                loggedIn = true;
-                displayIfLogged();
+                username = $("#inputUsername").val();
+                var password = $("#inputPassword").val();
+
+                $.when(attemptLogin(username, password)).done(function () {
+                    displayIfLogged();
+                });
+                // console.log("just called attemptlogin");
+
+            }
+
+            function attemptLogin(username, password) {
+                return $.get("http://38.88.74.71:80/login", { username: username, password: password },
+                    function (data) {
+                        if (data === "ERR: INVALID PASS") {
+                            $("#signInResult").html("Incorect password.");
+                        } else if (data === "ERR: NO USER") {
+                            $("#signInResult").html("No user matches those credentials.");
+                        } else {
+                            loggedIn = true;
+                            $("#signInResult").html("");
+                            setProfileDetails(username);
+                            $("#inputUsername").val('');
+                            $("#inputPassword").val('');
+                        }
+                    });
+            }
+
+            // Register a new user on button click.
+            $("#registerButton").click(function () {
+                register();
+            });
+
+            // Register a new user.
+            function register() {
+                var username = $("#inputUsername").val();
+                var password = $("#inputPassword").val();
+                console.log(username);
+                console.log(password);
+                if (username == "" || password == "") {
+                    $("#signInResult").html("You did not enter all the required fields.");
+                }
+                else {
+                    attemptSignup(username, password);
+                }
+            }
+
+            function attemptSignup(username, password) {
+                $.post("http://38.88.74.71:80/createuser", { username: username, password: password },
+                    function (data) {
+                        if (data) {
+                            $("#signInResult").html("User created successfully.");
+                        } else {
+                            $("#signInResult").html("That username is taken. Use a different username.");
+                        }
+                    });
             }
 
             // Sign out of the application.
@@ -244,15 +300,27 @@
             }
 
 
-            // Set user profile details. Place holders.
-            function setProfileDetails() {
-                var username = "bharder";
-                var name = "Ben Harder";
-                var email = "ben.harder2@gmail.com";
+            // Set user profile details.
+            function setProfileDetails(username) {
                 $('#username').html(username);
-                $('#name').html(name);
-                $('#email').html(email);
-            } setProfileDetails();
+
+                // Set serialID when the ajax call finishes.
+                $.when(getSerialID(username)).done(function (data, textStatus, jqXHR) {
+                    $('#serialID').html(data);
+                }).fail(function () {
+                    alert("get serialID failed");
+                });
+            }
+
+            // 
+            function setSerialID(username) {
+
+            }
+
+            // Returns an ajax call to get a users serialID.
+            function getSerialID(username) {
+                return $.get("http://38.88.74.71:80/getserialid/".concat(username), { username: username });
+            }
 
 
             // Send the type messaged to the visitor as well as to the chat box.
@@ -323,7 +391,7 @@
 
 
             setInterval(function () {
-                syncLock();
+                // syncLock();
                 receiveMessage();
             }, 50);
 
