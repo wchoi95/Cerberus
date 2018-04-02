@@ -17,13 +17,13 @@ public class ChatController {
     Chat chatServer = new Chat (9005);
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/chat", method = RequestMethod.POST)
+    @RequestMapping(value = "/chat/{username}", method = RequestMethod.POST)
     public boolean getMessage(@RequestParam(required=true) String message) {
         return chatServer.receiveMessage(message);
     }
 
     @CrossOrigin(origins = "http://localhost:9001")
-    @RequestMapping(value = "/chatget", method = RequestMethod.GET)
+    @RequestMapping(value = "/chatget/{username}", method = RequestMethod.GET)
     public String sendMessage() {
         return chatServer.sendMessage();
     }

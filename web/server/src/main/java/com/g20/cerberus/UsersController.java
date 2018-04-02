@@ -48,22 +48,24 @@ public class UsersController {
 
     @CrossOrigin(origins = "http://localhost:9001")
     @RequestMapping(value = "/setserialid/{username}", method = RequestMethod.POST)
-    public int setSerialID(@RequestParam(required=true) String username, @RequestParam(required=true) int serialID) {
+    public String setSerialID(@RequestParam(required=true) String username, @RequestParam(required=true) String serialID) {
       if (userList.changeSerialID(username, serialID)) {
         return serialID;
       } else {
-        return 0;
+        return "";
       }
     }
 
     @CrossOrigin(origins = "http://localhost:9001")
     @RequestMapping(value = "/getserialid/{username}", method = RequestMethod.GET)
-    public int getSerialID(@RequestParam(required=true) String username) {
+    public String getSerialID(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
         if (u.getUsername().equals(username)) {
           return u.getSerialID();
         }
       }
-     }
+
+      return "";
+    }
 
 }

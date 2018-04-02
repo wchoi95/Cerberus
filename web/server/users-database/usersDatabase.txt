@@ -1,4 +1,4 @@
-wchoi95, pass123, 0
+wchoi95, pass123, A1B2C3D4
 will, test, 0
 anotheracc, hi, 0
 test, ;lkj, 0

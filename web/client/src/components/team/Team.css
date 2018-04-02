@@ -34,3 +34,7 @@
   font-size: 15px;
     margin-bottom: 40px;
 }
+
+.thumbnail.width-fix > img {
+  width: 100%;
+}
