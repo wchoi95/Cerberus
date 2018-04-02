@@ -16,6 +16,7 @@ public class UsersController {
 
     private UserList userList = new UserList("./users-database/usersDatabase.txt");
     WebcamStream webcam = new WebcamStream(9004, userList);
+    Chat chatServer = new Chat(9005, userList);
 
     @CrossOrigin(origins = "http://localhost:9001")
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)
@@ -66,6 +67,26 @@ public class UsersController {
       }
 
       return "";
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/chat/{username}", method = RequestMethod.POST)
+    public void getMessage(@RequestParam(required=true) String username, @RequestParam(required=true) String message) {
+      for (User u : userList.getUserList()) {
+        if (u.getUsername().equals(username)) {
+          u.addNewMessage(message);
+        }
+      }
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/chatget/{username}", method = RequestMethod.GET)
+    public String[] sendMessageArray(@RequestParam(required=true) String username) {
+      for (User u : userList.getUserList()) {
+        if (u.getUsername().equals(username)) {
+          u.sendMessageArray();
+        }
+      }
     }
 
 }

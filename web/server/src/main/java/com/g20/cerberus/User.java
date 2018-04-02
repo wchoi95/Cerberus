@@ -68,4 +68,8 @@ public class User {
 		messageHistory[0] = message;
 
 	}
+
+	public String[] sendMessageArray() {
+		return messageHistory;
+	}
 }

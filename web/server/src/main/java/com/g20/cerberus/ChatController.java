@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChatController {
 
-    Chat chatServer = new Chat (9005);
+    Chat chatServer = new Chat(9005);
 
     @CrossOrigin(origins = "http://localhost:9001")
     @RequestMapping(value = "/chat/{username}", method = RequestMethod.POST)
-    public boolean getMessage(@RequestParam(required=true) String message) {
+    public void getMessage(@RequestParam(required=true) String message) {
         return chatServer.receiveMessage(message);
     }
 

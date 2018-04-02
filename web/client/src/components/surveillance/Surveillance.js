@@ -16,21 +16,16 @@ class SurveillanceComponent extends Component {
   }
 
   sendMessage() {
-    $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {message: this.state.message},
+    $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
       function(data) {
-        if (data) {
-          console.log("Message sent");
-        } else {
-          console.log("Error sending message");
-        }
+
       });
   }
 
   receiveMessage() {
-    $.get("http://localhost:8080/chatget/".concat(localStorage.getItem('loggedUser')),
+    $.get("http://localhost:8080/chatget/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
-        if (!(data === ""))
-          this.setState({reply: data});
+        this.setState({reply: data});
       }.bind(this));
   }
 
