@@ -16,7 +16,7 @@ class SurveillanceComponent extends Component {
   }
 
   sendMessage() {
-    $.post("http://localhost:8080/chat", {message: this.state.message},
+    $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {message: this.state.message},
       function(data) {
         if (data) {
           console.log("Message sent");
@@ -27,7 +27,7 @@ class SurveillanceComponent extends Component {
   }
 
   receiveMessage() {
-    $.get("http://localhost:8080/chatget",
+    $.get("http://localhost:8080/chatget/".concat(localStorage.getItem('loggedUser')),
       function(data) {
         if (!(data === ""))
           this.setState({reply: data});
@@ -35,7 +35,7 @@ class SurveillanceComponent extends Component {
   }
 
   getImage() {
-    $.get("http://localhost:8080/image", {username: localStorage.getItem('loggedUser')},
+    $.get("http://localhost:8080/image/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({image: "data:image/jpg;base64, ".concat(data)});
       }.bind(this));

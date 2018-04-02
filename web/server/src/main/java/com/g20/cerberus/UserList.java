@@ -41,7 +41,7 @@ public class UserList {
       String line;
       while ((line = br.readLine()) != null) {
         String[] userPass = line.split(", ", 3);
-        User userToAdd = new User(userPass[0], userPass[1], Integer.parseInt(userPass[2]));
+        User userToAdd = new User(userPass[0], userPass[1], userPass[2]);
         userList.add(userToAdd);
       }
 		} catch (IOException e) {
@@ -63,7 +63,7 @@ public class UserList {
 			if (u.getUsername().equals(username))
 				return false;
 		}
-		User user = new User(username, password, 0);
+		User user = new User(username, password, "");
 		userList.add(user);
     try {
       BufferedWriter output = new BufferedWriter(new FileWriter(databasePath, true));
@@ -124,10 +124,9 @@ public class UserList {
            return false;
 	}
 
-	public boolean changeSerialID(String username, int serialID) {
+	public boolean changeSerialID(String username, String serialID) {
 		for(User u: userList) {
      	   if(u.getUsername().equals(username)) {
-
      		   u.setSerialID(serialID);
      		   updateFile();
      		   return true;

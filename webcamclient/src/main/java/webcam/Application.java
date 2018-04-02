@@ -50,7 +50,7 @@ public class Application {
     }
 
     public static void main(String[] args) throws InterruptedException, UnknownHostException, IOException {
-      String serverName = "38.88.74.71";
+      String serverName = "localhost";
       int port = 9004;
       webcam = Webcam.getWebcams().get(0);
       webcam.setViewSize(new Dimension(320, 240));
@@ -63,8 +63,14 @@ public class Application {
       while (true) {
         Application client = new Application(serverName, port);
         client.sendRequest();
-        client.socket.getOutputStream().write(0);
+        client.socket.getOutputStream().write('A');
         client.socket.getOutputStream().write(1);
+        client.socket.getOutputStream().write('B');
+        client.socket.getOutputStream().write(2);
+        client.socket.getOutputStream().write('C');
+        client.socket.getOutputStream().write(3);
+        client.socket.getOutputStream().write('D');
+        client.socket.getOutputStream().write(4);
         ImageIO.write(client.bimg,"JPG",client.socket.getOutputStream());
         try {
           TimeUnit.MILLISECONDS.sleep(20);

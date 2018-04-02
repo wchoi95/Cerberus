@@ -5,17 +5,21 @@ import javax.management.InvalidAttributeValueException;
 public class User {
 	private String username;
 	private String password;
-	private int serialID;
+	private String serialID;
 	private String imageString;
+	private String[] messageHistory;
+	private int messageHistorySize;
 
 	/**
 	 * @param username
 	 * @param password
 	 */
-	public User(String username, String password, int serialID) {
+	public User(String username, String password, String serialID) {
 		this.username = username;
 		this.password = password;
 		this.serialID = serialID;
+		this.messageHistory = new String[]{"","","","","","","","","",""};
+		this.messageHistorySize = 10;
 	}
 
 	/**
@@ -31,20 +35,20 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
-    
+
 	public boolean changePassword(String oldPassword, String newPassword) {
 		if(!oldPassword.equals(this.password))
 			return false;
-		
-	    this.password = newPassword; 	
+
+	    this.password = newPassword;
 	    return true;
 	}
-	
-	public void setSerialID(int serialID) {
+
+	public void setSerialID(String serialID) {
 		this.serialID = serialID;
 	}
 
-	public int getSerialID() {
+	public String getSerialID() {
 		return serialID;
 	}
 
@@ -54,5 +58,14 @@ public class User {
 
 	public String getImageString() {
 		return imageString;
+	}
+
+	public void addNewMessage(String message) {
+		for (int i = 0; i < (messageHistorySize - 1); i++) {
+			messageHistory[messageHistorySize - (i+1)] = messageHistory[messageHistorySize - (i+2)];
+		}
+
+		messageHistory[0] = message;
+
 	}
 }

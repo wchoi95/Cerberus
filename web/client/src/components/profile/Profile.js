@@ -29,7 +29,7 @@ class Profile extends Component {
   }
 
   setSerialID() {
-    $.post("http://localhost:8080/setserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), serialID: parseInt(this.state.changeSerialID, 10)},
+    $.post("http://localhost:8080/setserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), serialID: this.state.changeSerialID},
       function(data) {
         this.setState({serialID: data, changeSerialID: '', serialChangeErrorMessage: 'Serial ID changed successfully!'});
         localStorage.setItem('serialID', data);
@@ -64,11 +64,7 @@ class Profile extends Component {
   }
 
   handleSerialIDSubmit(event) {
-    if (isNumber(this.state.changeSerialID)) {
-      this.setSerialID();
-    } else {
-      this.setState({serialChangeErrorMessage: "Please ensure you input a valid serial ID"});
-    }
+    this.setSerialID();
     event.preventDefault();
   }
 
@@ -105,10 +101,6 @@ class Profile extends Component {
 
 function hasWhiteSpace(s) {
   return s.indexOf(' ') >= 0;
-}
-
-function isNumber(s) {
-  return /^\d+$/.test(s);
 }
 
 export default Profile;

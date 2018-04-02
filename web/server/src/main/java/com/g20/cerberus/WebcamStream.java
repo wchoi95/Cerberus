@@ -57,10 +57,17 @@ public class WebcamStream implements Runnable {
 	}
 
 	public void handle(Socket server) throws IOException {
-    int serialID = server.getInputStream().read();
-    serialID = serialID*16 + server.getInputStream().read();
+    int bytesToRead = 8;
+    String serialID = "";
 
-    System.out.println(serialID);
+    for (int i = 0; i < bytesToRead; i++) {
+      int byteRead = server.getInputStream().read();
+      if (byteRead >= 0 && byteRead < 10) {
+        serialID += byteRead;
+      } else {
+        serialID += (char)byteRead;
+      }
+    }
 
 		bimg = ImageIO.read(ImageIO.createImageInputStream(server.getInputStream()));
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -71,20 +78,10 @@ public class WebcamStream implements Runnable {
     }
 
     for (User u : userList.getUserList()) {
-      if (u.getSerialID() == serialID) {
+      if (u.getSerialID().equals(serialID)) {
         u.setImageString(Base64.getEncoder().encodeToString(baos.toByteArray()));
       }
     }
 	}
 
-  // public String captureImage() {
-  //   ByteArrayOutputStream baos = new ByteArrayOutputStream();
-  //   try {
-  //     ImageIO.write(bimg, "JPG", baos);
-  //   } catch(IOException e) {
-  //
-  //   }
-  //
-  //   return Base64.getEncoder().encodeToString(baos.toByteArray());
-  // }
 }
