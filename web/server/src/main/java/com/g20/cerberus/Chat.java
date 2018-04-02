@@ -132,6 +132,13 @@ public class Chat implements Runnable {
         out.flush();
       } catch (IOException e) {
 
+      } catch (NullPointerException e) {
+        for(User u: this.userlist.getUserList()) {
+          if(u.getSerialID().equals(serialID)) {
+            u.addNewMessage("--Cerberus Not Connected--");
+              break;
+          }
+        }
       }
 
       return true;
