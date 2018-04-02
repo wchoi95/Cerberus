@@ -178,7 +178,7 @@
             setInterval(function () {
                 if (loggedIn) {
                     receiveMessage();
-                    syncLock();
+                    // syncLock();
                 }
             }, 50);
 
@@ -316,8 +316,10 @@
             function attemptLogin(username, password) {
                 return $.get("http://38.88.74.71:80/login", { username: username, password: password },
                     function (data) {
+
                         $("#signInResult").addClass("bg-warning");
                         $("#signInResult").removeClass("bg-success");
+
                         if (data === "ERR: INVALID PASS") {
                             $("#signInResult").html("Incorrect password.");
                         } else if (data === "ERR: NO USER") {
@@ -340,8 +342,6 @@
             function register() {
                 var username = $("#inputUsername").val();
                 var password = $("#inputPassword").val();
-                console.log(username);
-                console.log(password);
                 if (username == "" || password == "") {
                     $("#signInResult").html("You did not enter all the required fields.");
                 }
@@ -356,10 +356,17 @@
                     type: "GET",
                     url: "http://38.88.74.71:80/createusermobile",
                     data: { username: username, password: password },
-                    success: function (response) {
-                        $("#signInResult").removeClass("bg-warning");
-                        $("#signInResult").addClass("bg-success");
-                        $("#signInResult").html("User created successfully.");
+                    success: function (data) {
+                        if (!data) {
+                            $("#signInResult").addClass("bg-warning");
+                            $("#signInResult").removeClass("bg-success");
+                            $("#signInResult").html("That username is taken.");
+                        }
+                        else {
+                            $("#signInResult").removeClass("bg-warning");
+                            $("#signInResult").addClass("bg-success");
+                            $("#signInResult").html("User created successfully.");
+                        }
                     },
                     error: function (e) {
                         $("#signInResult").addClass("bg-warning");
@@ -403,7 +410,8 @@
 
             // Set a new serialID for a user.
             function setSerialID(username) {
-                if ($("#newSerialID").html().length < 8) {
+                console.log($("#newSerialID").val().length);
+                if ($("#newSerialID").val().length != 8) {
                     $("#setSerialIDResult").html("Serial ID must be 8 characters long.")
                 }
                 else $.get("http://38.88.74.71:80/setserialidmobile/".concat(username), { username: username, serialID: $('#newSerialID').val() },
