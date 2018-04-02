@@ -125,9 +125,14 @@
                     <div class="jumbotron" id="profileJumbotron">
                         <h6 style="display:inline">Username: </h6>
                         <p1 id="username"></p1>
-                        </p1>
+                        <br>
+                        <h6 style="display:inline">SerialID: </h6>
+                        <p1 id="serialID"></p1>
                     </div>
-                    <button type="button" id="signOutButton" class="btn btn-primary btn-block">logout</button>
+                    <p class="text-center">Use the form below if you would like to change your serialID.</p>
+                    <input type="text" id="newSerialId" class="form-control">
+                    <button type="button" id="changeSerialIdButton" class="btn btn-info btn-block" style="margin-top: 20px">Change</button>
+                    <button type="button" id="signOutButton" class="btn btn-primary btn-block">Sign out</button>
                 </div>
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                     <div class="jumbotron">
@@ -154,6 +159,7 @@
             $.mobile.allowCrossDomainPages = true;
         }
 
+        var username;
         var loggedIn = false;
         var lastMessage = ''; // Used to prevent duplicate messages sending.
 
@@ -218,14 +224,11 @@
 
             // Sign in to the application.
             function signIn() {
-                var username = $("#inputUsername").val();
+                username = $("#inputUsername").val();
                 var password = $("#inputPassword").val();
 
                 $.when(attemptLogin(username, password)).done(function () {
                     displayIfLogged();
-                    // console.log(loggedIn);
-                    $("#inputUsername").val('');
-                    $("#inputPassword").val('');
                 });
                 // console.log("just called attemptlogin");
 
@@ -242,8 +245,43 @@
                             loggedIn = true;
                             $("#signInResult").html("");
                             setProfileDetails(username);
+                            $("#inputUsername").val('');
+                            $("#inputPassword").val('');
                         }
                     });
+            }
+
+            // Register a new user on button click.
+            $("#registerButton").click(function () {
+                register();
+            });
+
+            // Register a new user.
+            function register() {
+                var username = $("#inputUsername").val();
+                var password = $("#inputPassword").val();
+                console.log(username);
+                console.log(password);
+                if (username == "" || password == "") {
+                    $("#signInResult").html("You did not enter all the required fields.");
+                }
+                else {
+                    attemptSignup(username, password);
+                }
+            }
+
+            function attemptSignup(username, password) {
+                $.post("http://38.88.74.71:80/createuser", { username: username, password: password },
+                    function (data) {
+                        
+                        if (data) {
+                            $("#signInResult").html("User created successfully.");
+                        } else {
+                            $("#signInResult").html("That username is taken. Use a different username.");
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert("fail: " + errorThrown);
+                });
             }
 
             // Sign out of the application.
@@ -265,9 +303,29 @@
             }
 
 
-            // Set user profile details. Place holders.
+            // Set user profile details.
             function setProfileDetails(username) {
                 $('#username').html(username);
+
+                // Set serialID when the ajax call finishes.
+                $.when(getSerialID(username)).done(function (data, textStatus, jqXHR) {
+                    $('#serialID').html(data);
+                }).fail(function () {
+                    alert("get serialID failed");
+                });
+            }
+
+            // 
+            function setSerialID(username) {
+                $.post("http://38.88.74.71:80/setserialid/".concat(username), { username: username, serialID:  $('#newSerialID').val()},
+                    function (data) {
+                        //data
+                    }.bind(this));
+            }
+
+            // Returns an ajax call to get a users serialID.
+            function getSerialID(username) {
+                return $.get("http://38.88.74.71:80/getserialid/".concat(username), { username: username });
             }
 
 
@@ -340,7 +398,7 @@
 
             setInterval(function () {
                 // syncLock();
-                receiveMessage();
+                //receiveMessage();
             }, 50);
 
         });

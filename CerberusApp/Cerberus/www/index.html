@@ -273,12 +273,15 @@
             function attemptSignup(username, password) {
                 $.post("http://38.88.74.71:80/createuser", { username: username, password: password },
                     function (data) {
+                        
                         if (data) {
                             $("#signInResult").html("User created successfully.");
                         } else {
                             $("#signInResult").html("That username is taken. Use a different username.");
                         }
-                    });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert("fail: " + errorThrown);
+                });
             }
 
             // Sign out of the application.
@@ -314,7 +317,10 @@
 
             // 
             function setSerialID(username) {
-
+                $.post("http://38.88.74.71:80/setserialid/".concat(username), { username: username, serialID:  $('#newSerialID').val()},
+                    function (data) {
+                        //data
+                    }.bind(this));
             }
 
             // Returns an ajax call to get a users serialID.
@@ -392,7 +398,7 @@
 
             setInterval(function () {
                 // syncLock();
-                receiveMessage();
+                //receiveMessage();
             }, 50);
 
         });
