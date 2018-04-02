@@ -13,6 +13,8 @@ import AboutCerberus from './about-cerberus/AboutCerberus';
 import Team from './team/Team';
 import Contact from './contact/Contact';
 import Profile from './profile/Profile';
+import ScrollUp from './scroll-up/ScrollUp';
+import Footer from './footer/Footer';
 
 class App extends Component {
   constructor() {
@@ -46,6 +48,8 @@ class App extends Component {
             <Route exact path='/profile' render={(props) => (
                 <Profile />
               )} />
+            <Footer />
+            <ScrollUp />
           </div>
         </Router>
       );
@@ -66,6 +70,8 @@ class App extends Component {
             <Route exact path='/contact' render={(props) => (
                 <Contact />
               )} />
+              <Footer />
+              <ScrollUp />
           </div>
         </Router>
       );

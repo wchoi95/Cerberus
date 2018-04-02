@@ -7,7 +7,16 @@ class SurveillanceComponent extends Component {
   constructor() {
     super();
     this.state = {
-      reply: '',
+      chat0: '',
+      chat1: '',
+      chat2: '',
+      chat3: '',
+      chat4: '',
+      chat5: '',
+      chat6: '',
+      chat7: '',
+      chat8: '',
+      chat9: '',
       message: '',
       image: ''
     };
@@ -18,14 +27,23 @@ class SurveillanceComponent extends Component {
   sendMessage() {
     $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
       function(data) {
-
+        console.log("sent message");
       });
   }
 
   receiveMessage() {
     $.get("http://localhost:8080/chatget/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
-        this.setState({reply: data});
+        this.setState({chat0: data[0],
+                       chat1: data[1],
+                       chat2: data[2],
+                       chat3: data[3],
+                       chat4: data[4],
+                       chat5: data[5],
+                       chat6: data[6],
+                       chat7: data[7],
+                       chat8: data[8],
+                       chat9: data[9]});
       }.bind(this));
   }
 
@@ -65,8 +83,17 @@ class SurveillanceComponent extends Component {
   render () {
     return (
       <div className="surveillance-page">
-        <img src={this.state.image} alt="not loaded"/>
-        <p>{this.state.reply}</p>
+        <img src={this.state.image} alt="not loaded"/><br />
+        <span>{this.state.chat9}</span><br />
+        <span>{this.state.chat8}</span><br />
+        <span>{this.state.chat7}</span><br />
+        <span>{this.state.chat6}</span><br />
+        <span>{this.state.chat5}</span><br />
+        <span>{this.state.chat4}</span><br />
+        <span>{this.state.chat3}</span><br />
+        <span>{this.state.chat2}</span><br />
+        <span>{this.state.chat1}</span><br />
+        <span>{this.state.chat0}</span><br />
         <form onSubmit={this.handleSubmit}>
           <input type="text" value={this.state.value} onChange={this.handleChange} />
           <input type="submit" value="Submit" />
