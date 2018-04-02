@@ -4,10 +4,6 @@
         "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\drawable-port-xxhdpi\\screen.png"
     },
     {
-        "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_icon.png.flat",
-        "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\icon.png"
-    },
-    {
         "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_icon.png.flat",
         "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\mipmap-mdpi\\icon.png"
     },
@@ -24,20 +20,8 @@
         "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\xml\\config.xml"
     },
     {
-        "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_icon.png.flat",
-        "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\mipmap-hdpi\\icon.png"
-    },
-    {
-        "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-ldpi_icon.png.flat",
-        "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\mipmap-ldpi\\icon.png"
-    },
-    {
         "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-ldpi_screen.png.flat",
         "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\drawable-land-ldpi\\screen.png"
-    },
-    {
-        "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_icon.png.flat",
-        "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\icon.png"
     },
     {
         "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-xxhdpi_screen.png.flat",
@@ -46,10 +30,6 @@
     {
         "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-port-ldpi_screen.png.flat",
         "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\drawable-port-ldpi\\screen.png"
-    },
-    {
-        "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_icon.png.flat",
-        "source": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\src\\main\\res\\mipmap-xhdpi\\icon.png"
     },
     {
         "merged": "C:\\Users\\benha\\OneDrive\\Documents\\CPEN 291\\G20_B_P2\\CerberusApp\\Cerberus\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-port-xhdpi_screen.png.flat",

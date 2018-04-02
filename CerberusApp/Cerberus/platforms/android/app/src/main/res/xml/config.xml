@@ -13,5 +13,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <icon src="icon.png" />
     <preference name="loglevel" value="DEBUG" />
 </widget>

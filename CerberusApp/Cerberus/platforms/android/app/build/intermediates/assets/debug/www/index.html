@@ -17,6 +17,9 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <platform name="android">
+        <icon src="icon.png" width="180" height="180" />
+    </platform>
 
     <title>Cerberus</title>
     <style>
@@ -100,6 +103,7 @@
                         <p1>This application lets you control your security system remotely from your mobile device. Use the
                             interface below to unlock/lock your door or view a snapshot through your security camera.</p1>
                     </div>
+                    <p class="text-center bg-danger" id="lockSyncResult"></p>
                     <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
                     <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
                     <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
@@ -112,7 +116,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                        <p class="text-center bg-warning" id="imageFetchResult"></p>
+                                    <p class="text-center bg-warning" id="imageFetchResult"></p>
                                     <img class="center" id="snapshot" style="height:auto; width:auto; margin-left: auto; margin-right: auto; display: block;"></img>
                                 </div>
                                 <div class="modal-footer">
@@ -140,7 +144,7 @@
                     <div class="jumbotron">
                         <p1>Use the chat box below to message whoever may be at your door.</p1>
                     </div>
-                    <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom:20px"></textarea>
+                    <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom: 20px; background-color: #cadbff"></textarea>
                     <textarea id="messageBox" class="form-control" rows="4" placeholder="Type your message here"></textarea>
                     <br>
                     <button type="button" id="sendMessageButton" class="btn btn-primary btn-block">send</button>
@@ -169,10 +173,84 @@
         $(document).ready(function () {
             displayIfLogged(); // Inital page load with logged out state.
 
+            // Fetch new image and lock status.
+            setInterval(function () {
+                if (loggedIn) {
+                    receiveMessage();
+                    syncLock();
+                }
+            }, 50);
+
+            /*
+             * DOM INTERACTIONS
+             */
+
             // Toggle the lock, update lock state.
             $('#lock').click(function () {
                 setLockState(toggleLock());
             });
+
+            // Attempt to sign in on button click.
+            $("#signInButton").click(function () {
+                signIn();
+            });
+
+            // Sign out on button click.
+            $("#signOutButton").click(function () {
+                signOut();
+            });
+
+            // Register a new user on button click.
+            $("#registerButton").click(function () {
+                register();
+            });
+
+            // Set serialID on button press.
+            $("#changeSerialIDButton").click(function () {
+                setSerialID(username);
+            });
+
+            // Refresh the image from the webcam.
+            $('#refreshButton').click(function () {
+                getImage();
+            });
+
+            // Display the webcam image in the modal.
+            $('#snapshotButton').click(function () {
+                getImage();
+            });
+
+            // Send the type messaged to the visitor as well as to the chat box.
+            $("#sendMessageButton").click(function () {
+                var message = $('#messageBox').val();
+                sendMessage(message);
+                $('#messageBox').val('');
+            });
+
+            /*
+             *  HOME PAGE CODE (LOCK AND WEBCAM)
+             */
+
+            // Retrieve image from the server and display it.
+            function getImage() {
+                $.ajax({
+                    url: "http://38.88.74.71:80/image/".concat(username),
+                    type: "GET",
+                    headers: {
+                        "Authorization": "Basic " + btoa("user:pw")
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    mimeType: "text/plain; charset=x-user-defined"
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#snapshot").attr('src', 'data:image/jpeg;base64,' + (data));
+                    $("#imageFetchResult").html("");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#imageFetchResult").html("Failed to retrieve image. Error: " + errorThrown);
+                    // alert("fail: " + errorThrown);
+                });
+            }
 
             // Changes lock button text and returns the lock state
             // after a toggle.
@@ -190,7 +268,7 @@
             // Gets to the server to set the lock state.
             function setLockState(lockState) {
                 $.ajax({
-                    url: "http://38.88.74.71:80/lockmobile",
+                    url: "http://38.88.74.71:80/lockmobile/".concat(username),
                     type: "GET",
                     data: { message: lockState },
                     dataType: "text",
@@ -199,30 +277,27 @@
 
             // Queries the server for the current lock state.
             function getLockState() {
-                $.get("http://38.88.74.71:80/lock", function (data) {
-                    return data;
-                });
+                return $.get("http://38.88.74.71:80/lock/".concat(username)
+                    , function (data) {
+                        $("#lockSyncResult").html("");
+                    }).fail(function (data) {
+                        $("#lockSyncResult").html("Failed to get lock state. Error: " + data.jqXHR);
+                    });
             }
 
             // Updates the lock state. Setting the lock state using
             // the button should be allowed to work dispite this.
             function syncLock() {
-                var isLocked = getLockState();
+                var isLocked = getLockState().data;
                 if (isLocked == 1)
                     $("lock").text('unlock');
                 else if (isLocked == 0)
                     $("#lock").text('lock');
             }
 
-            // Attempt to sign in on button click.
-            $("#signInButton").click(function () {
-                signIn();
-            });
-
-            // Sign out on button click.
-            $("#signOutButton").click(function () {
-                signOut();
-            });
+            /*
+             *  PROFILE CODE (SIGN IN, SIGN OUT, REGISTER, SERIALID)
+             */
 
             // Sign in to the application.
             function signIn() {
@@ -248,6 +323,8 @@
                             loggedIn = true;
                             $("#signInResult").html("");
                             setProfileDetails(username);
+
+                            // Empty the fields upon successful login.
                             $("#inputUsername").val('');
                             $("#inputPassword").val('');
                         }
@@ -255,11 +332,6 @@
                         $("#signInResult").html("Sign in request to server failed. Code: " + data.jqXHR);
                     });
             }
-
-            // Register a new user on button click.
-            $("#registerButton").click(function () {
-                register();
-            });
 
             // Register a new user.
             function register() {
@@ -274,7 +346,7 @@
                     attemptSignup(username, password);
                 }
             }
-            
+
             // Attempt to sign up.
             function attemptSignup(username, password) {
                 $.ajax({
@@ -308,10 +380,8 @@
                 else {
                     document.getElementById("loggedInContent").style.display = "block";
                     document.getElementById("logInDiv").style.display = "none";
-                    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
                 }
             }
-
 
             // Set user profile details.
             function setProfileDetails(username) {
@@ -324,11 +394,6 @@
                     alert("get serialID failed");
                 });
             }
-
-            // Set serialID on button press.
-            $("#changeSerialIDButton").click(function () {
-                setSerialID(username);
-            });
 
             // Set a new serialID for a user.
             function setSerialID(username) {
@@ -346,13 +411,9 @@
                 return $.get("http://38.88.74.71:80/getserialid/".concat(username), { username: username });
             }
 
-
-            // Send the type messaged to the visitor as well as to the chat box.
-            $("#sendMessageButton").click(function () {
-                var message = $('#messageBox').val();
-                sendMessage(message);
-                $('#messageBox').val('');
-            });
+            /*
+             *  CHAT CODE
+             */
 
             // Send a message to be displayed on LCD.
             function sendMessage(message) {
@@ -362,10 +423,10 @@
                     data: { username: username, message: "You: ".concat(message) },
                     dataType: "text",
                     error: function (data) {
-                        alert("Send message failed. Error: " + data.status);
+                        console.log("Send message failed. Error: " + data.status);
                     }
                 });
-                
+
                 // Scroll to the bottom of the text box to view most recent message.
                 $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
             }
@@ -394,51 +455,11 @@
                     if (data[i] != "")
                         if (i == 9)
                             $("#chatBox").val($("#chatBox").val() + data[i]);
-                        else if (data[i+1] == "")
+                        else if (data[i + 1] == "")
                             $("#chatBox").val($("#chatBox").val() + data[i]);
-                        else  $("#chatBox").val($("#chatBox").val() + "\n" + data[i]);
+                        else $("#chatBox").val($("#chatBox").val() + "\n" + data[i]);
                 }
             }
-
-            // Retrieve image from the server and display it.
-            function getImage() {
-                $.ajax({
-                    url: "http://38.88.74.71:80/image/".concat(username),
-                    type: "GET",
-                    headers: {
-                        "Authorization": "Basic " + btoa("user:pw")
-                    },
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    mimeType: "text/plain; charset=x-user-defined"
-                }).done(function (data, textStatus, jqXHR) {
-                    $("#snapshot").attr('src', 'data:image/jpeg;base64,' + (data));
-                    $("#imageFetchResult").html("");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    $("#imageFetchResult").html("Failed to retrieve image. Error: " + errorThrown);
-                    // alert("fail: " + errorThrown);
-                });
-            }
-
-            // Refresh the image from the webcam.
-            $('#refreshButton').click(function () {
-                getImage();
-            });
-
-            // Display the webcam image in the modal.
-            $('#snapshotButton').click(function () {
-                getImage();
-            });
-
-            // Fetch new image and lock status.
-            setInterval(function () {
-                if (loggedIn) {
-                    receiveMessage();
-                    // syncLock();
-                }
-            }, 50);
-
         });
     </script>
 </body>
