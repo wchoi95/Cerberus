@@ -32,6 +32,7 @@ class NavbarComponent extends Component {
             <Navbar.Brand>
               <a href="/">Cerberus</a>
             </Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
@@ -60,12 +61,10 @@ class NavbarComponent extends Component {
             <Navbar.Brand>
               <a href="/">Cerberus</a>
             </Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavItem href="/surveillance">
-                Surveillance
-              </NavItem>
               <NavDropdown title="About" id="basic-nav-dropdown">
                 <MenuItem href="/about-cerberus">Cerberus</MenuItem>
                 <MenuItem href="/team">The Team</MenuItem>

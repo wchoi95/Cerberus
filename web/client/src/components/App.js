@@ -15,32 +15,61 @@ import Contact from './contact/Contact';
 import Profile from './profile/Profile';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLogged: localStorage.getItem('isLogged')
+    };
+  }
+
   render() {
-    return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Route exact path='/' render={(props) => (
-            <Index />
-          )} />
-          <Route exact path='/surveillance' render={(props) => (
-              <Surveillance />
+    if (this.state.isLogged === 'true') {
+      return (
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Route exact path='/' render={(props) => (
+              <Index />
             )} />
-          <Route exact path='/about-cerberus' render={(props) => (
-              <AboutCerberus />
+            <Route exact path='/surveillance' render={(props) => (
+                <Surveillance />
+              )} />
+            <Route exact path='/about-cerberus' render={(props) => (
+                <AboutCerberus />
+              )} />
+            <Route exact path='/team' render={(props) => (
+                <Team />
+              )} />
+            <Route exact path='/contact' render={(props) => (
+                <Contact />
+              )} />
+            <Route exact path='/profile' render={(props) => (
+                <Profile />
+              )} />
+          </div>
+        </Router>
+      );
+    } else {
+      return (
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Route exact path='/' render={(props) => (
+              <Index />
             )} />
-          <Route exact path='/team' render={(props) => (
-              <Team />
-            )} />
-          <Route exact path='/contact' render={(props) => (
-              <Contact />
-            )} />
-          <Route exact path='/profile' render={(props) => (
-              <Profile />
-            )} />
-        </div>
-      </Router>
-    );
+            <Route exact path='/about-cerberus' render={(props) => (
+                <AboutCerberus />
+              )} />
+            <Route exact path='/team' render={(props) => (
+                <Team />
+              )} />
+            <Route exact path='/contact' render={(props) => (
+                <Contact />
+              )} />
+          </div>
+        </Router>
+      );
+    }
   }
 }
 

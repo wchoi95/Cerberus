@@ -62,7 +62,7 @@ class LoginModal extends Component {
   }
 
   setSerialIDLocalStorage() {
-    $.get("http://localhost:8080/getSerialID/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://localhost:8080/getserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         localStorage.setItem('serialID', data);
         window.location.reload();

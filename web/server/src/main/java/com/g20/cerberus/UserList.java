@@ -116,7 +116,7 @@ public class UserList {
         		      updateFile();
         		      return true;
         		   }
-        		   //if changing password was unsuccessful 
+        		   //if changing password was unsuccessful
         		   return false;
         	   }
            }
@@ -127,7 +127,7 @@ public class UserList {
 	public boolean changeSerialID(String username, int serialID) {
 		for(User u: userList) {
      	   if(u.getUsername().equals(username)) {
-     		   
+
      		   u.setSerialID(serialID);
      		   updateFile();
      		   return true;
@@ -135,24 +135,19 @@ public class UserList {
         }
         return false;
 	}
-    private void updateFile() {
-    	File databaseFile = new File(databasePath);
-    	FileWriter databaseWriter;
+
+  private void updateFile() {
+  	File databaseFile = new File(databasePath);
+  	FileWriter databaseWriter;
 		try {
 			databaseWriter = new FileWriter(databaseFile, false);
 			for(User u: userList) {
-	    		
-	    	   databaseWriter.write(u.getUsername() + ", " + u.getPassword() + ", " + u.getSerialID());	
+	    	   databaseWriter.write(u.getUsername() + ", " + u.getPassword() + ", " + u.getSerialID() + '\n');
 	    	}
 			databaseWriter.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // true to append
-    	                                                     // false to overwrite.
-    	
-    	
-    	
-    	
-    }
+  }
 }

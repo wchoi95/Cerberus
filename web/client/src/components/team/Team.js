@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Team.css';
 
-
 class TeamComponent extends Component {
   render () {
     return (
@@ -33,7 +32,7 @@ class TeamComponent extends Component {
           <div className="row">
 
             <div className="col-md-4 col-sm-12">
-              <div className="thumbnail">
+              <div className="thumbnail width-fix">
                 <img src="https://goo.gl/gk2FQ9" alt="..."/>
                 <div className="caption">
                   <h3>Abbas</h3>
@@ -44,7 +43,7 @@ class TeamComponent extends Component {
             </div>
 
             <div className="col-md-4 col-sm-12">
-              <div className="thumbnail">
+              <div className="thumbnail width-fix">
                 <img src="https://goo.gl/nwg7X5" alt="..."/>
                 <div className="caption">
                   <h3>Sina</h3>
@@ -55,7 +54,7 @@ class TeamComponent extends Component {
             </div>
 
             <div className="col-md-4 col-sm-12">
-              <div className="thumbnail">
+              <div className="thumbnail width-fix">
                 <img src="https://goo.gl/3kSMJD" alt="..."/>
                 <div className="caption">
                   <h3>William</h3>
@@ -67,7 +66,7 @@ class TeamComponent extends Component {
             </div>
             <div className="row">
             <div className="col-md-4 col-sm-12">
-              <div className="thumbnail">
+              <div className="thumbnail width-fix">
                 <img src="https://goo.gl/txMEia" alt="..."/>
                 <div className="caption">
                   <h3>Osama</h3>
@@ -78,7 +77,7 @@ class TeamComponent extends Component {
             </div>
 
             <div className="col-md-4 col-sm-12">
-              <div className="thumbnail">
+              <div className="thumbnail width-fix">
                 <img src="https://goo.gl/3FFGPh" alt="..."/>
                 <div className="caption">
                   <h3>Ben</h3>
@@ -89,7 +88,7 @@ class TeamComponent extends Component {
             </div>
 
             <div className="col-md-4 col-sm-12">
-              <div className="thumbnail">
+              <div className="thumbnail width-fix">
                 <img src="https://goo.gl/2tza6m" alt="..."/>
                 <div className="caption">
                   <h3>Randy</h3>

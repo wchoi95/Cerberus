@@ -64,6 +64,8 @@ public class UsersController {
           return u.getSerialID();
         }
       }
-     }
+
+      return 0;
+    }
 
 }
