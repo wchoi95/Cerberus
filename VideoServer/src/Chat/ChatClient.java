@@ -30,8 +30,8 @@ public class ChatClient implements Runnable{
 
     private static final int messagesPort = 4000;
     private final static String newline = "\n";
-	private Socket socket;
-	private ServerSocket messages;
+	  private Socket socket;
+  	private ServerSocket messages;
     private BufferedReader in;
     private PrintWriter out;
 
