@@ -116,12 +116,13 @@ public class LockControl implements Runnable {
   	}
 
     public boolean lockDoor (String serialID) {
+System.out.println(serialID + " lock");
       PrintWriter out;
       Socket curSocket = socketMap.get(serialID);
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.print('0');
+        out.println('0');
         out.flush();
       } catch (IOException e) {
 
@@ -133,12 +134,13 @@ public class LockControl implements Runnable {
     }
 
     public boolean unlockDoor (String serialID) {
+	System.out.println(serialID + " unlock");
       PrintWriter out;
       Socket curSocket = socketMap.get(serialID);
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.print('1');
+        out.println('1');
         out.flush();
       } catch (IOException e) {
 

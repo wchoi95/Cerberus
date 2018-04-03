@@ -94,17 +94,17 @@ class SurveillanceComponent extends Component {
   componentDidMount() {
     this.messageTimer = setInterval(
       () => this.receiveMessage(),
-      100
+      1000
     );
 
     this.lockStateTimer = setInterval(
       () => this.checkLockState(),
-      100
+      1000
     );
 
     this.imageTimer = setInterval(
       () => this.getImage(),
-      10
+      100
     );
   }
 
