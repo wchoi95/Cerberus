@@ -8,25 +8,25 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Chat implements Runnable {
+public class LockControl implements Runnable {
     private UserList userlist;
     private ServerSocket serverSocket;
-    private Thread chatThread;
+    private Thread lockThread;
     public Map<String, Socket> socketMap;
 
 
-    public Chat (int port, UserList userlist) {
+    public LockControl (int port, UserList userlist) {
       socketMap = new HashMap<String, Socket>();
       this.userlist = userlist;
 
       try {
         serverSocket = new ServerSocket(port);
-        System.out.println("Chat server is running");
+        System.out.println("Lock server is running");
       } catch(IOException e) {
         e.printStackTrace();
       }
-      chatThread = new Thread(this, "chat");
-      chatThread.start();
+      lockThread = new Thread(this, "chat");
+      lockThread.start();
     }
 
     public void run() {
@@ -79,7 +79,6 @@ public class Chat implements Runnable {
   	 *             if connection encounters an error
   	 */
   	private void handle(Socket socket) throws IOException {
-
   		// get the socket's input stream, and wrap converters around it
   		// that convert it from a byte stream to a character stream,
   		// and that buffer it so that we can read a line at a time
@@ -91,15 +90,17 @@ public class Chat implements Runnable {
   		// that we have more convenient ways to write Java primitive
   		// types to it.
       String id = "";
-
   		try {
   			// each request is a single line containing a number
   			for (String line = in.readLine(); line != null; line = in
   					.readLine()) {
+                System.out.println(line);
                 id = line.substring(0,8);
+                socketMap.put(id, socket);
+                System.out.println(id);
                 for(User u: this.userlist.getUserList()) {
                 	if(u.getSerialID().equals(id)) {
-                		u.addNewMessage("Visitor: " + line.substring(8));
+                		u.setLockState(Integer.parseInt(line.substring(8)));
                 	    break;
                 	}
                 }
@@ -108,7 +109,7 @@ public class Chat implements Runnable {
         socketMap.remove(id);
         for(User u: this.userlist.getUserList()) {
           if(u.getSerialID().equals(id)) {
-            u.addNewMessage("--Cerberus Disconnected--");
+            u.setLockState(-1);
               break;
           }
         }
@@ -116,23 +117,35 @@ public class Chat implements Runnable {
   		}
   	}
 
-    public boolean receiveMessage (String message, String serialID) {
+    public boolean lockDoor (String serialID) {
       PrintWriter out;
       Socket curSocket = socketMap.get(serialID);
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.println(message);
+        out.print('0');
         out.flush();
       } catch (IOException e) {
 
       } catch (NullPointerException e) {
-        for(User u: this.userlist.getUserList()) {
-          if(u.getSerialID().equals(serialID)) {
-            u.addNewMessage("--Cerberus Not Connected--");
-              break;
-          }
-        }
+        return false;
+      }
+
+      return true;
+    }
+
+    public boolean unlockDoor (String serialID) {
+      PrintWriter out;
+      Socket curSocket = socketMap.get(serialID);
+      try {
+        out = new PrintWriter(new OutputStreamWriter(
+            curSocket.getOutputStream()));
+        out.print('1');
+        out.flush();
+      } catch (IOException e) {
+
+      } catch (NullPointerException e) {
+        return false;
       }
 
       return true;

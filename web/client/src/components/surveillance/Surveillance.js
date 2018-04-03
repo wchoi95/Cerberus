@@ -18,17 +18,24 @@ class SurveillanceComponent extends Component {
       chat8: '',
       chat9: '',
       message: '',
-      image: ''
+      image: '',
+      lockState: 'LOCK NOT CONNECTED'
     };
+
+    this.clearChatLog();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  clearChatLog() {
+    $.post("http://localhost:8080/clearchatlog/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')});
+  }
+
   sendMessage() {
     $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
-      function(data) {
-        console.log("sent message");
-      });
+      function() {
+        this.setState({message: ''});
+      }.bind(this));
   }
 
   receiveMessage() {
@@ -54,6 +61,27 @@ class SurveillanceComponent extends Component {
       }.bind(this));
   }
 
+  lockDoor() {
+    $.post("http://localhost:8080/lockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
+  }
+
+  unlockDoor() {
+    $.post("http://localhost:8080/unlockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
+  }
+
+  checkLockState() {
+    $.get("http://localhost:8080/getlockstate/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+      function(data) {
+        if (data === 1) {
+          this.setState({lockState: 'UNLOCKED'});
+        } else if (data === 0) {
+          this.setState({lockState: 'LOCKED'});
+        } else {
+          this.setState({lockState: 'LOCK NOT CONNECTED'});
+        }
+      }.bind(this));
+  }
+
   handleChange(event) {
     this.setState({message: event.target.value});
   }
@@ -66,6 +94,11 @@ class SurveillanceComponent extends Component {
   componentDidMount() {
     this.messageTimer = setInterval(
       () => this.receiveMessage(),
+      100
+    );
+
+    this.lockStateTimer = setInterval(
+      () => this.checkLockState(),
       100
     );
 
@@ -95,9 +128,12 @@ class SurveillanceComponent extends Component {
         <span>{this.state.chat1}</span><br />
         <span>{this.state.chat0}</span><br />
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-          <input type="submit" value="Submit" />
+          <input type="text" value={this.state.message} onChange={this.handleChange} />
+          <input type="submit" value="Submit" /><br/>
         </form>
+        <button onClick={this.lockDoor}>Lock</button><br />
+        <button onClick={this.unlockDoor}>Unlock</button><br />
+        <span>{this.state.lockState}</span>
       </div>
     );
   }

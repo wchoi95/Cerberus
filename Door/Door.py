@@ -43,18 +43,16 @@ def knockKnock():
 i = 0
 j = 0
 def buttonPressed():
-    global i
-    global j
+##    global i
+##    global j
     i = 0
     j = 0
     for j in range(3):
         print(j)
         keypad.GPIO.output(keypad.COL[j], 0)
         for i in range(4):
-            print(i)
             if keypad.GPIO.input(keypad.ROW[i]) == 0:
                 time.sleep(1)
-                print(i, j)
                 time.sleep(1)
                 keypad.GPIO.output(keypad.COL[j], 1)
                 return True
@@ -78,7 +76,7 @@ def askForAccessChoice():
     keypad.displayOnLcd("1:Knock 2:Text ", "3:Settings")
     while not buttonPressed():
         if time.time() - start > 5 :
-            keypad.displayOnLcd("No respond!", "See you!")
+            keypad.displayOnLcd("No response!", "See you!")
             time.sleep(2)
             return 0
     if keypad.NUM_MATRIX[i][j] == '1':
@@ -103,24 +101,24 @@ def askForAccessChoice():
     return 10
 
     
-while True:
-    keypad.displayOnLcd("Presss a key or", "knock to start")
+#while True:
+keypad.displayOnLcd("Press a key or", "knock to start")
 
-    while not checkForVisitor():
-        pass
-    accessChoice = askForAccessChoice()
-    print(accessChoice)
-    if accessChoice == 0:
-        continue
+#    while not checkForVisitor():
+ #       pass
+  #  accessChoice = askForAccessChoice()
+   # print(accessChoice)
+#    if accessChoice == 0:
+#        continue
     # Knockknock
-    elif accessChoice == 1:
-        knockKnock()
+#    elif accessChoice == 1:
+#knockKnock()
     # Keypad
-    elif accessChoice == 2:
-        keypad.talkToOwner()
+#    elif accessChoice == 2:
+#        keypad.talkToOwner()
     # Settings
-    elif accessChoice == 3:
-        settings()
-    else:
-        keypad.displayOnLcd("Invalid Input!", "See you!")
-        time.sleep(2)
+#    elif accessChoice == 3:
+#        settings()
+#    else:
+#        keypad.displayOnLcd("Invalid Input!", "See you!")
+        #time.sleep(2)
