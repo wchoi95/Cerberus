@@ -112,7 +112,7 @@ keypad.displayOnLcd("Press a key or", "knock to start")
 #        continue
     # Knockknock
 #    elif accessChoice == 1:
-knockKnock()
+#knockKnock()
     # Keypad
 #    elif accessChoice == 2:
 #        keypad.talkToOwner()

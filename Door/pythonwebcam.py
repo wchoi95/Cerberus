@@ -1,5 +1,6 @@
 import socket
 import sys
+import time
 import pygame
 import pygame.camera
 port = 9004
@@ -14,27 +15,30 @@ cam_list = pygame.camera.list_cameras()
 webcam = pygame.camera.Camera(cam_list[0],(32,24))
 webcam.start()
 count = 0;
-while count < 200:
+while count < 100:
     #grab image, scale and blit to screen
     #print('salam')
     count = count + 1
     imagen = webcam.get_image()
-    #sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #sock.connect(('localhost', port))
-    string = pygame.image.tostring(imagen, 'RGB')
-    print
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(('38.88.74.71', port))
+    #fp = open("pic.jpg", 'rb')
+    
     #sock.send("X1Y2Z3T4".encode('utf-8'))
     #sock.sendall(string)
     #sock.close()
-    imagen = pygame.transform.scale(imagen,(640,480))
-    screen.blit(imagen,(0,0))
-
+    imagen = pygame.transform.scale(imagen,(320,240))
+    pygame.image.save(imagen, "pic.jpg")
+    #screen.blit(imagen,(0,0))
+    fp = open("pic.jpg", 'rb')
+    string = fp.read()
+    sock.send("A1B2C3D4".encode('utf-8'))
+    sock.sendall(string)
+    sock.close()
+    time.sleep(0.1)
     #draw all updates to display
-    pygame.display.update()
-
-    # check for quit events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-           webcam.stop()
-           pygame.quit()
-           sys.exit()
+    #pygame.display.update()
+           
+pygame.quit()
+sys.exit()
+webcam.stop()           
