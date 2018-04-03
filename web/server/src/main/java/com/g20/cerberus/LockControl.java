@@ -94,10 +94,8 @@ public class LockControl implements Runnable {
   			// each request is a single line containing a number
   			for (String line = in.readLine(); line != null; line = in
   					.readLine()) {
-                System.out.println(line);
                 id = line.substring(0,8);
                 socketMap.put(id, socket);
-                System.out.println(id);
                 for(User u: this.userlist.getUserList()) {
                 	if(u.getSerialID().equals(id)) {
                 		u.setLockState(Integer.parseInt(line.substring(8)));
@@ -118,12 +116,13 @@ public class LockControl implements Runnable {
   	}
 
     public boolean lockDoor (String serialID) {
+System.out.println(serialID + " lock");
       PrintWriter out;
       Socket curSocket = socketMap.get(serialID);
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.print('0');
+        out.println('0');
         out.flush();
       } catch (IOException e) {
 
@@ -135,12 +134,13 @@ public class LockControl implements Runnable {
     }
 
     public boolean unlockDoor (String serialID) {
+	System.out.println(serialID + " unlock");
       PrintWriter out;
       Socket curSocket = socketMap.get(serialID);
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.print('1');
+        out.println('1');
         out.flush();
       } catch (IOException e) {
 

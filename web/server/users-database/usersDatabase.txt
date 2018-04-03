@@ -7,3 +7,5 @@ dsf, sdf, 0
 f, f, 0
 groot, test, NOT SET
 swag, 69, asdf
+yes, yes, asdf
+gay, gay, asdf

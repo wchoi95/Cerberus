@@ -79,7 +79,7 @@ public class Chat implements Runnable {
   	 *             if connection encounters an error
   	 */
   	private void handle(Socket socket) throws IOException {
-
+System.out.println("Client connected");
   		// get the socket's input stream, and wrap converters around it
   		// that convert it from a byte stream to a character stream,
   		// and that buffer it so that we can read a line at a time
@@ -97,6 +97,7 @@ public class Chat implements Runnable {
   			for (String line = in.readLine(); line != null; line = in
   					.readLine()) {
                 id = line.substring(0,8);
+		socketMap.put(id, socket);
                 for(User u: this.userlist.getUserList()) {
                 	if(u.getSerialID().equals(id)) {
                 		u.addNewMessage("Visitor: " + line.substring(8));
@@ -119,6 +120,8 @@ public class Chat implements Runnable {
     public boolean receiveMessage (String message, String serialID) {
       PrintWriter out;
       Socket curSocket = socketMap.get(serialID);
+	System.out.println(serialID);
+	System.out.println(message);
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));

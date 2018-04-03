@@ -39,6 +39,7 @@ public class WebcamStream implements Runnable {
     try {
       serve();
     } catch (IOException e) {
+	System.out.println("Server crashed");
     }
   }
 

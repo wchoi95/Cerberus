@@ -28,18 +28,18 @@ class SurveillanceComponent extends Component {
   }
 
   clearChatLog() {
-    $.post("http://localhost:8080/clearchatlog/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')});
+    $.post("http://38.88.74.71:80/clearchatlog/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')});
   }
 
   sendMessage() {
-    $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
+    $.post("http://38.88.74.71:80/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
       function() {
         this.setState({message: ''});
       }.bind(this));
   }
 
   receiveMessage() {
-    $.get("http://localhost:8080/chatget/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/chatget/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({chat0: data[0],
                        chat1: data[1],
@@ -55,22 +55,22 @@ class SurveillanceComponent extends Component {
   }
 
   getImage() {
-    $.get("http://localhost:8080/image/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/image/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({image: "data:image/jpg;base64, ".concat(data)});
       }.bind(this));
   }
 
   lockDoor() {
-    $.post("http://localhost:8080/lockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
+    $.post("http://38.88.74.71:80/lockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
   }
 
   unlockDoor() {
-    $.post("http://localhost:8080/unlockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
+    $.post("http://38.88.74.71:80/unlockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
   }
 
   checkLockState() {
-    $.get("http://localhost:8080/getlockstate/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/getlockstate/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         if (data === 1) {
           this.setState({lockState: 'UNLOCKED'});
@@ -94,17 +94,17 @@ class SurveillanceComponent extends Component {
   componentDidMount() {
     this.messageTimer = setInterval(
       () => this.receiveMessage(),
-      100
+      1000
     );
 
     this.lockStateTimer = setInterval(
       () => this.checkLockState(),
-      100
+      1000
     );
 
     this.imageTimer = setInterval(
       () => this.getImage(),
-      10
+      100
     );
   }
 
@@ -121,8 +121,8 @@ class SurveillanceComponent extends Component {
             <div className="col-md-6 col-sm-12">
               <img className="surveillance-image" src={this.state.image} alt="not loaded"/><br />
               <span>{this.state.lockState}</span><br />
-              <button className="surveillance-lock-button" onClick={this.lockDoor}>Lock</button>
-              <button className="surveillance-unlock-button" onClick={this.unlockDoor}>Unlock</button><br />
+              <button className="surveillance-lock-button button-effects" onClick={this.lockDoor}>Lock</button>
+              <button className="surveillance-unlock-button button-effects" onClick={this.unlockDoor}>Unlock</button><br />
             </div>
             <div className="col-md-6 col-sm-12">
               <div className="surveillance-chatbox">
@@ -139,7 +139,7 @@ class SurveillanceComponent extends Component {
               </div>
               <form onSubmit={this.handleSubmit}>
                 <input className="surveillance-chat-submit" type="text" value={this.state.message} onChange={this.handleChange} />
-                <input className="surveillance-chat-button" type="submit" value="Send" /><br/>
+                <input className="surveillance-chat-button button-effects" type="submit" value="Send" /><br/>
               </form>
             </div>
           </div>

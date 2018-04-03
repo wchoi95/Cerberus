@@ -57,7 +57,7 @@ class SignupModal extends Component {
   };
 
   attemptSignup() {
-    $.post("http://localhost:8080/createuser", {username: this.state.username, password: this.state.password},
+    $.post("http://38.88.74.71:80/createuser", {username: this.state.username, password: this.state.password},
       function(data) {
         if (data) {
           this.setState({
@@ -139,7 +139,7 @@ class SignupModal extends Component {
           <span>Confirm Password:</span><br />
           <input type="password" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} /><br />
           <span className="error-message">{this.state.confirmErrorMessage}</span><br />
-          <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
+          <input className="modal-button button-effects" type="submit" value="Submit" onClick={this.handleSubmit} /><br />
           <span className="error-message">{this.state.successMessage}</span><br />
         </Modal>
       </div>

@@ -48,7 +48,7 @@ class LoginModal extends Component {
   };
 
   attemptLogin() {
-    $.get("http://localhost:8080/login", {username: this.state.username, password: this.state.password},
+    $.get("http://38.88.74.71:80/login", {username: this.state.username, password: this.state.password},
       function(data) {
         if (data === "ERR: INVALID PASS") {
           this.setState({errorMessage: 'Invalid Password!'});
@@ -63,7 +63,7 @@ class LoginModal extends Component {
   }
 
   setSerialIDLocalStorage() {
-    $.get("http://localhost:8080/getserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/getserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         localStorage.setItem('serialID', data);
         window.location.reload();
@@ -98,7 +98,7 @@ class LoginModal extends Component {
           <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br /><br />
           <span>Password:</span><br />
           <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br /><br />
-          <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
+          <input className="modal-button button-effects" type="submit" value="Submit" onClick={this.handleSubmit} /><br />
           <span className="error-message">{this.state.errorMessage}</span><br />
         </Modal>
       </div>
