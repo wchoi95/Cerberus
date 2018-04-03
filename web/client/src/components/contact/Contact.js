@@ -64,37 +64,35 @@ class ContactComponent extends Component {
 
         <div className="header-image">
           <div className="container-fluid">
-              <div className="col-lg-6 col-lg-offset-3 col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
               <h1 className="index-landing-header"><b>Contact Us</b> </h1>
-            </div>
           </div>
         </div>
 
 
-
-
-          <div className= "info-contact col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        <div className="row">
+        <div className="col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10">
+          <div className= "info-contact col-md-6 col-sm-12">
 
           <h2> <font size="6" face="Quicksand">Contact Us<br/></font></h2>
 
 
-          <font size="4" color="#aa784d">EMAIL /</font>
+          <font size="4" color="#aa784d">EMAIL: </font>
           <font size="4" color="#9ba0a3">info@cerberus.com</font>
 
           <br />
 
-          <font size="4" color="#aa784d">PHONE /</font>
+          <font size="4" color="#aa784d">PHONE: </font>
           <font size="4" color="#9ba0a3">1.604.764.9134</font>
 
           <br />
 
-          <h4>Cerberus is committed to provide its customers with the best products possible. In case of any questions or concerns, please use the provided
+          <h4 className="contact-info">Cerberus is committed to provide its customers with the best products possible. In case of any questions or concerns, please use the provided
           space below or otherwise, email us directly at info@cerberus.com We will be more than happy to hear from you. </h4>
           ​
           </div>
 
 
-          <div className= "contactUs-contact col-lg-6 col-lg-offset-1 col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+          <div className= "contactUs-contact col-md-6 col-sm-12">
 
             <form onSubmit={this.handleSubmit}>
 
@@ -131,11 +129,12 @@ class ContactComponent extends Component {
 
 
           </div>
-
+        </div>
+</div>
 
           <br/> <br/> <br/>
 
-          <div className= "col-lg-6 col-lg-offset-3 col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+          <div className= "row">
           <h1> Give Us A Visit Today!  </h1>
 
           <br/ >

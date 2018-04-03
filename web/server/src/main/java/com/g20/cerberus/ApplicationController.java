@@ -17,6 +17,7 @@ public class ApplicationController {
     private UserList userList = new UserList("./users-database/usersDatabase.txt");
     WebcamStream webcam = new WebcamStream(9004, userList);
     Chat chatServer = new Chat(9005, userList);
+    LockControl lockServer = new LockControl(9020, userList);
 
     @CrossOrigin(origins = "http://localhost:9001")
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)
@@ -107,6 +108,42 @@ public class ApplicationController {
           chatServer.receiveMessage(message.substring(5), u.getSerialID());
         }
       }
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/getlockstate/{username}", method = RequestMethod.GET)
+    public int getLockState(@RequestParam(required=true) String username) {
+      for (User u : userList.getUserList()) {
+        if (u.getUsername().equals(username)) {
+          return u.getLockState();
+        }
+      }
+
+      return null;
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/unlockdoor/{username}", method = RequestMethod.POST)
+    public void unlockDoor(@RequestParam(required=true) String serialID) {
+      lockServer.unlockDoor(serialID);
+    }
+
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/lockdoor/{username}", method = RequestMethod.POST)
+    public void lockDoor(@RequestParam(required=true) String serialID) {
+      lockServer.lockDoor(serialID);
+    }
+
+    @CrossOrigin(origins = "http://206.87.220.203:3000")
+    @RequestMapping(value = "/unlockdoormobile/{username}", method = RequestMethod.GET)
+    public void unlockDoor(@RequestParam(required=true) String serialID) {
+      lockServer.unlockDoor(serialID);
+    }
+
+    @CrossOrigin(origins = "http://206.87.220.203:3000")
+    @RequestMapping(value = "/lockdoormobile/{username}", method = RequestMethod.GET)
+    public void lockDoor(@RequestParam(required=true) String serialID) {
+      lockServer.lockDoor(serialID);
     }
 
     @CrossOrigin(origins = "http://206.87.220.203:3000")

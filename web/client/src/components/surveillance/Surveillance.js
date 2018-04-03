@@ -26,9 +26,9 @@ class SurveillanceComponent extends Component {
 
   sendMessage() {
     $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
-      function(data) {
-        console.log("sent message");
-      });
+      function() {
+        this.setState({message: ''});
+      }.bind(this));
   }
 
   receiveMessage() {
@@ -95,7 +95,7 @@ class SurveillanceComponent extends Component {
         <span>{this.state.chat1}</span><br />
         <span>{this.state.chat0}</span><br />
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.message} onChange={this.handleChange} />
           <input type="submit" value="Submit" />
         </form>
       </div>
