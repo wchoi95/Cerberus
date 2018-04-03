@@ -29,7 +29,7 @@ class Profile extends Component {
   }
 
   setSerialID() {
-    $.post("http://localhost:8080/setserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), serialID: this.state.changeSerialID},
+    $.post("http://38.88.74.71:80/setserialid/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), serialID: this.state.changeSerialID},
       function(data) {
         this.setState({serialID: data, changeSerialID: '', serialChangeErrorMessage: 'Serial ID changed successfully!'});
         localStorage.setItem('serialID', data);
@@ -37,7 +37,7 @@ class Profile extends Component {
   }
 
   changePassword() {
-    $.post("http://localhost:8080/changepassword/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), oldPassword: this.state.oldPassword, newPassword: this.state.newPassword},
+    $.post("http://38.88.74.71:80/changepassword/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), oldPassword: this.state.oldPassword, newPassword: this.state.newPassword},
       function(data) {
         if (data) {
           this.setState({oldPassword: '', newPassword: '', newPasswordConfirm: '', passwordConfirmErrorMessage: '', passwordChangeErrorMessage: 'Password changed successfully!'});

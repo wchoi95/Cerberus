@@ -28,18 +28,18 @@ class SurveillanceComponent extends Component {
   }
 
   clearChatLog() {
-    $.post("http://localhost:8080/clearchatlog/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')});
+    $.post("http://38.88.74.71:80/clearchatlog/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')});
   }
 
   sendMessage() {
-    $.post("http://localhost:8080/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
+    $.post("http://38.88.74.71:80/chat/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser'), message: "You: ".concat(this.state.message)},
       function() {
         this.setState({message: ''});
       }.bind(this));
   }
 
   receiveMessage() {
-    $.get("http://localhost:8080/chatget/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/chatget/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({chat0: data[0],
                        chat1: data[1],
@@ -55,22 +55,22 @@ class SurveillanceComponent extends Component {
   }
 
   getImage() {
-    $.get("http://localhost:8080/image/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/image/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         this.setState({image: "data:image/jpg;base64, ".concat(data)});
       }.bind(this));
   }
 
   lockDoor() {
-    $.post("http://localhost:8080/lockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
+    $.post("http://38.88.74.71:80/lockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
   }
 
   unlockDoor() {
-    $.post("http://localhost:8080/unlockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
+    $.post("http://38.88.74.71:80/unlockdoor/".concat(localStorage.getItem('loggedUser')), {serialID: localStorage.getItem('serialID')});
   }
 
   checkLockState() {
-    $.get("http://localhost:8080/getlockstate/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
+    $.get("http://38.88.74.71:80/getlockstate/".concat(localStorage.getItem('loggedUser')), {username: localStorage.getItem('loggedUser')},
       function(data) {
         if (data === 1) {
           this.setState({lockState: 'UNLOCKED'});

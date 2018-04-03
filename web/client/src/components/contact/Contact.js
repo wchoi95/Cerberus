@@ -33,7 +33,7 @@ class ContactComponent extends Component {
     }
 
     sendComment() {
-      $.post("http://localhost:8080/writecomment", {name: this.state.name, email: this.state.email, comment: this.state.comment});
+      $.post("http://38.88.74.71:80/writecomment", {name: this.state.name, email: this.state.email, comment: this.state.comment});
     }
 
     handleSubmit(event) {
