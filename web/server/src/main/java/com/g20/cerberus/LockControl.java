@@ -94,10 +94,8 @@ public class LockControl implements Runnable {
   			// each request is a single line containing a number
   			for (String line = in.readLine(); line != null; line = in
   					.readLine()) {
-                System.out.println(line);
                 id = line.substring(0,8);
                 socketMap.put(id, socket);
-                System.out.println(id);
                 for(User u: this.userlist.getUserList()) {
                 	if(u.getSerialID().equals(id)) {
                 		u.setLockState(Integer.parseInt(line.substring(8)));
