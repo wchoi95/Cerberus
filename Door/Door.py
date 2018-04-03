@@ -43,8 +43,8 @@ def knockKnock():
 i = 0
 j = 0
 def buttonPressed():
-    global i
-    global j
+##    global i
+##    global j
     i = 0
     j = 0
     for j in range(3):

@@ -108,8 +108,7 @@ def validateKnock():
             break
         # Detect a knock.
         if mcp.read_adc(0) > 70:
-            #print('knock')
-            #print(value)
+            start = time.time()
             value += 1
             time.sleep(0.1)
             # Get gaps
