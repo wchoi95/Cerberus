@@ -102,7 +102,7 @@ def askForAccessChoice():
 
     
 #while True:
-    keypad.displayOnLcd("Press a key or", "knock to start")
+keypad.displayOnLcd("Press a key or", "knock to start")
 
 #    while not checkForVisitor():
  #       pass
@@ -112,7 +112,7 @@ def askForAccessChoice():
 #        continue
     # Knockknock
 #    elif accessChoice == 1:
-#        knockKnock()
+knockKnock()
     # Keypad
 #    elif accessChoice == 2:
 #        keypad.talkToOwner()

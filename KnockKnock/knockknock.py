@@ -70,7 +70,7 @@ def updateSecretKnock():
     startTime = time.time()
     while True:
         # Time out
-        if (time.time() - startTime > 3):
+        if (time.time() - startTime > 10):
             break
         if mcp.read_adc(0) > 70:
             time.sleep(0.1)
@@ -100,7 +100,7 @@ def validateKnock():
     start = time.time()
     while True:
         # Time out
-        if (time.time() - start > 4):
+        if (time.time() - start > 10):
             break
         # Done Knocking
         if len(gaps) == secretKnockLength:
