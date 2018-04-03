@@ -21,10 +21,18 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-secretKnock = [1,1,1,0.5,0.5]
+secretKnock = []
 gaps = []
-secretKnockLength = 5
+secretKnockLength = len(secretKnock)
 
+def init():
+    global secretKnock
+    global secretKnockLength
+    knockFile = open("/home/pi/Desktop/P2/KnockKnock/secretKnock.txt", "r")
+    secretKnock = [float(x) for x in knockFile.read().split(' ')]
+    knockFile.close()
+    secretKnockLength = len(secretKnock)
+    
 def getLowerBound(gap):
     if gap < 1.5:
         return gap - gap/2
@@ -84,13 +92,18 @@ def updateSecretKnock():
     if (secretKnockLength < 1) & (secretKnockLength == 0):
         print('You did not input a knock')
         print('Secret knock is set to default knock')
-        secretKnockLength = 5
-        secretKnock = [1,1,1,0.5,0.5]
+        init()
         return True
     elif (secretKnockLength == 1):
         print('Secret knock has to be at least of length 2')
         print('Please try again...')
+        init()
         return False
+    knockFile = open("/home/pi/Desktop/P2/KnockKnock/secretKnock.txt", "w")
+    for j in range(len(secretKnock) - 1):
+        knockFile.write(str(secretKnock[j]) + " ")
+    knockFile.write(str(secretKnock[len(secretKnock) - 1]))
+    knockFile.close()
     return True
         
 

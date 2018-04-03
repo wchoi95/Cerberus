@@ -11,6 +11,7 @@ import lock
 lock.resetLock()
 import time
 
+knockknock.init()
 server_address = ('38.88.74.71', 9020)
 
 
@@ -32,6 +33,8 @@ def waitForServer(args):
         try:
             print('connected')
             data = connection.recv(1)
+            print('got it')
+            print(data[0])
             if data.decode('utf-8') == '0':
                print('locked')
                lock.lockDoor()
@@ -78,7 +81,7 @@ def knockKnock():
             lock.unlockDoor()
             sendLockState("1")
             
-            time.sleep(1)
+            time.sleep(3)
             lock.lockDoor()
             sendLockState("0")
         else:
@@ -113,6 +116,30 @@ def checkForVisitor():
 
 def settings():
     keypad.displayOnLcd("Settings", "")
+    keypad.displayOnLcd("Validate using", "secret knock")
+    time.sleep(2)
+    wrongKnocks = 0
+    isValid = 0
+    while not isValid:
+        
+        if(wrongKnocks > 3):
+            keypad.displayOnLcd("Reached max attempts", "See you later!")
+            return
+        knockknock.gaps = []
+        keypad.displayOnLcd("Please Knock", "")
+        knockknock.validateKnock()
+        print('Validating...')
+        keypad.displayOnLcd("Validating...", "")
+        isValid = knockknock.isValidPattern()
+        time.sleep(1)
+        if isValid:
+            break
+        else:
+            keypad.displayOnLcd("Wrong knock", "")
+            time.sleep(0.5)
+            wrongKnocks += 1
+    
+    
     keypad.displayOnLcd("Please input your", "secret knock")
     while not knockknock.updateSecretKnock():
         if(secretKnocks > 3):
@@ -120,6 +147,7 @@ def settings():
             print('Secret knock is set to default knock')
             knockknock.secretKnockLength = 5
             knockknock.secretKnock = [1,1,1,0.5,0.5]
+            print ('here')
         secretKnocks += 1
         print('Please input your secret knock')
 

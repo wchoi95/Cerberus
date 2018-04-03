@@ -169,7 +169,7 @@ def talkToOwner():
                     
                     GPIO.output(COL[j], 1)
         print('See you!')
-        displayOnLcd("No respond", "See you!")
+        displayOnLcd("No response", "See you!")
         time.sleep(2)
     except KeyboardInterrupt:
         GPIO.cleanup()

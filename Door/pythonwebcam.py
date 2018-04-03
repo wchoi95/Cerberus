@@ -15,13 +15,15 @@ cam_list = pygame.camera.list_cameras()
 webcam = pygame.camera.Camera(cam_list[0],(32,24))
 webcam.start()
 count = 0;
-while count < 100:
+
+while True:
     #grab image, scale and blit to screen
     #print('salam')
     count = count + 1
     imagen = webcam.get_image()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect(('38.88.74.71', port))
+    #print('connecte')
     #fp = open("pic.jpg", 'rb')
     
     #sock.send("X1Y2Z3T4".encode('utf-8'))
