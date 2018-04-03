@@ -123,7 +123,7 @@ public class LockControl implements Runnable {
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.println('0');
+        out.print('0');
         out.flush();
       } catch (IOException e) {
 
@@ -140,7 +140,7 @@ public class LockControl implements Runnable {
       try {
         out = new PrintWriter(new OutputStreamWriter(
             curSocket.getOutputStream()));
-        out.println('1');
+        out.print('1');
         out.flush();
       } catch (IOException e) {
 

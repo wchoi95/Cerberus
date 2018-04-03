@@ -37,7 +37,7 @@ class TeamComponent extends Component {
                   <div className="caption">
                     <h3>Abbas</h3>
                     <h2 className="team-position">Web Developer </h2>
-                    <p><a href="https://www.linkedin.com/in/abbas-kashanipour-0568a9b4/" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                    <p><a href="https://www.linkedin.com/in/abbas-kashanipour-0568a9b4/" target="_blank" rel="noopener noreferrer" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
                   </div>
                 </div>
               </div>
@@ -48,7 +48,7 @@ class TeamComponent extends Component {
                   <div className="caption">
                     <h3>Sina</h3>
                     <h2 className="team-position">System Architect </h2>
-                    <p><a href="https://www.facebook.com/sina.saleh.16" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                    <p><a href="https://www.facebook.com/sina.saleh.16" target="_blank" rel="noopener noreferrer" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
                   </div>
                 </div>
               </div>
@@ -59,7 +59,7 @@ class TeamComponent extends Component {
                   <div className="caption">
                     <h3>William</h3>
                     <h2 className="team-position">Senior Developer </h2>
-                    <p><a href="https://www.facebook.com/wchoiboi" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                    <p><a href="https://www.facebook.com/wchoiboi" target="_blank" rel="noopener noreferrer" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
                   </div>
                 </div>
               </div>
@@ -71,7 +71,7 @@ class TeamComponent extends Component {
                   <div className="caption">
                     <h3>Osama</h3>
                     <h2 className="team-position">Head of R&D </h2>
-                    <p><a href="https://www.facebook.com/Osama.K.Dawood" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                    <p><a href="https://www.facebook.com/Osama.K.Dawood" target="_blank" rel="noopener noreferrer" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@ class TeamComponent extends Component {
                   <div className="caption">
                     <h3>Ben</h3>
                     <h2 className="team-position"> Application Developer </h2>
-                    <p><a href="https://www.facebook.com/ben.harder2" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                    <p><a href="https://www.facebook.com/ben.harder2" target="_blank" rel="noopener noreferrer" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
                   </div>
                 </div>
               </div>
@@ -93,7 +93,7 @@ class TeamComponent extends Component {
                   <div className="caption">
                     <h3>Randy</h3>
                     <h2 className="team-position">Business Manager</h2>
-                    <p><a href="https://www.linkedin.com/in/randy-jama/" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
+                    <p><a href="https://www.linkedin.com/in/randy-jama/" target="_blank" rel="noopener noreferrer" className="btn btn-primary img-responsive" role="button">View Profile</a></p>
                   </div>
                 </div>
               </div>

@@ -82,4 +82,8 @@ public class User {
 	public void setLockState(int state) {
 		lockState = state;
 	}
+
+	public void clearChatArray() {
+		this.messageHistory = new String[]{"","","","","","","","","",""};
+	}
 }
