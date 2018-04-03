@@ -125,6 +125,7 @@ def talkToOwner():
         line2 = []
         start = time.time()
         past  = time.time()
+        print('suh dude')
         while(True):
             # Time out
             if(time.time() - start) > 5:
