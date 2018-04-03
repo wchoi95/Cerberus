@@ -92,6 +92,12 @@ public class ApplicationController {
       return null;
     }
 
+    @CrossOrigin(origins = "http://localhost:9001")
+    @RequestMapping(value = "/writecomment", method = RequestMethod.POST)
+    public void writeCommentToFile(@RequestParam(required=true) String name, @RequestParam(required=true) String email, @RequestParam(required=true) String comment) {
+      Contact.writeComment(name, email, comment);
+    }
+
     @CrossOrigin(origins = "http://206.87.220.203:3000")
     @RequestMapping(value = "/chatmobile/{username}", method = RequestMethod.GET)
     public void getMessageMobile(@RequestParam(required=true) String username, @RequestParam(required=true) String message) {

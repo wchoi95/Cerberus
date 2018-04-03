@@ -11,7 +11,8 @@ const modalStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    textAlign            : 'center'
+    textAlign            : 'center',
+    width: '35vw'
   }
 };
 
@@ -94,11 +95,11 @@ class LoginModal extends Component {
           <span className="login-modal-close" onClick={this.hideModal}>X</span>
           <h1>Login</h1>
           <span>Username:</span><br />
-          <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br />
+          <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br /><br />
           <span>Password:</span><br />
-          <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br />
+          <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br /><br />
           <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
-          <span>{this.state.errorMessage}</span>
+          <span className="error-message">{this.state.errorMessage}</span><br />
         </Modal>
       </div>
     );

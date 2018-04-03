@@ -25,3 +25,32 @@
   height: 500px;
   border:0;
 }
+
+.contact-form-textbox {
+  width: 30vw;
+}
+
+.contact-form-textarea {
+  height: 20vh;
+  resize:none;
+}
+
+@media screen and (max-width: 1199px) {
+  .contact-form-textbox {
+    width: 50vw;
+  }
+
+  .contact-form-textarea {
+    height: 15vh;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .contact-form-textbox {
+    width: 70vw;
+  }
+
+  .contact-form-textarea {
+    height: 10vh;
+  }
+}

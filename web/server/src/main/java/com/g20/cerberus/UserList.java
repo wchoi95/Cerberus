@@ -63,11 +63,11 @@ public class UserList {
 			if (u.getUsername().equals(username))
 				return false;
 		}
-		User user = new User(username, password, "");
+		User user = new User(username, password, "NOT SET");
 		userList.add(user);
     try {
       BufferedWriter output = new BufferedWriter(new FileWriter(databasePath, true));
-  		output.append(username + ", " + password + ", 0");
+  		output.append(username + ", " + password + ", NOT SET");
       output.newLine();
   		output.close();
     } catch (IOException e) {

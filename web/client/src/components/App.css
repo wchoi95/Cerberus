@@ -1,4 +1,11 @@
+html {
+  overflow-x:hidden;
+}
+
 body {
     background-color: #f1f1f1;
-    overflow-x:hidden;
+}
+
+.error-message {
+  color: red;
 }

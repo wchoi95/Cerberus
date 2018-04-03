@@ -11,7 +11,8 @@ const modalStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    textAlign            : 'center'
+    textAlign            : 'center',
+    width: '35vw'
   }
 };
 
@@ -22,7 +23,7 @@ class SignupModal extends Component {
       isOpen: false,
       username: '',
       password: '',
-      confirmPassowrd: '',
+      confirmPassword: '',
       usernameErrorMessage: '',
       passwordErrorMessage: '',
       confirmErrorMessage: '',
@@ -130,16 +131,16 @@ class SignupModal extends Component {
           <span className="signup-modal-close" onClick={this.hideModal}>X</span>
           <h1>Sign Up</h1>
           <span>Username:</span><br />
-          <span>{this.state.usernameErrorMessage}</span><br />
           <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br />
+          <span className="error-message">{this.state.usernameErrorMessage}</span><br />
           <span>Password:</span><br />
-          <span>{this.state.passwordErrorMessage}</span><br />
           <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br />
+          <span className="error-message">{this.state.passwordErrorMessage}</span><br />
           <span>Confirm Password:</span><br />
-          <span>{this.state.confirmErrorMessage}</span><br />
           <input type="password" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} /><br />
+          <span className="error-message">{this.state.confirmErrorMessage}</span><br />
           <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
-          <span>{this.state.successMessage}</span>
+          <span className="error-message">{this.state.successMessage}</span><br />
         </Modal>
       </div>
     );
