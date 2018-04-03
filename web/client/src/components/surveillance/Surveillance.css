@@ -1,15 +1,15 @@
 .surveillance-page {
   text-align: center;
-  margin-bottom: 10vh;
+  min-height: 80vh;
 }
 
 .surveillance-image {
-  margin-top: 5vh;
+  margin-top: 20vh;
   margin-bottom: 2vh;
 }
 
 .surveillance-chatbox {
-  margin-top:5vh;
+  margin-top: 20vh;
   text-align: justify;
   padding: 35px 20px 20px 20px;
   border: solid black 1px;
@@ -17,6 +17,7 @@
 
 .surveillance-chat-submit {
   margin-top: 3vh;
+  padding: 5px;
   width: 70%;
 }
 

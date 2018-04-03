@@ -19,19 +19,19 @@ public class ApplicationController {
     Chat chatServer = new Chat(9005, userList);
     LockControl lockServer = new LockControl(9020, userList);
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)
     public boolean createUser(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
       return userList.addUser(username, password);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(required=true) String username, @RequestParam(required=true) String password) {
       return userList.login(username, password);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/image/{username}", method = RequestMethod.GET)
     public String getImage(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
@@ -42,13 +42,13 @@ public class ApplicationController {
       return "";
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/changepassword/{username}", method = RequestMethod.POST)
     public boolean changePassword(@RequestParam(required=true) String username, @RequestParam(required=true) String oldPassword, @RequestParam(required=true) String newPassword) {
       return userList.changePassword(username, oldPassword, newPassword);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/setserialid/{username}", method = RequestMethod.POST)
     public String setSerialID(@RequestParam(required=true) String username, @RequestParam(required=true) String serialID) {
       if (userList.changeSerialID(username, serialID)) {
@@ -58,7 +58,7 @@ public class ApplicationController {
       }
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/getserialid/{username}", method = RequestMethod.GET)
     public String getSerialID(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
@@ -70,7 +70,7 @@ public class ApplicationController {
       return "";
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/chat/{username}", method = RequestMethod.POST)
     public void getMessage(@RequestParam(required=true) String username, @RequestParam(required=true) String message) {
       for (User u : userList.getUserList()) {
@@ -82,7 +82,7 @@ public class ApplicationController {
       }
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/chatget/{username}", method = RequestMethod.GET)
     public String[] sendMessageArray(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
@@ -94,7 +94,7 @@ public class ApplicationController {
       return null;
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/writecomment", method = RequestMethod.POST)
     public void writeCommentToFile(@RequestParam(required=true) String name, @RequestParam(required=true) String email, @RequestParam(required=true) String comment) {
       Contact.writeComment(name, email, comment);
@@ -112,7 +112,7 @@ public class ApplicationController {
       }
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/getlockstate/{username}", method = RequestMethod.GET)
     public int getLockState(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
@@ -124,19 +124,19 @@ public class ApplicationController {
       return -1;
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/unlockdoor/{username}", method = RequestMethod.POST)
     public boolean unlockDoor(@RequestParam(required=true) String serialID) {
       return lockServer.unlockDoor(serialID);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/lockdoor/{username}", method = RequestMethod.POST)
     public boolean lockDoor(@RequestParam(required=true) String serialID) {
       return lockServer.lockDoor(serialID);
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/clearchatlog/{username}", method = RequestMethod.POST)
     public void clearChatLog(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
@@ -147,7 +147,7 @@ public class ApplicationController {
       }
     }
 
-    @CrossOrigin(origins = "http://localhost:9001")
+    @CrossOrigin(origins = {"http://38.88.74.71:9001", "http://206.87.220.203:3000"})
     @RequestMapping(value = "/clearchatlogmobile/{username}", method = RequestMethod.GET)
     public void clearChatLogMobile(@RequestParam(required=true) String username) {
       for (User u : userList.getUserList()) {
