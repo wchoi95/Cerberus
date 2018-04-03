@@ -23,7 +23,7 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 secretKnock = [1,1,1,0.5,0.5]
 gaps = []
-secretKnockLength = 0
+secretKnockLength = 5
 
 def getLowerBound(gap):
     if gap < 1.5:
@@ -70,7 +70,7 @@ def updateSecretKnock():
     startTime = time.time()
     while True:
         # Time out
-        if (time.time() - startTime > 3):
+        if (time.time() - startTime > 10):
             break
         if mcp.read_adc(0) > 70:
             time.sleep(0.1)
@@ -100,7 +100,7 @@ def validateKnock():
     start = time.time()
     while True:
         # Time out
-        if (time.time() - start > 4):
+        if (time.time() - start > 10):
             break
         # Done Knocking
         if len(gaps) == secretKnockLength:
