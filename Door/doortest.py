@@ -55,30 +55,24 @@ def buttonPressed():
     i = 0
     j = 0
     for j in range(3):
-        keypad.GPIO.output(keypad.COL[j], 0)
+        GPIO.output(keypad.COL[j], 0)
         for i in range(4):
-            if keypad.GPIO.input(keypad.ROW[i]) == 0:
-                # Wait till unpressed
-                print (keypad.NUM_MATRIX[i][j])
-                while(keypad.GPIO.input(keypad.ROW[i]) == 0):
+            if GPIO.input(keypad.ROW[i]) == 0:
+                while(GPIO.input(keypad.ROW[i]) == 0):
                     pass
-                print (keypad.NUM_MATRIX[i][j])
-                keypad.GPIO.output(keypad.COL[j], 1)
+                print(keypad.NUM_MATRIX[i][j])
                 return True
-    GPIO.output(keypad.COL[j], 1)
-    return False
+        GPIO.output(keypad.COL[j], 1)
+    return False 
 
 def checkForVisitor():
     if buttonPressed():
-        # Wait till unpressed
-        while(keypad.GPIO.input(keypad.ROW[i]) == 0):
-            pass
         return True
     return knockknock.mcp.read_adc(0) > 70
 
 def settings():
     keypad.displayOnLcd("Settings", "")
-    print('Please input your secret knock')
+    keypad.displayOnLcd("Please input your", "secret knock")
     while not knockknock.updateSecretKnock():
         if(secretKnocks > 3):
             print('You did not input a valid knock knock')

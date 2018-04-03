@@ -26,7 +26,6 @@ mylist.append('c')
 mylist.append('d')
 mylist.append('e')
 mylist.pop()
-print("".join(mylist))
 
 lcd.lcd_init()
 clearLcd()
@@ -109,8 +108,6 @@ def getReply(arg):
             print('closed it')
             connection.close()
 def talkToOwner():
-    displayOnLcd("Welcome", "")
-    time.sleep(2)
     displayOnLcd("Smile to camera!", "Text the owner!")
     time.sleep(3)
     displayOnLcd("", "")
@@ -128,7 +125,7 @@ def talkToOwner():
         print('suh dude')
         while(True):
             # Time out
-            if(time.time() - start) > 5:
+            if(time.time() - start) > 10:
                 break
             for j in range(3):
                     GPIO.output(COL[j], 0)
@@ -177,3 +174,4 @@ def talkToOwner():
     except KeyboardInterrupt:
         GPIO.cleanup()
     
+#talkToOwner()
