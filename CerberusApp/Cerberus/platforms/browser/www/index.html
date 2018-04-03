@@ -17,6 +17,9 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <platform name="android">
+        <icon src="icon.png" width="180" height="180" />
+    </platform>
 
     <title>Cerberus</title>
     <style>
@@ -100,6 +103,7 @@
                         <p1>This application lets you control your security system remotely from your mobile device. Use the
                             interface below to unlock/lock your door or view a snapshot through your security camera.</p1>
                     </div>
+                    <p class="text-center bg-danger" id="lockSyncResult"></p>
                     <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
                     <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
                     <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
@@ -132,6 +136,7 @@
                         <p1 id="serialID"></p1>
                     </div>
                     <p class="text-center">Use the form below if you would like to change your serialID.</p>
+                    <p class="text-center bg-warning" id="setSerialIDResult"></p>
                     <input type="text" id="newSerialID" class="form-control">
                     <button type="button" id="changeSerialIDButton" class="btn btn-info btn-block" style="margin-top: 20px">Change</button>
                     <button type="button" id="signOutButton" class="btn btn-primary btn-block">Sign out</button>
@@ -140,7 +145,7 @@
                     <div class="jumbotron">
                         <p1>Use the chat box below to message whoever may be at your door.</p1>
                     </div>
-                    <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom:20px"></textarea>
+                    <textarea readonly id="chatBox" class="form-control" rows="4" style="margin-bottom: 20px; background-color: #cadbff"></textarea>
                     <textarea id="messageBox" class="form-control" rows="4" placeholder="Type your message here"></textarea>
                     <br>
                     <button type="button" id="sendMessageButton" class="btn btn-primary btn-block">send</button>
@@ -264,7 +269,7 @@
             // Gets to the server to set the lock state.
             function setLockState(lockState) {
                 $.ajax({
-                    url: "http://38.88.74.71:80/lockmobile",
+                    url: "http://38.88.74.71:80/lockmobile/".concat(username),
                     type: "GET",
                     data: { message: lockState },
                     dataType: "text",
@@ -273,15 +278,18 @@
 
             // Queries the server for the current lock state.
             function getLockState() {
-                $.get("http://38.88.74.71:80/lock", function (data) {
-                    return data;
-                });
+                return $.get("http://38.88.74.71:80/lock/".concat(username)
+                    , function (data) {
+                        $("#lockSyncResult").html("");
+                    }).fail(function (data) {
+                        $("#lockSyncResult").html("Failed to get lock state. Error: " + data.jqXHR);
+                    });
             }
 
             // Updates the lock state. Setting the lock state using
             // the button should be allowed to work dispite this.
             function syncLock() {
-                var isLocked = getLockState();
+                var isLocked = getLockState().data;
                 if (isLocked == 1)
                     $("lock").text('unlock');
                 else if (isLocked == 0)
@@ -308,14 +316,20 @@
             function attemptLogin(username, password) {
                 return $.get("http://38.88.74.71:80/login", { username: username, password: password },
                     function (data) {
+
+                        $("#signInResult").addClass("bg-warning");
+                        $("#signInResult").removeClass("bg-success");
+
                         if (data === "ERR: INVALID PASS") {
-                            $("#signInResult").html("Incorect password.");
+                            $("#signInResult").html("Incorrect password.");
                         } else if (data === "ERR: NO USER") {
                             $("#signInResult").html("No user matches those credentials.");
                         } else {
                             loggedIn = true;
                             $("#signInResult").html("");
                             setProfileDetails(username);
+
+                            // Empty the fields upon successful login.
                             $("#inputUsername").val('');
                             $("#inputPassword").val('');
                         }
@@ -328,8 +342,6 @@
             function register() {
                 var username = $("#inputUsername").val();
                 var password = $("#inputPassword").val();
-                console.log(username);
-                console.log(password);
                 if (username == "" || password == "") {
                     $("#signInResult").html("You did not enter all the required fields.");
                 }
@@ -344,12 +356,21 @@
                     type: "GET",
                     url: "http://38.88.74.71:80/createusermobile",
                     data: { username: username, password: password },
-                    success: function (response) {
-                        console.log(response);
-                        alert((response));
-                        $("#signInResult").html("User created successfully.");
+                    success: function (data) {
+                        if (!data) {
+                            $("#signInResult").addClass("bg-warning");
+                            $("#signInResult").removeClass("bg-success");
+                            $("#signInResult").html("That username is taken.");
+                        }
+                        else {
+                            $("#signInResult").removeClass("bg-warning");
+                            $("#signInResult").addClass("bg-success");
+                            $("#signInResult").html("User created successfully.");
+                        }
                     },
                     error: function (e) {
+                        $("#signInResult").addClass("bg-warning");
+                        $("#signInResult").removeClass("bg-success");
                         $("#signInResult").html("Register request to server failed. Code: " + e.jqXHR);
                         // alert('Error: ' + e.message);
                     }
@@ -377,6 +398,7 @@
             // Set user profile details.
             function setProfileDetails(username) {
                 $('#username').html(username);
+                $("#setSerialIDResult").html("");
 
                 // Set serialID when the ajax call finishes.
                 $.when(getSerialID(username)).done(function (data, textStatus, jqXHR) {
@@ -388,9 +410,14 @@
 
             // Set a new serialID for a user.
             function setSerialID(username) {
-                $.get("http://38.88.74.71:80/setserialidmobile/".concat(username), { username: username, serialID: $('#newSerialID').val() },
+                console.log($("#newSerialID").val().length);
+                if ($("#newSerialID").val().length != 8) {
+                    $("#setSerialIDResult").html("Serial ID must be 8 characters long.")
+                }
+                else $.get("http://38.88.74.71:80/setserialidmobile/".concat(username), { username: username, serialID: $('#newSerialID').val() },
                     function (data) {
                         setProfileDetails(username);
+                        $("#setSerialIDResult").html("")
                         $("#newSerialID").val("");
                     }).fail(function () {
                         alert("Set serialID failed.");
