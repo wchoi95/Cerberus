@@ -1,4 +1,6 @@
 import sys
+import socket
+from threading import Thread
 import RPi.GPIO as GPIO
 sys.path.insert(0, '/home/pi/Desktop/P2/KnockKnock')
 import knockknock
@@ -8,6 +10,41 @@ sys.path.insert(0, '/home/pi/Desktop/P2/Lock')
 import lock
 lock.resetLock()
 import time
+
+server_address = ('38.88.74.71', 9020)
+
+
+def sendLockState(state):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(('localhost', 4005))
+    print('connected')
+    sock.sendall("".join('A1B2C3D4' + state).encode('utf-8'))
+    sock.close()
+
+def waitForServer(args):
+    print('hello')
+    server_address = ('localhost', 4002)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind(server_address)
+    sock.listen(1)
+    while True:
+        connection, client_address = sock.accept()
+        try:
+            print('connected')
+            data = connection.recv(1)
+            if data.decode('utf-8') == '0':
+               print('locked')
+               lock.lockDoor()
+               sendLockState('0')
+            elif data.decode('utf-8') == '1':
+                print('unlocked')
+                lock.unlockDoor()
+                sendLockState('1')
+        finally:
+            print('closed it')
+            connection.close()
+
+
 
 def knockKnock():
     secretKnocks = 0
@@ -37,9 +74,13 @@ def knockKnock():
         if isValid:
             print('Come on in')
             keypad.displayOnLcd("Come on in", "")
+            
             lock.unlockDoor()
+            sendLockState("1")
+            
             time.sleep(1)
             lock.lockDoor()
+            sendLockState("0")
         else:
             print('Wrong knock')
             keypad.displayOnLcd("Wrong knock", "")
@@ -109,6 +150,10 @@ def askForAccessChoice():
 ##                    GPIO.output(keypad.COL[j], 1)
 ##    
 ##    return 10
+
+
+thread = Thread(target = waitForServer, args = (10,))
+thread.start()
 
 while True:    
     while True:
