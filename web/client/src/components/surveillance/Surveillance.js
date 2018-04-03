@@ -116,24 +116,34 @@ class SurveillanceComponent extends Component {
   render () {
     return (
       <div className="surveillance-page">
-        <img src={this.state.image} alt="not loaded"/><br />
-        <span>{this.state.chat9}</span><br />
-        <span>{this.state.chat8}</span><br />
-        <span>{this.state.chat7}</span><br />
-        <span>{this.state.chat6}</span><br />
-        <span>{this.state.chat5}</span><br />
-        <span>{this.state.chat4}</span><br />
-        <span>{this.state.chat3}</span><br />
-        <span>{this.state.chat2}</span><br />
-        <span>{this.state.chat1}</span><br />
-        <span>{this.state.chat0}</span><br />
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.message} onChange={this.handleChange} />
-          <input type="submit" value="Submit" /><br/>
-        </form>
-        <button onClick={this.lockDoor}>Lock</button><br />
-        <button onClick={this.unlockDoor}>Unlock</button><br />
-        <span>{this.state.lockState}</span>
+        <div className="row">
+          <div className="col-md-offset-1 col-md-10">
+            <div className="col-md-6 col-sm-12">
+              <img className="surveillance-image" src={this.state.image} alt="not loaded"/><br />
+              <span>{this.state.lockState}</span><br />
+              <button className="surveillance-lock-button button-effects" onClick={this.lockDoor}>Lock</button>
+              <button className="surveillance-unlock-button button-effects" onClick={this.unlockDoor}>Unlock</button><br />
+            </div>
+            <div className="col-md-6 col-sm-12">
+              <div className="surveillance-chatbox">
+                <span>{this.state.chat9}</span><br />
+                <span>{this.state.chat8}</span><br />
+                <span>{this.state.chat7}</span><br />
+                <span>{this.state.chat6}</span><br />
+                <span>{this.state.chat5}</span><br />
+                <span>{this.state.chat4}</span><br />
+                <span>{this.state.chat3}</span><br />
+                <span>{this.state.chat2}</span><br />
+                <span>{this.state.chat1}</span><br />
+                <span>{this.state.chat0}</span><br />
+              </div>
+              <form onSubmit={this.handleSubmit}>
+                <input className="surveillance-chat-submit" type="text" value={this.state.message} onChange={this.handleChange} />
+                <input className="surveillance-chat-button button-effects" type="submit" value="Send" /><br/>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

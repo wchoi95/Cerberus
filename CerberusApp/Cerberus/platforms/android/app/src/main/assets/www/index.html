@@ -51,6 +51,15 @@
             padding: 20px;
             color: black;
         }
+
+        #lockStatusJumbotron {
+            background: rgb(255, 229, 173);
+            border-left-color: rgb(202, 115, 15);
+            border-left-width: 10px;
+            border-left-style: solid;
+            padding: 20px;
+            color: black;
+        }
     </style>
 </head>
 
@@ -103,9 +112,13 @@
                         <p1>This application lets you control your security system remotely from your mobile device. Use the
                             interface below to unlock/lock your door or view a snapshot through your security camera.</p1>
                     </div>
+                    <div class="jumbotron" id="lockStatusJumbotron">
+                        <div id="lockStatus" class="text-center"></div>
+                    </div>
                     <p class="text-center bg-danger" id="lockSyncResult"></p>
-                    <button type="button" id="lock" class="btn btn-primary btn-block">unlock</button>
-                    <button type="button" id="snapshotButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
+                    <button type="button" id="lock" class="btn btn-primary btn-block">lock</button>
+                    <button type="button" id="unlock" class="btn btn-danger btn-block">unlock</button>
+                    <button type="button" id="snapshotButton" class="btn btn-info btn-block" data-toggle="modal" data-target="#snapshotModal">snapshot</button>
                     <div class="modal fade" tabindex="-1" id="snapshotModal" role="dialog" aria-labelledby="snapshotModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -178,17 +191,23 @@
             setInterval(function () {
                 if (loggedIn) {
                     receiveMessage();
-                    // syncLock();
+                    syncLock();
+                    // checkForVisitor();
                 }
-            }, 50);
+            }, 100);
 
             /*
              * DOM INTERACTIONS
              */
 
-            // Toggle the lock, update lock state.
+            // Set lock state to 1. 1 means locked.
             $('#lock').click(function () {
-                setLockState(toggleLock());
+                setLockState(0);
+            });
+
+            // Set lock state to 0. 0 means unlocked.
+            $('#unlock').click(function () {
+                setLockState(1);
             });
 
             // Attempt to sign in on button click.
@@ -237,13 +256,7 @@
                 $.ajax({
                     url: "http://38.88.74.71:80/image/".concat(username),
                     type: "GET",
-                    headers: {
-                        "Authorization": "Basic " + btoa("user:pw")
-                    },
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    mimeType: "text/plain; charset=x-user-defined"
+                    data: { username: username }
                 }).done(function (data, textStatus, jqXHR) {
                     $("#snapshot").attr('src', 'data:image/jpeg;base64,' + (data));
                     $("#imageFetchResult").html("");
@@ -253,33 +266,36 @@
                 });
             }
 
-            // Changes lock button text and returns the lock state
-            // after a toggle.
-            function toggleLock() {
-                if ($("#lock").text() == "unlock") {
-                    $("#lock").text('lock');
-                    return 0; // Current state is unlocked.
-                }
-                else {
-                    $("#lock").text('unlock');
-                    return 1; // Current state is locked.
-                }
-            }
-
             // Gets to the server to set the lock state.
             function setLockState(lockState) {
-                $.ajax({
-                    url: "http://38.88.74.71:80/lockmobile/".concat(username),
-                    type: "GET",
-                    data: { message: lockState },
-                    dataType: "text",
-                });
+                if (lockState == 0) {
+                    $.ajax({
+                        url: "http://38.88.74.71:80/lockdoormobile/".concat(username),
+                        type: "GET",
+                        data: { serialID: $("#serialID").html() },
+                        dataType: "text",
+                        error: function() {
+                            alert("Failed to set lock state.");
+                        }
+                    });
+                }
+                else if (lockState == 1) {
+                    $.ajax({
+                        url: "http://38.88.74.71:80/unlockdoormobile/".concat(username),
+                        type: "GET",
+                        data: { serialID: $("#serialID").html() },
+                        dataType: "text",
+                        error: function() {
+                            alert("Failed to set lock state.");
+                        }
+                    });
+                }
             }
 
             // Queries the server for the current lock state.
             function getLockState() {
-                return $.get("http://38.88.74.71:80/lock/".concat(username)
-                    , function (data) {
+                return $.get("http://38.88.74.71:80/getlockstate/".concat(username)
+                    , {username: username}, function (data) {
                         $("#lockSyncResult").html("");
                     }).fail(function (data) {
                         $("#lockSyncResult").html("Failed to get lock state. Error: " + data.jqXHR);
@@ -289,12 +305,34 @@
             // Updates the lock state. Setting the lock state using
             // the button should be allowed to work dispite this.
             function syncLock() {
-                var isLocked = getLockState().data;
-                if (isLocked == 1)
-                    $("lock").text('unlock');
-                else if (isLocked == 0)
-                    $("#lock").text('lock');
+                $.when(getLockState()).then(function (data) {
+                    var isLocked = data;
+                    if (isLocked == 0)
+                        $("#lockStatus").html("Your lock is currently: locked");
+                    else if (isLocked == 1)
+                        $("#lockStatus").html("Your lock is currently: unlocked");
+                    else if (isLocked == -1)
+                        $("#lockStatus").html("Your lock is not connected.");
+                }, function () {
+                    $("#lockStatus").html("Your lock is currently: unknown :(");
+                });
             }
+
+            // Checks for a visitor if someone is knocking on the door.
+            function checkForVisitor() {
+                var query = queryKnock();
+                $.when(query).done(function () {
+                    if (query.data) {
+                        alert("Someone is knocking on your door!");
+                    }
+                });
+            }
+
+            // Queries the server for knocking on the door.
+            function queryKnock() {
+                return $.get("http://38.88.74.71:80/knock/".concat(username), { username: username });
+            }
+
 
             /*
              *  PROFILE CODE (SIGN IN, SIGN OUT, REGISTER, SERIALID)
@@ -308,8 +346,6 @@
                 $.when(attemptLogin(username, password)).done(function () {
                     displayIfLogged();
                 });
-                // console.log("just called attemptlogin");
-
             }
 
             // Attempt to login to the server.
@@ -410,7 +446,6 @@
 
             // Set a new serialID for a user.
             function setSerialID(username) {
-                console.log($("#newSerialID").val().length);
                 if ($("#newSerialID").val().length != 8) {
                     $("#setSerialIDResult").html("Serial ID must be 8 characters long.")
                 }

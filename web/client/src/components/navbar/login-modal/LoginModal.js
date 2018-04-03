@@ -98,7 +98,7 @@ class LoginModal extends Component {
           <input type="text" value={this.state.username} onChange={this.handleUsernameChange} /><br /><br />
           <span>Password:</span><br />
           <input type="password" value={this.state.password} onChange={this.handlePasswordChange} /><br /><br />
-          <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
+          <input className="modal-button button-effects" type="submit" value="Submit" onClick={this.handleSubmit} /><br />
           <span className="error-message">{this.state.errorMessage}</span><br />
         </Modal>
       </div>

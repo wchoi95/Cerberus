@@ -139,7 +139,7 @@ class SignupModal extends Component {
           <span>Confirm Password:</span><br />
           <input type="password" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} /><br />
           <span className="error-message">{this.state.confirmErrorMessage}</span><br />
-          <input type="submit" value="Submit" onClick={this.handleSubmit} /><br />
+          <input className="modal-button button-effects" type="submit" value="Submit" onClick={this.handleSubmit} /><br />
           <span className="error-message">{this.state.successMessage}</span><br />
         </Modal>
       </div>

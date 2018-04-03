@@ -123,7 +123,7 @@ class ContactComponent extends Component {
 
               <br/ >
 
-            <input type="submit" value="Submit" /><br />
+            <input className="contact-button button-effects" type="submit" value="Submit" /><br />
             <span className="error-message">{this.state.emptyMessage}</span><br/>
           </form>
 

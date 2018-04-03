@@ -82,19 +82,52 @@ class Profile extends Component {
   render () {
     return (
       <section className="profile-section">
-        <h1>{this.state.loggedUser}</h1>
-        <span>SerialID: {this.state.serialID}</span><br />
-        <input type="text" value={this.state.changeSerialID} onChange={this.handleSerialIDChange} /><br />
-        <input type="submit" value="Change ID" onClick={this.handleSerialIDSubmit} /><br />
-        <span>{this.state.serialChangeErrorMessage}</span><br />
-        <span>Set New Password</span><br />
-        <input type="password" placeholder="Old Password" value={this.state.oldPassword} onChange={this.handleOldPasswordChange} /><br />
-        <input type="password" placeholder="New Password" value={this.state.newPassword} onChange={this.handleNewPasswordChange} /><br />
-        <input type="password" placeholder="Confirm New Password" value={this.state.newPasswordConfirm} onChange={this.handleNewPasswordConfirmChange} /><br />
-        <span>{this.state.passwordConfirmErrorMessage}</span><br />
-        <input type="submit" value="Change Password" onClick={this.handleChangePasswordSubmit} /><br />
-        <span>{this.state.passwordChangeErrorMessage}</span>
-      </section>
+
+
+
+        <div className = "profile-landing-image">
+          <div className="profile-container">
+            <div className="row">
+            <div className="main-section offset-lg-4 col-lg-4 col-sm-6 col-12 text-center">
+              <div className="row">
+                  <div className="profile-header col-lg-12 col-sm-12 col-xs-12 ">
+                  <h1 className="profile-welcome"> Welcome {this.state.loggedUser}! </h1>
+                  </div>
+              </div>
+              <div className="row user-detail">
+                  <div>
+                      <img className = "profile-img-icon" src="https://goo.gl/76rEU5" alt="Profile"/>
+                      <h4> {this.state.loggedUser}</h4>
+                      <p><i className="fa fa-map-marker" aria-hidden="true"></i> Vancouver, Canada</p>
+
+                      <hr/>
+
+                      <span>SerialID: {this.state.serialID}</span><br />
+                      <input className="profile-textbox" type="text" value={this.state.changeSerialID} onChange={this.handleSerialIDChange} /><br />
+                      <br/>
+                      <input type="submit" className="profile-button button-effects" value="Change ID" onClick={this.handleSerialIDSubmit} /><br />
+                      <span>{this.state.serialChangeErrorMessage}</span><br />
+
+                      <hr/>
+
+
+                      <span>Set New Password</span><br />
+
+                      <input className="profile-textbox" type="password" placeholder="Old Password" value={this.state.oldPassword} onChange={this.handleOldPasswordChange} /><br />
+                      <input className="profile-textbox" type="password" placeholder="New Password" value={this.state.newPassword} onChange={this.handleNewPasswordChange} /><br />
+                      <input className="profile-textbox" type="password" placeholder="Confirm New Password" value={this.state.newPasswordConfirm} onChange={this.handleNewPasswordConfirmChange} /><br />
+                      <span>{this.state.passwordConfirmErrorMessage}</span><br />
+                      <input type="submit"className="profile-button button-effects"  value="Change Password" onClick={this.handleChangePasswordSubmit} /><br />
+                      <span>{this.state.passwordChangeErrorMessage}</span>
+                  </div>
+              </div>
+              <div className="row user-social-detail">
+              </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
     );
   }
 }

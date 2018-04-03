@@ -36,6 +36,11 @@
   resize:none;
 }
 
+.contact-button {
+  margin-top: 2vh;
+  width: 100%;
+}
+
 @media screen and (max-width: 1199px) {
   .contact-form-textbox {
     width: 50vw;
