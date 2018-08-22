@@ -31,7 +31,10 @@ public class WebcamStream implements Runnable {
       System.out.println("Webcam server failed to run");
     }
     videoThread = new Thread(this, "video");
-    videoThread.start();
+    while(true) {
+      videoThread.start();
+    }
+
 
   }
 

@@ -50,7 +50,7 @@ public class Application {
     }
 
     public static void main(String[] args) throws InterruptedException, UnknownHostException, IOException {
-      String serverName = "localhost";
+      String serverName = "38.88.74.71";
       int port = 9004;
       webcam = Webcam.getWebcams().get(0);
       webcam.setViewSize(new Dimension(320, 240));
